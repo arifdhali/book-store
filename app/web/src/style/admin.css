@@ -1,0 +1,9 @@
+.navigation {
+  width: 300px;
+}
+
+.admin-container {
+  position: relative;
+  left: 300px;
+  width: calc(100% - 300px);
+}/*# sourceMappingURL=admin.css.map */

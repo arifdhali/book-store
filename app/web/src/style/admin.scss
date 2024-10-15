@@ -1,0 +1,9 @@
+$sidebarWidth: 300px;
+.navigation {
+    width: $sidebarWidth;
+}
+.admin-container {
+    position: relative;
+    left: $sidebarWidth;
+    width: calc(100% - $sidebarWidth);
+}
