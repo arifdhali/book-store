@@ -1,12 +1,12 @@
 import AdminHome from "./AdminHome";
 import Users from "./Users";
-import UserInfo from "./UserInfo";
+import Authors from "./Authors";
 import Subscription from "./Subscription";
 
 export {
     AdminHome,
     Users,
-    UserInfo,
+    Authors,
     Subscription
 
 }
