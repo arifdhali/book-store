@@ -2,11 +2,13 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+  scrollbar-width: thin;
 }
-i{
+
+i {
   font-family: "Font Awesome 6 Pro";
 }
+
 body {
   margin: 0;
 }
@@ -19,4 +21,109 @@ a {
 
 a:hover {
   color: #535bf2;
+}
+
+
+.icon svg {
+  border-radius: 4px;
+  transition: 0.2s ease-in-out;
+  padding: 8px 10px;
+}
+
+.fa-bell {
+  color: #5e35b1;
+  background: #ede7f6;
+}
+
+.fa-bell:hover {
+  color: #ede7f6;
+  background: #5e35b1;
+}
+
+.fa-gear {
+  color: #309df4;
+}
+
+.user-section:hover {
+  background: #309df4;
+}
+
+.user-section:hover .fa-gear {
+  color: #ede7f6;
+}
+
+.user-section {
+  background: #e3f2fd;
+  padding: 5px 10px;
+  border-radius: 20px;
+  width: 90px;
+  transition: all .3s ease;
+}
+
+.user-section svg {
+  margin-left: 10px;
+}
+
+.dashboard-owner {
+  width: 35px;
+}
+
+.notifaction-popup {
+  width: 350px;
+  height: 400px;
+  overflow-y: auto;
+}
+
+.dropdown-menu {
+  border: 0;
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.2);
+  padding: 0;
+}
+
+.dropdown-item:active {
+  color: #000;
+}
+
+.dropdown-item {
+  padding: 10px 15px !important;
+  white-space: initial;
+}
+
+.dropdown-item p {
+  line-height: 1.2;
+  font-size: 15px;
+  margin: 0;
+}
+
+.dropdown-item:hover,
+.nav-link:hover {
+  background: #e3f2fd;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.btn-clear {
+  font-size: 12px;
+  background: rgb(33, 150, 243);
+  color: #fff;
+
+}
+
+.noti-time {
+  font-size: 12px;
+}
+
+.btn-clear:hover {
+  color: #fff;
+}
+
+.btn-clear:hover,
+.btn-clear:active {
+  background: #5e35b1;
+}
+
+.nav-link {
+  padding: 13px;
 }

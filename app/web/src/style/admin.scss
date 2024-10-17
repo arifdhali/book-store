@@ -1,9 +1,18 @@
 $sidebarWidth: 300px;
 .navigation {
+    top: 95px;
+    width: $sidebarWidth;
+}
+.sidebar {
     width: $sidebarWidth;
 }
 .admin-container {
     position: relative;
-    left: $sidebarWidth;
+    background: #fff;
+}
+
+.dashboard-content {
     width: calc(100% - $sidebarWidth);
+    left: 300px;
+    background-color: #eef2f6;
 }

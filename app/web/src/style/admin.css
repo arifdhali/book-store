@@ -1,9 +1,19 @@
 .navigation {
+  top: 95px;
+  width: 300px;
+}
+
+.sidebar {
   width: 300px;
 }
 
 .admin-container {
   position: relative;
-  left: 300px;
+  background: #fff;
+}
+
+.dashboard-content {
   width: calc(100% - 300px);
+  left: 300px;
+  background-color: #eef2f6;
 }/*# sourceMappingURL=admin.css.map */

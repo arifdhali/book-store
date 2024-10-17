@@ -1,15 +1,20 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, Routes } from 'react-router-dom'
 import { Header, Sidebar } from '../components'
 import "../style/admin.min.css"
 
 const AdminLayout = () => {
   return (
     <>
-      <Sidebar />
+  
+      <Header />
       <div className="admin-container px-4">
-        <Header />
-        <Outlet />
+        <div className="sidebar">
+          <Sidebar />
+        </div>
+        <div className="dashboard-content position-relative p-4 rounded-4">
+          <Outlet />
+        </div>
       </div>
     </>
   )

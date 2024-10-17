@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import useUrlRemover from '../../hooks/useUrlRemover';
 
 const Sidebar = () => {
     let location = useLocation();
@@ -9,27 +10,25 @@ const Sidebar = () => {
         setLocationActive(location.pathname);
     }, [location]);
 
+
     return (
-        <div className="navigation d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary position-fixed top-0 start-0 h-100">
-            <span className='fs-5 text-dark'>
-                {import.meta.env.VITE_APP_NAME}
-            </span>
-            <hr />
+        <div className="navigation d-flex flex-column flex-shrink-0 p-3  position-fixed start-0 h-100 ">
+
             <ul className="nav nav-pills flex-column mb-auto">
-                <li className="nav-item">
+                <li className="nav-item mb-1">
                     <Link
-                        to={'/admin'}
-                        className={`nav-link ${locationActive === '/admin' ? 'active' : ''}`}
+                        to={'users'}
+                        className={`nav-link ${useUrlRemover(locationActive) === '/admin/users' ? 'active' : ''}`}
                     >
-                        Home
+                        Users
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item mb-1">
                     <Link
-                        to={'/admin/manage'}
-                        className={`nav-link ${locationActive === '/admin/manage' ? 'active' : ''}`}
+                        to={'subscriptions'}
+                        className={`nav-link ${useUrlRemover(locationActive) === '/admin/subscriptions' ? 'active' : ''}`}
                     >
-                        Manage
+                        Subscriptions
                     </Link>
                 </li>
             </ul>

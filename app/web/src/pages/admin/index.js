@@ -1,12 +1,12 @@
 import AdminHome from "./AdminHome";
-import ManageAuthor from "./Manage-author";
+import Users from "./Users";
 import UserInfo from "./UserInfo";
-import Settings from "./Settings";
+import Subscription from "./Subscription";
 
 export {
     AdminHome,
-    ManageAuthor,
+    Users,
     UserInfo,
-    Settings
+    Subscription
 
 }
