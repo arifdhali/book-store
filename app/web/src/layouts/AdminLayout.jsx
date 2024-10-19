@@ -1,7 +1,7 @@
 import React from 'react'
-import { Outlet, Routes } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { Header, Sidebar } from '../components'
-import "../style/admin.min.css"
+import "../style/admin.css"
 
 const AdminLayout = () => {
   return (
@@ -11,8 +11,7 @@ const AdminLayout = () => {
         <div className="sidebar">
           <Sidebar />
         </div>
-        <div className="dashboard-content position-relative p-4 rounded-3">
-
+        <section className="dashboard-content position-relative p-4 rounded-3">
           <div className='p-3 rounded-2 bg-white mb-4'>
             <p className='m-0'>Bread crumb</p>
           </div>
@@ -20,7 +19,7 @@ const AdminLayout = () => {
           <div className='section-content p-3 rounded-2 bg-white'>
             <Outlet />
           </div>
-        </div>
+        </section>
       </div>
     </>
   )

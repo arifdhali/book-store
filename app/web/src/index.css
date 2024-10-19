@@ -4,7 +4,10 @@
   font-weight: 400;
   scrollbar-width: thin;
 }
-
+#root{
+  height: 100vh;
+  background: #eef2f6;
+}
 i {
   font-family: "Font Awesome 6 Pro";
 }
@@ -95,8 +98,7 @@ a:hover {
   margin: 0;
 }
 
-.dropdown-item:hover,
-.nav-link:hover {
+.dropdown-item:hover {
   background: #e3f2fd;
 }
 
@@ -126,4 +128,39 @@ a:hover {
 
 .nav-link {
   padding: 13px;
+}
+
+
+
+/* 404 page */
+.not-found h1 {
+  font-size: 3rem;
+  color: #ff6b6b;
+}
+
+.not-found p {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.home-link {
+  text-decoration: none;
+  font-size: 1rem;
+  border: 0;
+
+}
+
+.home-link:hover {
+  background: #3498db;
+
+}
+.mxW450{    
+  max-width: 450px;
+}
+.fa-angle-down {
+  transition: all .5s ease;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  -ms-transition: all .5s ease;
+  -o-transition: all .5s ease;
 }

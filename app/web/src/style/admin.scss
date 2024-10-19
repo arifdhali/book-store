@@ -1,11 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 $sidebarWidth: 300px;
+
+#root {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+
+}
 .navigation {
     top: 95px;
     width: $sidebarWidth;
 }
+
+.nav {
+    &-item {
+        .submenu {
+            .nav-link {
+
+                &.active,
+                &:hover {
+                    background: transparent !important;
+                    color: #673ab7 !important;
+                }
+            }
+        }
+    }
+
+    &-link {
+        color: #000 !important;
+
+        &.active,
+        &:hover {
+            background: #673ab7 !important;
+            color: #fff !important;
+        }
+
+        &[aria-expanded="true"] {
+            background: #673ab7;
+            color: #fff !important;
+            .fa-angle-down {            
+                transform: rotate(0deg);
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+            }
+
+        }
+
+        &[aria-expanded="false"] {
+            .fa-angle-down {
+                transform: rotate(180deg);
+                -webkit-transform: rotate(180deg);
+                -moz-transform: rotate(180deg);
+                -ms-transform: rotate(180deg);
+                -o-transform: rotate(180deg);
+            }
+        }
+    }
+}
+
 .sidebar {
     width: $sidebarWidth;
 }
+
 .admin-container {
     position: relative;
     background: #fff;
