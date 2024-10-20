@@ -13,16 +13,16 @@ const Sidebar = () => {
 
     useEffect(() => {
         setLocationActive(location.pathname);
-        if(location.pathname.includes(AppRoute.ADMIN.AUTHORS.BASE)){
+        if (location.pathname.includes(AppRoute.ADMIN.AUTHORS.BASE)) {
             setCollapseExpanded(true);
-        }else{
+        } else {
             setCollapseExpanded(false);
         }
     }, [location]);
 
 
     return (
-        <div className="navigation d-flex flex-column flex-shrink-0 p-3 position-fixed start-0 h-100">
+        <div className="navigation d-flex flex-column flex-shrink-0 p-3 position-fixed start-0 h-100 bg-white">
             <ul className="nav nav-pills flex-column mb-auto" id='menu-bar'>
                 <li className="nav-item mb-1">
                     <Link

@@ -15,8 +15,8 @@ const routes = {
     AUTH:{
         BASE: "/auth",
         ADMIN:{
-            LOGIN:"/auth/admin/login",
-            FORGOTPASS:"/auth/admin/forgot-pass"
+            LOGIN:"/admin/login",
+            FORGOTPASS:"/admin/forgot-pass"
         },
         USER:{
             LOGIN:"/auth/login",
