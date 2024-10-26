@@ -1,10 +1,11 @@
 {
   "name": "book-store",
   "version": "1.0.0",
-  "description": "A E-commerce website server. Here i will provide users , authors , admin interface with all functionality",
+  "description": "A E-commerce website server. Here i will handle users , authors , admin interface with all functionality",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test"
+    "test": "npm run test",
+    "dev": "nodemon index.js"
   },
   "author": "Arif Dhali",
   "license": "ISC",
