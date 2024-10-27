@@ -7,8 +7,8 @@ dotenv.config();
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    host: process.env.HOST || 'localhost',
-    port:process.env.PORT || 3000
-  }
+  // server: {
+  //   host: process.env.HOST || 'localhost',
+  //   port:process.env.PORT || 3000
+  // }
 });
