@@ -19,14 +19,11 @@ const App = () => {
         <Route path={AppRoute.HOME} element={<AuthLayout />} >
           <Route path={AppRoute.AUTH.ADMIN.LOGIN} element={<Login />} />
           <Route path={AppRoute.AUTH.ADMIN.FORGOTPASS} element={<ForgotPass />} />
-
-
         </Route>
 
         {/* Admin routes */}
         <Route path={AppRoute.ADMIN.BASE} element={<AdminLayout />}>
           <Route index element={<AdminHome />} />
-          {/* Author routes */}
           <Route path={AppRoute.ADMIN.AUTHORS.BASE}>
             <Route index element={<Authors />} />
             <Route path={AppRoute.ADMIN.AUTHORS.LIST} element={<Authors />} />

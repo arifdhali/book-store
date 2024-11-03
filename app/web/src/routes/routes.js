@@ -6,7 +6,7 @@ const routes = {
         AUTHORS: {
             BASE: '/admin/authors',
             LIST: '/admin/authors/list',
-            VIEW: (id) => `/admin/authors/view/${id}`,
+            VIEW: (id) => `/admin/authors/${id}`,
             ADD: '/admin/authors/add',
             SUBSCRIPTIONS: '/admin/authors/subscriptions',
         },

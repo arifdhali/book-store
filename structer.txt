@@ -1,3 +1,8 @@
+TEMPLATE HERE============>  
+https://templates.iqonic.design/booksto-dist/html/index.html
+
+
+
 Project Idea: Online Bookstore Management System
 Overview:
 
@@ -42,7 +47,7 @@ ER Model Design:
         One User can place multiple Orders (one-to-many).
         One Order can have multiple OrderItems (one-to-many).
         One Category can have multiple Books (one-to-many).
-        One Book can belong to one Category (many-to-one).        
+        Many Book can belong to one Category (many-to-one).        
 
 
 
@@ -307,3 +312,6 @@ GET PREMIUM AND PUBLISH AS MENTIONED ALSO MARGIN WILL BE LESS THAN NONE PREMIUM 
 
 1. Admin can check all author with their details.
 2. How many orders they have already sell 
+
+
+
