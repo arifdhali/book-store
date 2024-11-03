@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-$sidebarWidth: 330px;
+$sidebarWidth: 270px;
 
 #root {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
-
 }
+
+
 
 .navigation {
     top: 95px;
@@ -19,20 +20,38 @@ $sidebarWidth: 330px;
 
                 &.active,
                 &:hover {
-                    background: transparent !important;
-                    color: #673ab7 !important;
+                    background: transparent;
+                    color: #20d6a9 !important;
                 }
             }
         }
     }
 
     &-link {
-        color: #000 !important;
+        color: #fff !important;
 
         &.active,
         &:hover {
-            background: #673ab7 !important;
-            color: #fff !important;
+            color: #20d6a9 !important;
+            background: transparent !important;
+        }
+
+        &.active {
+            position: relative;
+
+            &::after {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                content: '';
+                height: 20px;
+                border: 2px solid #20d6a9;
+                transform: translate(-50%, -50%);
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+            }
         }
 
         .fa-angle-right {
@@ -44,8 +63,7 @@ $sidebarWidth: 330px;
         }
 
         &[aria-expanded="true"] {
-            background: #673ab7;
-            color: #fff !important;
+            color: #20d6a9 !important;
 
             .fa-angle-right {
                 transform: rotate(90deg);
@@ -77,8 +95,40 @@ $sidebarWidth: 330px;
 
 input {
     background-color: #fafafa !important;
+    font-size: 14px !important;
+}
 
-    &:focus{
-        outline: 1px solid red !important;
+.btn {
+    height: 45px;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+p {
+    margin: 0 !important;
+}
+
+
+.card {
+    
+    .item {
+        &-icon {
+            width: 66px;
+            height: 66px;
+            font-size: 22px;
+            background: #20d6a9 !important;
+        }
+
+        &-data {
+            p {
+                font-size: 36px;
+                line-height: 1;
+            }
+
+            span {
+                font-size: 18px;
+            }
+        }
     }
+
 }

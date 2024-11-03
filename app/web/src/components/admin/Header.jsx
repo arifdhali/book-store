@@ -8,7 +8,7 @@ import Logo from "../../assets/image/store_logo.png";
 
 const Header = () => {
     return (
-        <div className='header bg-white p-2 rounded-2 border-1 d-flex align-items-center justify-content-between gap-3 position-sticky top-0 start-0 z-3'>
+        <div className='header bg-white px-4 py-2  border-bottom  d-flex align-items-center justify-content-between gap-3 position-sticky top-0 start-0 z-3'>
             <div className="w-25 d-none d-xl-block">
                 <div className="form-group input-group mb-0 search-input w-100">
                     <span className="input-group-text ps-3 pe-0 border-0">

@@ -8,9 +8,11 @@ const AdminLayout = () => {
   return (
     <>
       <Sidebar />
-      <main className="dashboard-content position-relative rounded-3 h-100">
+      <main className="dashboard-content position-relative rounded-3 h-100 ">
         <Header />
-        <Outlet />
+        <div className="inner-content  p-4">
+          <Outlet />
+        </div>
       </main>
     </>
   )

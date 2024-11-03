@@ -22,8 +22,8 @@ const Sidebar = () => {
 
 
     return (
-        <aside className='position-fixed z-3 start-0 h-100 bg-white'>
-            <div className="navigation d-flex flex-column flex-shrink-0 ">
+        <aside className='position-fixed z-3 start-0 h-100 bg-dark '>
+            <div className="navigation d-flex flex-column flex-shrink-0 px-2">
                 <Link to={AppRoute.ADMIN.BASE} className='mx-auto py-3 border-1' style={{ width: "60px" }}>
                     <img src={Logo} alt="" className='img-fluid object-fit-contain rounded-5' />
                 </Link>
