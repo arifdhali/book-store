@@ -2,7 +2,8 @@ const routes = {
     HOME: '/',
     ADMIN: {
         BASE: "/admin",
-        LOGIN:"/admin/login",        
+        LOGIN: "/admin/login",
+        CATEGORY: "/admin/categories",
         AUTHORS: {
             BASE: '/admin/authors',
             LIST: '/admin/authors/list',
@@ -12,16 +13,16 @@ const routes = {
         },
         USERS: '/admin/users',
     },
-    AUTH:{
+    AUTH: {
         BASE: "/auth",
-        ADMIN:{
-            LOGIN:"/admin/login",
-            FORGOTPASS:"/admin/forgot-pass"
+        ADMIN: {
+            LOGIN: "/admin/login",
+            FORGOTPASS: "/admin/forgot-pass"
         },
-        USER:{
-            LOGIN:"/auth/login",
-            REGISTER:"/auth/register",
-            FORGOTPASS:"/auth/forgot-pass"
+        USER: {
+            LOGIN: "/auth/login",
+            REGISTER: "/auth/register",
+            FORGOTPASS: "/auth/forgot-pass"
         }
     }
 };

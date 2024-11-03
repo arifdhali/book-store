@@ -61,12 +61,20 @@ const Sidebar = () => {
 
                         </div>
                     </li>
-
                     {/* Other Items */}
                     <li className="nav-item mb-1">
                         <Link
-                            to={'users'}
-                            className={`nav-link ${useUrlRemover(locationActive) === '/admin/users' ? 'active' : ''}`}
+                            to={AppRoute.ADMIN.CATEGORY}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.CATEGORY ? 'active' : ''}`}
+                        >
+                            Category
+                        </Link>
+                    </li>
+                    {/* Other Items */}
+                    <li className="nav-item mb-1">
+                        <Link
+                            to={AppRoute.ADMIN.USERS}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.USERS ? 'active' : ''}`}
                         >
                             Users
                         </Link>

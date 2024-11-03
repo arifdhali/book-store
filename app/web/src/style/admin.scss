@@ -110,22 +110,22 @@ p {
 
 
 .card {
-    
+
     .item {
         &-icon {
-            width: 66px;
-            height: 66px;
-            font-size: 22px;
-            background: #20d6a9 !important;
+            width: 60px;
+            height: 60px;
+            font-size: 16px;
+            background: #20d6a9;
         }
 
         &-data {
-            p {
+            span {
                 font-size: 36px;
                 line-height: 1;
             }
 
-            span {
+            .title {
                 font-size: 18px;
             }
         }
