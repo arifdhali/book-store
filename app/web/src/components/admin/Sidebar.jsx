@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faList, faRightFromBracket, faUserGraduate, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import useUrlRemover from '../../hooks/useUrlRemover';
 import AppRoute from "../../routes/routes";
@@ -36,7 +36,10 @@ const Sidebar = () => {
                             aria-expanded={`${collapseExpanded ? "true" : "false"}`}
                             aria-controls="authorsCollapse"
                         >
-                            Authors
+                            <div className='d-flex gap-3 align-items-center'>
+                                <FontAwesomeIcon icon={faUserGraduate} />
+                                Authors
+                            </div>
                             <FontAwesomeIcon icon={faAngleRight} />
                         </Link>
                         <div id="authorsCollapse" className={`collapse ${collapseExpanded ? "show" : ""}`} data-bs-parent="#menu-bar">
@@ -67,7 +70,10 @@ const Sidebar = () => {
                             to={AppRoute.ADMIN.CATEGORY}
                             className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.CATEGORY ? 'active' : ''}`}
                         >
-                            Category
+                            <div className='d-flex gap-3 align-items-center'>
+                                <FontAwesomeIcon icon={faList} />
+                                Category
+                            </div>
                         </Link>
                     </li>
                     {/* Other Items */}
@@ -76,7 +82,10 @@ const Sidebar = () => {
                             to={AppRoute.ADMIN.USERS}
                             className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.USERS ? 'active' : ''}`}
                         >
-                            Users
+                            <div className='d-flex gap-3 align-items-center'>
+                                <FontAwesomeIcon icon={faUsers} />
+                                Users
+                            </div>
                         </Link>
                     </li>
                     <li className="nav-item mb-1">
@@ -89,7 +98,10 @@ const Sidebar = () => {
                     </li>
                 </ul>
                 <hr />
-                <button className="btn btn-danger">Logout</button>
+                <button className="btn btn-danger d-flex gap-3 justify-content-between">
+                    Logout
+                    <FontAwesomeIcon icon={faRightFromBracket} />
+                </button>
             </div>
         </aside>
     );

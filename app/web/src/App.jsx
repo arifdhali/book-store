@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AdminLayout, AuthLayout } from './layouts';
-import { AdminHome, Users, Subscription, Authors, Login, ForgotPass, AddAuthor } from './pages/admin';
+import { AdminHome, Users, Subscription, Authors, Login, ForgotPass, AddAuthor, Category } from './pages/admin';
 import AppRoute from "./routes/routes";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -26,7 +26,7 @@ const App = () => {
           {/* Admin routes */}
           <Route path={AppRoute.ADMIN.BASE} element={<AdminLayout />}>
             <Route index element={<AdminHome />} />
-            <Route path={AppRoute.ADMIN.CATEGORY} element={"Category"} />
+            <Route path={AppRoute.ADMIN.CATEGORY} element={<Category />} />
             <Route path={AppRoute.ADMIN.AUTHORS.BASE}>
               <Route index element={<Authors />} />
               <Route path={AppRoute.ADMIN.AUTHORS.LIST} element={<Authors />} />

@@ -5,6 +5,7 @@ import Subscription from "./authors/Subscription";
 import Login from "./auth/Login";
 import ForgotPass from "./auth/Forgot-pass";
 import AddAuthor from "./authors/Add";
+import Category from "./Category";
 
 export {
     AdminHome,
@@ -13,6 +14,7 @@ export {
     Subscription,
     Login,
     ForgotPass,
-    AddAuthor
+    AddAuthor,
+    Category
 
 }

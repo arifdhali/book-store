@@ -1,6 +1,7 @@
-*{
+* {
   box-sizing: border-box;
 }
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -116,7 +117,7 @@ a:hover {
   font-size: 12px;
   background: rgb(33, 150, 243);
   color: #fff;
-  height: 32px; 
+  height: 32px;
 }
 
 .noti-time {
@@ -136,7 +137,9 @@ a:hover {
   padding: 13px;
 }
 
-
+.bg-dark {
+  background: #000000 !important;
+}
 
 /* 404 page */
 .not-found h1 {
@@ -175,10 +178,66 @@ a:hover {
 .form-control {
   height: 48px;
 }
+
 textarea.form-control {
   min-height: 130px;
 }
+
 .form-control:active,
 .form-control:focus {
   box-shadow: none;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.btn {
+  border: 0;
+}
+
+.btn-primary {
+  padding: .5rem 1.5rem;
+  background: #20d6a9;
+
+}
+
+.btn-primary:hover {
+  background: #0bc593;
+}
+
+.item-actions .act {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+.item-actions .act:hover {
+  color: #fff !important;
+}
+
+.item-actions .edit {
+  background: #d3eadd;
+  color: #29995a;
+}
+
+.item-actions .edit:hover {
+  background: #29995a;
+}
+
+.item-actions .delete {
+  background: #fbdddd;
+  color: rgb(241, 27, 27);
+}
+table td {
+  font-weight: 400;
+}
+
+.item-actions .delete:hover {
+  background: rgb(241, 27, 27);
 }

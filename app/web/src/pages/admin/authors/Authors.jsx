@@ -4,44 +4,95 @@ import AppRoute from "../../../routes/routes"
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faBell, faTrashCan, faIcons, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faBell, faTrashCan, faIcons, faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const Authors = () => {
   return (
-    <div>
+    <div className='p-4 bg-white rounded-2'>
       <>
-        <div className='d-flex justify-content-between mb-2'>
-          <h2>Author list</h2>
+        <div className='d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom'>
+          <h4 className='section-title m-0'>Author List</h4>
           <div>
             <Link to={`${AppRoute.ADMIN.AUTHORS.ADD}`} className="btn btn-primary align-content-center">Add Author</Link>
           </div>
         </div>
 
         <table className="table">
-          <thead className="table-dark">
+          <thead>
             <tr>
-              <td>Id</td>
-              <td>user name</td>
-              <td>Order</td>
-              <td>Status</td>
-              <td>Actions</td>
+              <th style={{ width: "40px" }}>no</th>
+              <th>profile</th>
+              <th>name</th>
+              <th>email</th>
+              <th style={{ width: "450px" }}>Description</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td valign='middle'>1</td>
-              <td valign='middle'>lorem122</td>
-              <td valign='middle'>2</td>
+              <td valign='middle'>
+                <img className='user-img' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcyI9Cvp53aaP9XeRn-ZKbJDH2QaWC72O26A&s" alt="" />
+              </td>
+              <td valign='middle'>Jhone Steben</td>
+              <td valign='middle'>Jhone.Steben12@gmail.com</td>
+              <td valign='middle'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus non elit a scelerisque.
+                Etiam feugiat luctus est, vel commodo odio rhoncus sit amet. </td>
               <td valign='middle'>active</td>
               <td valign='middle'>
-                <div className='d-flex gap-2'>
-                  <Link className='btn btn-warning align-content-center' to={`${AppRoute.ADMIN.AUTHORS.VIEW(1)}`}>
-                    <FontAwesomeIcon className='text-white' icon={faEye} />
+                <div className='d-flex gap-2 item-actions'>
+                  <Link className='act edit' to={`${AppRoute.ADMIN.AUTHORS.VIEW(1)}`}>
+                    <FontAwesomeIcon icon={faEdit} />
                   </Link>
 
-                  <button className='btn btn-danger' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                  <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     <FontAwesomeIcon icon={faTrashCan} />
-                  </button>
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td valign='middle'>1</td>
+              <td valign='middle'>
+                <img className='user-img' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcyI9Cvp53aaP9XeRn-ZKbJDH2QaWC72O26A&s" alt="" />
+              </td>
+              <td valign='middle'>Jhone Steben</td>
+              <td valign='middle'>Jhone.Steben12@gmail.com</td>
+              <td valign='middle'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus non elit a scelerisque.
+                Etiam feugiat luctus est, vel commodo odio rhoncus sit amet. </td>
+              <td valign='middle'>active</td>
+              <td valign='middle'>
+                <div className='d-flex gap-2 item-actions'>
+                  <Link className='act edit' to={`${AppRoute.ADMIN.AUTHORS.VIEW(1)}`}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </Link>
+
+                  <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td valign='middle'>1</td>
+              <td valign='middle'>
+                <img className='user-img' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcyI9Cvp53aaP9XeRn-ZKbJDH2QaWC72O26A&s" alt="" />
+              </td>
+              <td valign='middle'>Jhone Steben</td>
+              <td valign='middle'>Jhone.Steben12@gmail.com</td>
+              <td valign='middle'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus non elit a scelerisque.
+                Etiam feugiat luctus est, vel commodo odio rhoncus sit amet. </td>
+              <td valign='middle'>active</td>
+              <td valign='middle'>
+                <div className='d-flex gap-2 item-actions'>
+                  <Link className='act edit' to={`${AppRoute.ADMIN.AUTHORS.VIEW(1)}`}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </Link>
+
+                  <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </span>
                 </div>
               </td>
             </tr>

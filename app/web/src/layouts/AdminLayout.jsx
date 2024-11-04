@@ -10,7 +10,7 @@ const AdminLayout = () => {
       <Sidebar />
       <main className="dashboard-content position-relative rounded-3 h-100 ">
         <Header />
-        <div className="inner-content  p-4">
+        <div className="inner-content m-4">
           <Outlet />
         </div>
       </main>

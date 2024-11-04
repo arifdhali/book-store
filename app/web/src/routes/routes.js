@@ -3,7 +3,7 @@ const routes = {
     ADMIN: {
         BASE: "/admin",
         LOGIN: "/admin/login",
-        CATEGORY: "/admin/categories",
+        CATEGORY: "/admin/category",
         AUTHORS: {
             BASE: '/admin/authors',
             LIST: '/admin/authors/list',

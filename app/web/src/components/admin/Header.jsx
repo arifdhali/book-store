@@ -2,20 +2,25 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faBell, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faBell, faMagnifyingGlass, faBackward } from '@fortawesome/free-solid-svg-icons';
 
 import Logo from "../../assets/image/store_logo.png";
 
 const Header = () => {
     return (
         <div className='header bg-white px-4 py-2  border-bottom  d-flex align-items-center justify-content-between gap-3 position-sticky top-0 start-0 z-3'>
-            <div className="w-25 d-none d-xl-block">
-                <div className="form-group input-group mb-0 search-input w-100">
+            <div className=" d-flex align-items-center gap-4" >
+                <div style={{ width: "100px" }} >
+                    <Link to={"#read"} className="d-flex align-items-center gap-2">
+                        <FontAwesomeIcon icon={faBackward} /> Back
+                    </Link>
+                </div>
+                {/* <div className="form-group input-group mb-0 search-input w-100">
                     <span className="input-group-text ps-3 pe-0 border-0">
-                        <FontAwesomeIcon icon={faMagnifyingGlass}/>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </span>
                     <input type="text" className="form-control border-0" placeholder="Search..." />
-                </div>
+                </div> */}
             </div>
             <div className='d-flex align-items-center gap-3'>
 
