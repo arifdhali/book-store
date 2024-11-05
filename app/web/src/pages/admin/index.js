@@ -1,11 +1,12 @@
-import AdminHome from "./AdminHome";
-import Users from "./users/Users";
-import Authors from "./authors/Authors";
-import Subscription from "./authors/Subscription";
-import Login from "./auth/Login";
-import ForgotPass from "./auth/Forgot-pass";
-import AddAuthor from "./authors/Add";
-import Category from "./Category";
+import { lazy } from "react";
+const AdminHome = lazy(() => import("./AdminHome"));
+const Users = lazy(() => import("./users/Users"));
+const Authors = lazy(() => import("./authors/Authors"));
+const Subscription = lazy(() => import("./authors/Subscription"));
+const Login = lazy(() => import("./auth/Login"));
+const ForgotPass = lazy(() => import("./auth/Forgot-pass"));
+const AddAuthor = lazy(() => import("./authors/Add"));
+const Category = lazy(() => import("./Category"));
 
 export {
     AdminHome,
@@ -16,5 +17,4 @@ export {
     ForgotPass,
     AddAuthor,
     Category
-
 }

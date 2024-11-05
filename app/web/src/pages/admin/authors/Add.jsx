@@ -1,11 +1,34 @@
 import React from 'react'
+import * as Yup from "yup";
+import { useFormik } from "formik";
+
 
 const Add = () => {
+
+    const formik = useFormik({
+        initialValues: {
+            authorName: "",
+            email: "",
+            bio: ""
+        },
+        validationSchema: Yup.object({
+            authorName: Yup.string()
+                .required("Author name is required"),
+            email: Yup.string()
+                .email("Invalid email format")
+                .required("Email is required"),
+            bio: Yup.string()
+                .required("Description  is required"),
+
+
+        })
+    })
+    console.log(formik.errors);
+
     return (
         <>
             <div className='p-4 bg-white rounded-2 w-50'>
-
-                <form id="author-form" method="post" autoComplete="off">
+                <form id="author-form" autoComplete="off" onSubmit={formik.handleSubmit}>
                     {/* Author Name */}
                     <div className="form-group mb-3">
                         <label htmlFor="authorName" className="form-label">
@@ -13,12 +36,16 @@ const Add = () => {
                         </label>
                         <input
                             type="text"
-                            className="form-control"
+                            className={`form-control ${formik.errors.authorName && formik.touched.authorName ? 'is-invalid' : ''}`}
                             id="authorName"
                             name="authorName"
                             placeholder="Enter Author Name"
-                            required=""
+                            onChange={formik.handleChange}
+                            value={formik.values.authorName}
                         />
+                        {formik.errors.authorName && formik.touched.authorName ? (
+                            <div className="invalid-feedback">{formik.errors.authorName}</div>
+                        ) : null}
                     </div>
                     {/* Email */}
                     <div className="form-group mb-3">
@@ -27,12 +54,18 @@ const Add = () => {
                         </label>
                         <input
                             type="email"
-                            className="form-control"
+                            className={`form-control ${formik.errors.email && formik.touched.email ? 'is-invalid' : ''}`}
                             id="email"
                             name="email"
                             placeholder="Enter Author Email"
-                            required=""
+                            onChange={formik.handleChange}
+                            value={formik.values.email}
                         />
+                        {
+                            formik.errors.email && formik.touched.email ? (
+                                <div className="invalid-feedback">{formik.errors.email}</div>
+                            ) : null
+                        }
                     </div>
                     {/* Biography */}
                     <div className="form-group mb-3">
@@ -40,17 +73,22 @@ const Add = () => {
                             Description
                         </label>
                         <textarea
-                            className="form-control"
+                            className={`form-control ${formik.errors.bio && formik.touched.bio ? 'is-invalid' : ''}`}
                             id="bio"
                             name="bio"
                             rows={4}
                             placeholder="Write a short biography"
-                            required=""
-                            defaultValue={""}
+                            onChange={formik.handleChange}
+                            value={formik.values.bio}
                         />
+                        {
+                            formik.errors.bio && formik.touched.bio ? (
+                                <div className="invalid-feedback">{formik.errors.bio}</div>
+                            ) : null
+                        }
                     </div>
                     <div className="form-group mb-3">
-                        <label for="formFile" class="form-label">Profile Image</label>
+                        <label htmlFor="formFile" className="form-label">Profile Image</label>
                         <input className="form-control" type="file" id="formFile" />
                     </div>
 
@@ -64,7 +102,7 @@ const Add = () => {
                                 name="premiumStatus"
                                 id="premiumYes"
                                 defaultValue="yes"
-                                required=""
+
                             />
                             <label className="form-check-label" htmlFor="premiumYes">
                                 Yes (Premium Author)
@@ -92,7 +130,7 @@ const Add = () => {
                     </div>
                 </form>
 
-            </div>
+            </div >
         </>
     )
 }

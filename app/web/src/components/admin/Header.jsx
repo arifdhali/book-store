@@ -1,17 +1,29 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faBell, faMagnifyingGlass, faBackward } from '@fortawesome/free-solid-svg-icons';
-
-import Logo from "../../assets/image/store_logo.png";
+import { faGear, faBell, faBackward } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
+    const [backUrl, setBackUrl] = useState({
+        prev_url: "",
+        current_url: "",
+    });
+    const locations = useLocation();
+    useEffect(() => {
+        setBackUrl(prev => ({
+            prev_url: prev.current_url,
+            current_url: locations.pathname,
+        }));
+    }, [locations])
+    console.log(backUrl);
+
+
     return (
         <div className='header bg-white px-4 py-2  border-bottom  d-flex align-items-center justify-content-between gap-3 position-sticky top-0 start-0 z-3'>
             <div className=" d-flex align-items-center gap-4" >
                 <div style={{ width: "100px" }} >
-                    <Link to={"#read"} className="d-flex align-items-center gap-2">
+                    <Link to={backUrl.prev_url} className="d-flex align-items-center gap-2">
                         <FontAwesomeIcon icon={faBackward} /> Back
                     </Link>
                 </div>
