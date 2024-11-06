@@ -7,23 +7,44 @@ const Add = () => {
 
     const formik = useFormik({
         initialValues: {
-            authorName: "",
+            author_name: "",
             email: "",
-            bio: ""
+            bio: "",
+            profile_img: null,
+            prime_authors: "no",
         },
         validationSchema: Yup.object({
-            authorName: Yup.string()
+            author_name: Yup.string()
                 .required("Author name is required"),
             email: Yup.string()
                 .email("Invalid email format")
                 .required("Email is required"),
             bio: Yup.string()
-                .required("Description  is required"),
+                .required("Description is required"),
+            profile_img: Yup.mixed()
+                .required("Profile image is required")
 
-
-        })
+        }),
+        onSubmit: value => {
+            const form_data = new FormData();
+            Object.entries(value).forEach(([key, data]) => {
+                form_data.append(key, data)
+            });
+            AddAuthorSubmit(form_data);
+        }
     })
-    console.log(formik.errors);
+
+    // handle the file
+    const handleFileChange = (event) => {
+        const image = event.target.files[0];
+        formik.setFieldValue("profile_img", image);
+    }
+
+    // handle the submit
+    const AddAuthorSubmit = (formData) => {
+        console.log(formData);
+    }
+
 
     return (
         <>
@@ -31,20 +52,20 @@ const Add = () => {
                 <form id="author-form" autoComplete="off" onSubmit={formik.handleSubmit}>
                     {/* Author Name */}
                     <div className="form-group mb-3">
-                        <label htmlFor="authorName" className="form-label">
+                        <label htmlFor="author_name" className="form-label">
                             Author Name
                         </label>
                         <input
                             type="text"
-                            className={`form-control ${formik.errors.authorName && formik.touched.authorName ? 'is-invalid' : ''}`}
-                            id="authorName"
-                            name="authorName"
+                            className={`form-control ${formik.errors.author_name && formik.touched.author_name ? 'is-invalid' : ''}`}
+                            id="author_name"
+                            name="author_name"
                             placeholder="Enter Author Name"
                             onChange={formik.handleChange}
-                            value={formik.values.authorName}
+                            value={formik.values.author_name}
                         />
-                        {formik.errors.authorName && formik.touched.authorName ? (
-                            <div className="invalid-feedback">{formik.errors.authorName}</div>
+                        {formik.errors.author_name && formik.touched.author_name ? (
+                            <div className="invalid-feedback">{formik.errors.author_name}</div>
                         ) : null}
                     </div>
                     {/* Email */}
@@ -89,8 +110,17 @@ const Add = () => {
                     </div>
                     <div className="form-group mb-3">
                         <label htmlFor="formFile" className="form-label">Profile Image</label>
-                        <input className="form-control" type="file" id="formFile" />
+                        <input className={`form-control ${formik.errors.profile_img && formik.touched.profile_img ? 'is-invalid' : ''}`} name='profile_img' type="file" id="formFile"
+                            onChange={handleFileChange}
+                            onBlur={() => formik.setFieldTouched("profile_img")}
+                        />
+                        {
+                            formik.errors.profile_img && formik.touched.profile_img ? (
+                                <div className="invalid-feedback">{formik.errors.profile_img}</div>
+                            ) : null
+                        }
                     </div>
+
 
                     {/* Premium Author Status */}
                     <div className="form-group mb-3">
@@ -101,7 +131,7 @@ const Add = () => {
                                 type="radio"
                                 name="premiumStatus"
                                 id="premiumYes"
-                                defaultValue="yes"
+                                onChange={formik.handleChange}
 
                             />
                             <label className="form-check-label" htmlFor="premiumYes">
@@ -114,7 +144,7 @@ const Add = () => {
                                 type="radio"
                                 name="premiumStatus"
                                 id="premiumNo"
-                                defaultValue="no"
+                                onChange={formik.handleChange}
                             />
                             <label className="form-check-label" htmlFor="premiumNo">
                                 No (Non-Premium Author)

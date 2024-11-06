@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faBell, faBackward } from '@fortawesome/free-solid-svg-icons';
+import AppRoute from "../../routes/routes";
 
 const Header = () => {
     const [backUrl, setBackUrl] = useState({
@@ -15,18 +16,26 @@ const Header = () => {
             prev_url: prev.current_url,
             current_url: locations.pathname,
         }));
-    }, [locations])
-    console.log(backUrl);
+    }, [locations]);
+
+
 
 
     return (
         <div className='header bg-white px-4 py-2  border-bottom  d-flex align-items-center justify-content-between gap-3 position-sticky top-0 start-0 z-3'>
             <div className=" d-flex align-items-center gap-4" >
-                <div style={{ width: "100px" }} >
-                    <Link to={backUrl.prev_url} className="d-flex align-items-center gap-2">
-                        <FontAwesomeIcon icon={faBackward} /> Back
-                    </Link>
-                </div>
+                {
+                    backUrl.current_url != AppRoute.ADMIN.BASE ? (
+                        <div style={{ width: "100px" }} >
+                            <Link to={backUrl.prev_url} className="d-flex align-items-center gap-2">
+                                <FontAwesomeIcon icon={faBackward} /> Back
+                            </Link>
+                        </div>
+                    ) : (
+                        <>
+                        </>
+                    )
+                }
                 {/* <div className="form-group input-group mb-0 search-input w-100">
                     <span className="input-group-text ps-3 pe-0 border-0">
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
