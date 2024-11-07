@@ -67,8 +67,8 @@ const Sidebar = () => {
                     {/* Other Items */}
                     <li className="nav-item mb-1">
                         <Link
-                            to={AppRoute.ADMIN.CATEGORY}
-                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.CATEGORY ? 'active' : ''}`}
+                            to={AppRoute.ADMIN.CATEGORY.LIST}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.CATEGORY.LIST ? 'active' : ''}`}
                         >
                             <div className='d-flex gap-3 align-items-center'>
                                 <FontAwesomeIcon icon={faList} />

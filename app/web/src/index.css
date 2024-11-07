@@ -234,10 +234,21 @@ textarea.form-control {
   background: #fbdddd;
   color: rgb(241, 27, 27);
 }
+
 table td {
   font-weight: 400;
 }
 
 .item-actions .delete:hover {
   background: rgb(241, 27, 27);
+}
+
+input:focus,
+input:active {
+  box-shadow: none !important;
+}
+
+.form-check-input:checked {
+  background-color: #20d6a9 !important;
+  border-color: #20d6a9;
 }

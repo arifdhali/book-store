@@ -8,10 +8,10 @@ $sidebarWidth: 270px;
 
 
 
-.navigation {    
+.navigation {
     width: $sidebarWidth;
     height: 100%;
-    padding-bottom: 1rem;        
+    padding-bottom: 1rem;
 }
 
 .nav {
@@ -106,6 +106,11 @@ input {
     height: 45px;
     display: inline-flex !important;
     align-items: center !important;
+    border-radius: 4px !important;
+    -webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+    -ms-border-radius: 4px !important;
+    -o-border-radius: 4px !important;
 }
 
 p {

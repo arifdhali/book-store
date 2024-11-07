@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 
-const Add = () => {
+const Edit = () => {
     const [previewProfileImage, setPreviewProfileImage] = useState(null);
 
     const formik = useFormik({
@@ -173,4 +173,4 @@ const Add = () => {
     )
 }
 
-export default Add
+export default Edit

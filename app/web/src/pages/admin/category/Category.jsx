@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import AppRoute from "../../routes/routes"
+import AppRoute from "../../../routes/routes"
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,7 +16,7 @@ const Category = () => {
                     Category Lists
                 </h4>
                 <div>
-                    <Link to={`${AppRoute.ADMIN.AUTHORS.ADD}`} className="btn btn-primary align-content-center">Add Category</Link>
+                    <Link to={`${AppRoute.ADMIN.CATEGORY.ADD}`} className="btn btn-primary align-content-center">Add Category</Link>
                 </div>
             </div>
 
