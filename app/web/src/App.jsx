@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AdminLayout, AuthLayout } from './layouts';
+import { AdminLayout, AuthLayout, AuthorLayout } from './layouts';
 import { AdminHome, Users, Subscription, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd } from './pages/admin';
 import AppRoute from "./routes/routes";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,6 +8,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import Home from './pages/Home';
 import ErrorPage from "./404";
 import Loader from './components/Loader';
+import AuthorHome from './pages/author/AuthorHome';
 
 const App = () => {
   return (
@@ -36,6 +37,10 @@ const App = () => {
               <Route path={`${AppRoute.ADMIN.AUTHORS.VIEW(':id')}`} element={<EditAuthor />} />
             </Route>
             <Route path={AppRoute.ADMIN.USERS} element={<Users />} />
+          </Route>
+
+          <Route path={AppRoute.AUTHOR.BASE} element={<AuthorLayout />}>
+            <Route index element={<AuthorHome />} />
           </Route>
 
           {/* Catch-all route */}

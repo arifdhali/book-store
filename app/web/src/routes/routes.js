@@ -2,7 +2,6 @@ const routes = {
     HOME: '/',
     ADMIN: {
         BASE: "/admin",
-        LOGIN: "/admin/login",
         CATEGORY: {
             LIST: "/admin/category",
             ADD: "/admin/category/add"
@@ -16,6 +15,17 @@ const routes = {
         },
         USERS: '/admin/users',
     },
+    AUTHOR: {
+        BASE: "/author",
+
+        BOOK_LIST: "/author/book/list",
+        BOOK_ADD: "/author/book/add",
+        BOOK_VIEW: (id) => `author/book/${id}`,
+
+        ORDER: "/author/order",
+
+
+    },
     AUTH: {
         BASE: "/auth",
         ADMIN: {
@@ -23,6 +33,11 @@ const routes = {
             FORGOTPASS: "/admin/forgot-pass"
         },
         USER: {
+            LOGIN: "/auth/login",
+            REGISTER: "/auth/register",
+            FORGOTPASS: "/auth/forgot-pass"
+        },
+        AUTHOR: {
             LOGIN: "/auth/login",
             REGISTER: "/auth/register",
             FORGOTPASS: "/auth/forgot-pass"
