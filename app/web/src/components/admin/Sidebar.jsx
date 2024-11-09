@@ -30,6 +30,17 @@ const Sidebar = () => {
                 <ul className="nav nav-pills flex-column mb-auto" id='menu-bar'>
                     <li className="nav-item mb-1">
                         <Link
+                            to={AppRoute.ADMIN.BASE}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.BASE ? 'active' : ''}`}
+                        >
+                            <div className='d-flex gap-3 align-items-center'>
+                                <FontAwesomeIcon icon={faList} />
+                                Dashboard
+                            </div>
+                        </Link>
+                    </li>
+                    <li className="nav-item mb-1">
+                        <Link
                             to="#authorsCollapse"
                             className={`nav-link d-flex justify-content-between align-items-center`}
                             data-bs-toggle="collapse"

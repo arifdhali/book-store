@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faList, faRightFromBracket, faUserGraduate, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faBook, faChartLine, faComments, faDollarSign, faHandHoldingDollar, faList, faRightFromBracket, faTag, faUserGraduate, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import useUrlRemover from '../../hooks/useUrlRemover';
 import AppRoute from "../../routes/routes";
@@ -13,87 +13,123 @@ const Sidebar = () => {
 
     useEffect(() => {
         setLocationActive(location.pathname);
-        if (location.pathname.includes(AppRoute.ADMIN.AUTHORS.BASE)) {
+        if (location.pathname.includes(AppRoute.AUTHOR.BOOK.BASE)) {
             setCollapseExpanded(true);
         } else {
             setCollapseExpanded(false);
         }
     }, [location]);
 
-
+console.log(collapseExpanded)
     return (
         <aside className='position-fixed z-3 start-0 h-100 bg-dark '>
             <div className="navigation d-flex flex-column flex-shrink-0 px-2">
-                <Link to={AppRoute.ADMIN.BASE} className='mx-auto py-3 border-1' style={{ width: "60px" }}>
+                <Link to={AppRoute.AUTHOR.BASE} className='mx-auto py-3 border-1' style={{ width: "60px" }}>
                     <img src={Logo} alt="" className='img-fluid object-fit-contain rounded-5' />
                 </Link>
                 <ul className="nav nav-pills flex-column mb-auto" id='menu-bar'>
+
                     <li className="nav-item mb-1">
                         <Link
-                            to="#authorsCollapse"
+                            to={AppRoute.AUTHOR.BASE}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.BASE ? 'active' : ''}`}
+                        >
+                            <div className='d-flex gap-3 align-items-center'>
+                                <FontAwesomeIcon icon={faChartLine} />
+                                Dashboard
+                            </div>
+                        </Link>
+                    </li>
+
+                    <li className="nav-item mb-1">
+                        <Link
+                            to="#booksCollapse"
                             className={`nav-link d-flex justify-content-between align-items-center`}
                             data-bs-toggle="collapse"
                             aria-expanded={`${collapseExpanded ? "true" : "false"}`}
-                            aria-controls="authorsCollapse"
+                            aria-controls="booksCollapse"
                         >
                             <div className='d-flex gap-3 align-items-center'>
-                                <FontAwesomeIcon icon={faUserGraduate} />
-                                Authors
+                                <FontAwesomeIcon icon={faBook} />
+                                Books
                             </div>
                             <FontAwesomeIcon icon={faAngleRight} />
                         </Link>
-                        <div id="authorsCollapse" className={`collapse ${collapseExpanded ? "show" : ""}`} data-bs-parent="#menu-bar">
+                        <div id="booksCollapse" className={`collapse ${collapseExpanded ? "show" : ""}`} data-bs-parent="#menu-bar">
                             <ul className="nav flex-column ms-3 submenu">
                                 <li className="nav-item">
                                     <Link
-                                        to={AppRoute.ADMIN.AUTHORS.LIST}
-                                        className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.AUTHORS.LIST ? 'active' : ''}`}
+                                        to={AppRoute.AUTHOR.BOOK.LIST}
+                                        className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.BOOK.LIST ? 'active' : ''}`}
                                     >
                                         List
                                     </Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link
-                                        to={AppRoute.ADMIN.AUTHORS.SUBSCRIPTIONS}
-                                        className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.AUTHORS.SUBSCRIPTIONS ? 'active' : ''}`}
+                                        to={AppRoute.AUTHOR.BOOK.ADD}
+                                        className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.BOOK.ADD ? 'active' : ''}`}
                                     >
-                                        Subscription
+                                        Add Book
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link
+                                        to={AppRoute.AUTHOR.BOOK.PUBLISH}
+                                        className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.BOOK.PUBLISH ? 'active' : ''}`}
+                                    >
+                                        Published Book
                                     </Link>
                                 </li>
                             </ul>
 
                         </div>
                     </li>
-                    {/* Other Items */}
+                    {/* Orders */}
                     <li className="nav-item mb-1">
                         <Link
-                            to={AppRoute.ADMIN.CATEGORY.LIST}
-                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.CATEGORY.LIST ? 'active' : ''}`}
+                            to={AppRoute.AUTHOR.COUPON}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.COUPON ? 'active' : ''}`}
                         >
                             <div className='d-flex gap-3 align-items-center'>
-                                <FontAwesomeIcon icon={faList} />
-                                Category
+                                <FontAwesomeIcon icon={faHandHoldingDollar} />
+                                Coupons
                             </div>
                         </Link>
                     </li>
-                    {/* Other Items */}
+                    {/* Orders */}
                     <li className="nav-item mb-1">
                         <Link
-                            to={AppRoute.ADMIN.USERS}
-                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.USERS ? 'active' : ''}`}
+                            to={AppRoute.AUTHOR.ORDER}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.ORDER ? 'active' : ''}`}
                         >
                             <div className='d-flex gap-3 align-items-center'>
-                                <FontAwesomeIcon icon={faUsers} />
-                                Users
+                                <FontAwesomeIcon icon={faDollarSign} />
+                                Orders
+                            </div>
+                        </Link>
+                    </li>
+                    {/*  My Subscription */}
+                    <li className="nav-item mb-1">
+                        <Link
+                            to={AppRoute.AUTHOR.MY_SUBSCRIPTION}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.MY_SUBSCRIPTION ? 'active' : ''}`}
+                        >
+                            <div className='d-flex gap-3 align-items-center'>
+                                <FontAwesomeIcon icon={faTag} />
+                                My Subscription
                             </div>
                         </Link>
                     </li>
                     <li className="nav-item mb-1">
                         <Link
-                            to={'subscriptions'}
-                            className={`nav-link ${useUrlRemover(locationActive) === '/admin/subscriptions' ? 'active' : ''}`}
+                            to={AppRoute.AUTHOR.READER_FEEDBACK}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.READER_FEEDBACK ? 'active' : ''}`}
                         >
-                            Subscriptions
+                            <div className='d-flex gap-3 align-items-center'>
+                                <FontAwesomeIcon icon={faComments} />
+                                Reader Feedback
+                            </div>
                         </Link>
                     </li>
                 </ul>

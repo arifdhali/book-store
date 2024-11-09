@@ -17,11 +17,20 @@ const routes = {
     },
     AUTHOR: {
         BASE: "/author",
-        BOOK_LIST: "/author/book/list",
-        BOOK_ADD: "/author/book/add",
-        BOOK_VIEW: (id) => `author/book/${id}`,
+        BOOK: {
+            BASE: '/author/boo',
+            LIST: "/author/book/list",
+            ADD: "/author/book/add",
+            EDTI: "/author/book/edit",
+            PUBLISH: "/author/book/publish",
+            ANALYTICS: (id) => `/author/book/${id}`,
+        },
 
         ORDER: "/author/order",
+        MY_SUBSCRIPTION: "/author/subscription",
+        READER_FEEDBACK: "/author/feedback",
+        COUPON: "/author/coupon"
+
 
 
     },
