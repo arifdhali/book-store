@@ -252,3 +252,7 @@ input:active {
   background-color: #20d6a9 !important;
   border-color: #20d6a9;
 }
+.error-img{
+  max-width: 600px;
+  width: auto;
+}

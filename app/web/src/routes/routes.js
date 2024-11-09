@@ -17,7 +17,6 @@ const routes = {
     },
     AUTHOR: {
         BASE: "/author",
-
         BOOK_LIST: "/author/book/list",
         BOOK_ADD: "/author/book/add",
         BOOK_VIEW: (id) => `author/book/${id}`,
@@ -30,17 +29,17 @@ const routes = {
         BASE: "/auth",
         ADMIN: {
             LOGIN: "/admin/login",
-            FORGOTPASS: "/admin/forgot-pass"
+            FORGOTPASS: "/admin/forgot-password"
         },
         USER: {
-            LOGIN: "/auth/login",
-            REGISTER: "/auth/register",
-            FORGOTPASS: "/auth/forgot-pass"
+            LOGIN: "/login",
+            REGISTER: "/register",
+            FORGOTPASS: "/forgot-password"
         },
         AUTHOR: {
-            LOGIN: "/auth/login",
-            REGISTER: "/auth/register",
-            FORGOTPASS: "/auth/forgot-pass"
+            LOGIN: "/author/login",
+            REGISTER: "/author/register",
+            FORGOTPASS: "/author/forgot-password"
         }
     }
 };
