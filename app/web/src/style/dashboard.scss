@@ -46,7 +46,7 @@ $sidebarWidth: 270px;
             &::after {
                 position: absolute;
                 top: 50%;
-                right: 0;
+                right: 10px;
                 content: '';
                 height: 20px;
                 border: 2px solid #20d6a9;

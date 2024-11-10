@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AdminLayout, AuthLayout, AuthorLayout } from './layouts';
 import { AdminHome, Users, Subscription, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd } from './pages/admin';
-import { Author_Login, Author_Forgotpass, BookList } from './pages/author';
+import { Author_Login, Author_Forgotpass, BookList, AddBook, Coupon, OrderList, SingleOrderView, MySubscription, ReaderFeedback, BookAnalytics } from './pages/author';
 import AppRoute from "./routes/routes";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -46,12 +46,14 @@ const App = () => {
           <Route path={AppRoute.AUTHOR.BASE} element={<AuthorLayout />}>
             <Route index element={<AuthorHome />} />
             <Route path={AppRoute.AUTHOR.BOOK.LIST} element={<BookList />} />
-            <Route path={AppRoute.AUTHOR.BOOK.ADD} element={"Add"} />
+            <Route path={AppRoute.AUTHOR.BOOK.ADD} element={<AddBook />} />
             <Route path={AppRoute.AUTHOR.BOOK.PUBLISH} element={"Publish book"} />
-            <Route path={AppRoute.AUTHOR.BOOK.ANALYTICS(":id")} element={"Analytics book 1"} />
-            <Route path={AppRoute.AUTHOR.ORDER} element={"Order"} />
-            <Route path={AppRoute.AUTHOR.MY_SUBSCRIPTION} element={"My subscription"} />
-            <Route path={AppRoute.AUTHOR.READER_FEEDBACK} element={"Reader feecback"} />
+            <Route path={AppRoute.AUTHOR.COUPON} element={<Coupon />} />
+            <Route path={AppRoute.AUTHOR.BOOK.ANALYTICS(":id")} element={<BookAnalytics />} />
+            <Route path={AppRoute.AUTHOR.ORDER} element={<OrderList />} />
+            <Route path={AppRoute.AUTHOR.SINGLE_ORDER(":id")} element={<SingleOrderView />} />
+            <Route path={AppRoute.AUTHOR.MY_SUBSCRIPTION} element={<MySubscription />} />
+            <Route path={AppRoute.AUTHOR.READER_FEEDBACK} element={<ReaderFeedback />} />
           </Route>
 
           {/* Catch-all route */}

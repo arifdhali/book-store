@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faBell, faBackward } from '@fortawesome/free-solid-svg-icons';
 import AppRoute from "../../routes/routes";
 
+
+
 const Header = () => {
     const [backUrl, setBackUrl] = useState({
         prev_url: "",
@@ -36,12 +38,7 @@ const Header = () => {
                         </>
                     )
                 }
-                {/* <div className="form-group input-group mb-0 search-input w-100">
-                    <span className="input-group-text ps-3 pe-0 border-0">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                    </span>
-                    <input type="text" className="form-control border-0" placeholder="Search..." />
-                </div> */}
+
             </div>
             <div className='d-flex align-items-center gap-3'>
 

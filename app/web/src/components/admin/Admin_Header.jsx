@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faBell, faBackward } from '@fortawesome/free-solid-svg-icons';
 import AppRoute from "../../routes/routes";
-
 const Header = () => {
     const [backUrl, setBackUrl] = useState({
         prev_url: "",

@@ -18,7 +18,7 @@ const routes = {
     AUTHOR: {
         BASE: "/author",
         BOOK: {
-            BASE: '/author/boo',
+            BASE: '/author/book',
             LIST: "/author/book/list",
             ADD: "/author/book/add",
             EDTI: "/author/book/edit",
@@ -27,6 +27,7 @@ const routes = {
         },
 
         ORDER: "/author/order",
+        SINGLE_ORDER: (id) => `/author/order/${id}`,
         MY_SUBSCRIPTION: "/author/subscription",
         READER_FEEDBACK: "/author/feedback",
         COUPON: "/author/coupon"

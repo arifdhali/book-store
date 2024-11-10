@@ -1,12 +1,12 @@
-import Admin_Header from "./admin/Header";
-import Admin_Sidebar from "./admin/Sidebar";
-import Admin_Footer from "./admin/Footer";
+import Admin_Header from "./admin/Admin_Header";
+import Admin_Sidebar from "./admin/Admin_Sidebar";
+import Admin_Footer from "./admin/Admin_Footer";
 
 
 // Author
-import Author_Header from "./author/Header"
-import Author_Footer from "./author/Footer"
-import Author_Sidebar from "./author/Sidebar"
+import Author_Header from "./author/Author_Header"
+import Author_Footer from "./author/Author_Footer"
+import Author_Sidebar from "./author/Author_Sidebar"
 
 export {
     Admin_Header,

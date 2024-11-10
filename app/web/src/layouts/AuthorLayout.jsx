@@ -1,6 +1,8 @@
 import React from 'react'
 import { Author_Header, Author_Sidebar } from '../components'
 import { Outlet } from 'react-router-dom'
+
+
 const AuthorLayout = () => {
   return (
     <>
