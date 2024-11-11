@@ -50,7 +50,7 @@ const ForgotPass = () => {
                                 <div className="form-group mb-3">
                                     {/* <input name="recover-submit" className="btn btn-lg btn-primary btn-block" defaultValue="Reset Password" type="submit" /> */}
                                     <div className='d-flex justify-content-between align-items-center'>
-                                        <Link to={AppRoute.AUTH.ADMIN.LOGIN}>Go back</Link>
+                                        <Link to={AppRoute.AUTH.AUTHOR.LOGIN}>Go back</Link>
                                         <button className='btn btn-primary'>Reset Password</button>
                                     </div>
                                 </div>

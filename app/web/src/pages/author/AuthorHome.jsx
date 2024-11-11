@@ -23,7 +23,7 @@ const AuthorHome = () => {
                 </div>
                 <div className='item-data'>
                   <CountUp end={400} formattingFn={handelFormatingCount} />
-                  <p className='title'>Users</p>
+                  <p className='title'>Active Coupons</p>
                 </div>
               </div>
             </div>

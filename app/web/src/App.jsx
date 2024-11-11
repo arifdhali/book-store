@@ -43,6 +43,7 @@ const App = () => {
             <Route path={AppRoute.ADMIN.USERS} element={<Users />} />
           </Route>
 
+          {/* Author routes */}
           <Route path={AppRoute.AUTHOR.BASE} element={<AuthorLayout />}>
             <Route index element={<AuthorHome />} />
             <Route path={AppRoute.AUTHOR.BOOK.LIST} element={<BookList />} />

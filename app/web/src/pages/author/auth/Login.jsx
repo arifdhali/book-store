@@ -69,7 +69,7 @@ const Login = () => {
             </div>
             <div className='mb-4'>
               <small>
-                <Link to={AppRoutes.AUTH.ADMIN.FORGOTPASS}>Forgot password?</Link>
+                <Link to={AppRoutes.AUTH.AUTHOR.FORGOTPASS}>Forgot password?</Link>
               </small>
             </div>
             <div>
