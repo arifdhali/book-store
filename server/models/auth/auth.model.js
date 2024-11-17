@@ -1,6 +1,7 @@
 const BaseModal = require("../Base.model");
 const bcrypt = require('bcrypt');
 
+
 class AdminAuthModels extends BaseModal {
 
     async LoginModels(data) {
@@ -15,7 +16,6 @@ class AdminAuthModels extends BaseModal {
                     status: false
                 };
             }
-
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 return {
@@ -25,13 +25,14 @@ class AdminAuthModels extends BaseModal {
             }
             const updateSql = "UPDATE admin SET last_active = NOW() WHERE email = ?";
             await this.preparingQuery(updateSql, [email])
+
             return {
                 message: "Login successful",
                 status: true
             };
 
         } catch (error) {
-            console.error(error);
+            console.error("Error in Admin Auth modal " + error);
             return { success: false, message: "Database error" };
         }
     }

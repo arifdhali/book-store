@@ -1,5 +1,8 @@
 const { LoginSchema } = require("../../utils/validators/AdminValidator");
 const AdminAuthModels = require("../../models/auth/auth.model");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 
 
 
@@ -23,10 +26,24 @@ const AdminLogin = async (req, res) => {
         email,
         password
     }
-    let resul = await adminAuth.LoginModels(data);
-    res.json(
-        resul
-    )
+    let result = await adminAuth.LoginModels(data);
+    if (result.status) {
+        const token = jwt.sign(
+            {
+                role: "admin"
+            },
+            process.env.SECRET_KEY,
+            { expiresIn: '1h' }
+        );
+        res.cookie('Login_token', token);
+        return res.json(
+            token,
+            result
+        )
+    }
+
+
+
 
 }
 
