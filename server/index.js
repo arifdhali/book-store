@@ -18,4 +18,3 @@ app.use("/api", route);
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);
 });
-

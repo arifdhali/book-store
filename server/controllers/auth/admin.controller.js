@@ -1,13 +1,33 @@
 const { LoginSchema } = require("../../utils/validators/AdminValidator");
-const AdminModels = require("../../models/auth/auth.model");
+const AdminAuthModels = require("../../models/auth/auth.model");
 
 
 
 const AdminLogin = async (req, res) => {
+    const status = false;
+    const { email, password } = req.body;
 
-    const { error } = LoginSchema.validate(req.body);
+    const { error } = LoginSchema.validate({ email, password });
 
-    console.log(error.details[0].message);
+
+    if (error) {
+        return res.status(400).json({
+            message: error.details[0].message,
+            status,
+        })
+    }
+    const adminAuth = new AdminAuthModels(email);
+
+    // sending to the Login models
+    const data = {
+        email,
+        password
+    }
+    let resul = await adminAuth.LoginModels(data);
+    res.json(
+        resul
+    )
+
 }
 
 
