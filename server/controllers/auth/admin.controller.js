@@ -35,10 +35,12 @@ const AdminLogin = async (req, res) => {
             process.env.SECRET_KEY,
             { expiresIn: '1h' }
         );
-        res.cookie('Login_token', token);
+        // res.cookie('Login_token', token);
         return res.json(
-            token,
-            result
+            {
+                token,
+                result
+            }
         )
     }
 

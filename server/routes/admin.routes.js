@@ -1,11 +1,11 @@
 const express = require("express");
 const adminRoute = express.Router();
 const { AdminLogin } = require("../controllers/auth/admin.controller");
+const { validAdminVerify } = require("../middleware/verify.auth");
 
 
 
-
-adminRoute.get("/", (req, res) => {
+adminRoute.get("/", validAdminVerify, (req, res) => {
     res.send("Working");
 })
 
