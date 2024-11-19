@@ -10,6 +10,8 @@ import Home from './pages/Home';
 import ErrorPage from "./404";
 import Loader from './components/Loader';
 import AuthorHome from './pages/author/AuthorHome';
+import ProtectedRoutes from './routes/protected.routes';
+import axios from 'axios';
 
 const App = () => {
   return (
@@ -31,7 +33,7 @@ const App = () => {
           </Route>
 
           {/* Admin routes */}
-          <Route path={AppRoute.ADMIN.BASE} element={<AdminLayout />}>
+          <Route path={AppRoute.ADMIN.BASE} element={<ProtectedRoutes role='admin'><AdminLayout /></ProtectedRoutes>}>
             <Route index element={<AdminHome />} />
             <Route path={AppRoute.ADMIN.CATEGORY.LIST} element={<Category />} />
             <Route path={AppRoute.ADMIN.CATEGORY.ADD} element={<CategoryAdd />} />

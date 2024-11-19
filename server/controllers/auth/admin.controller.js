@@ -9,7 +9,6 @@ dotenv.config();
 const AdminLogin = async (req, res) => {
     const status = false;
     const { email, password } = req.body;
-
     const { error } = LoginSchema.validate({ email, password });
 
 
@@ -35,14 +34,20 @@ const AdminLogin = async (req, res) => {
             process.env.SECRET_KEY,
             { expiresIn: '1h' }
         );
-        // res.cookie('Login_token', token);
-        return res.json(
+        res.cookie('Login_token', token);
+        return res.status(200).json(
             {
                 token,
-                result
+                result,
+                role: "admin"
             }
         )
     }
+    return res.json(
+        {
+            result,
+        }
+    )
 
 
 

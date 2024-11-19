@@ -16,6 +16,7 @@ class AdminAuthModels extends BaseModal {
                     status: false
                 };
             }
+
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 return {

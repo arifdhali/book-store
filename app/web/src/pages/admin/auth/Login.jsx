@@ -1,11 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppRoutes from "../../../routes/routes";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { login } from '../../../store/slices/authSlice';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispath = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -20,14 +24,25 @@ const Login = () => {
         .required("Password is required")
     }),
     onSubmit: function (values) {
-      sendToDatabse(values)
+      sendToDatabase(values)
     }
   });
+  axios.defaults.withCredentials = true;
 
-  const sendToDatabse = (values) => {
-    const response = axios.post()
-
-  }
+  const sendToDatabase = async (values) => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}/admin/login`, values);
+      const { role, status } = response.data.result;
+      const serverData = {
+        role,
+        status
+      }
+      dispath(login(serverData));
+      navigate(AppRoutes.ADMIN.BASE);
+    } catch (error) {
+      console.error('Error during login request:', error);
+    }
+  };
 
 
   return (

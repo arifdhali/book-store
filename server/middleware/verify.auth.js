@@ -4,6 +4,7 @@ const validAdminVerify = (req, res, next) => {
     const token = req.headers['authorization'];
     if (!token) {
         return res.status(403).json({
+            status: false,
             message: "Unathorized, jwt token is required"
         })
     }
@@ -14,9 +15,17 @@ const validAdminVerify = (req, res, next) => {
         next();
 
     } catch (err) {
-        return res.status(403).json({
-            message: "Unathorized, jwt token is required"
-        })
+        if (err.name === 'TokenExpiredError') {
+            return res.status(401).json({
+                status: false,
+                message: "Unathorized, jwt token is expired"
+            })
+        } else {
+            return res.status(403).json({
+                status: false,
+                message: "Unathorized, jwt token couldn't verify"
+            })
+        }
     }
 
 
