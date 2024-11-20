@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import Cookies from "js-cookie";
 import { login } from '../../../store/slices/authSlice';
 import Header_alert from '../../../utils/Header_alert';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -44,6 +45,9 @@ const Login = () => {
       dispath(login(serverData));
       if (status) {
         navigate(AppRoutes.ADMIN.BASE);
+        toast.success(response.data.result.message)
+      }else{
+        toast.error(response.data.result.message)
       }
     } catch (error) {
       console.error('Error during login request:', error);

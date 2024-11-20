@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import * as Yup from "yup";
 import { useFormik } from "formik";
-
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Add = () => {
     const [previewProfileImage, setPreviewProfileImage] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -12,41 +14,54 @@ const Add = () => {
             email: "",
             bio: "",
             profile_img: null,
-            prime_authors: "no",
+            premiumStatus: "",
         },
         validationSchema: Yup.object({
-            author_name: Yup.string()
-                .required("Author name is required"),
+            author_name: Yup.string().required("Author name is required"),
             email: Yup.string()
                 .email("Invalid email format")
                 .required("Email is required"),
-            bio: Yup.string()
-                .required("Description is required"),
-            profile_img: Yup.mixed()
-                .required("Profile image is required")
-
+            bio: Yup.string().required("Description is required"),
+            profile_img: Yup.mixed().required("Profile image is required"),
+            premiumStatus: Yup.string().required("Premium status is required"),
         }),
-        onSubmit: value => {
+        onSubmit: async (values, { resetForm }) => {
+            setIsSubmitting(true);
             const form_data = new FormData();
-            Object.entries(value).forEach(([key, data]) => {
-                form_data.append(key, data)
+            Object.entries(values).forEach(([key, data]) => {
+                form_data.append(key, data);
             });
-            AddAuthorSubmit(form_data);
-        }
-    })
 
-    // handle the file
+            try {
+                console.log(form_data);
+                const response = await axios.post(
+                    `${import.meta.env.VITE_SERVER_API_URL}/admin/author/add`,
+                    form_data,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    }
+                );
+                
+                toast.success("Author added successfully!");
+                resetForm();
+                setPreviewProfileImage(null);
+            } catch (error) {
+                toast.error("Failed to add author. Please try again.");
+                console.error(error);
+            } finally {
+                setIsSubmitting(false);
+            }
+        },
+    });
+
+    // Handle file change
     const handleFileChange = (event) => {
         const image = event.target.files[0];
         formik.setFieldValue("profile_img", image);
         setPreviewProfileImage(URL.createObjectURL(image));
-    }
-
-    // handle the submit
-    const AddAuthorSubmit = (formData) => {
-        console.log(formData);
-    }
-
+    };
 
     return (
         <>
@@ -54,9 +69,7 @@ const Add = () => {
                 <form id="author-form" autoComplete="off" onSubmit={formik.handleSubmit}>
                     {/* Author Name */}
                     <div className="form-group mb-3">
-                        <label htmlFor="author_name" className="form-label">
-                            Author Name
-                        </label>
+                        <label htmlFor="author_name" className="form-label">Author Name</label>
                         <input
                             type="text"
                             className={`form-control ${formik.errors.author_name && formik.touched.author_name ? 'is-invalid' : ''}`}
@@ -66,15 +79,14 @@ const Add = () => {
                             onChange={formik.handleChange}
                             value={formik.values.author_name}
                         />
-                        {formik.errors.author_name && formik.touched.author_name ? (
+                        {formik.errors.author_name && formik.touched.author_name && (
                             <div className="invalid-feedback">{formik.errors.author_name}</div>
-                        ) : null}
+                        )}
                     </div>
+
                     {/* Email */}
                     <div className="form-group mb-3">
-                        <label htmlFor="email" className="form-label">
-                            Email
-                        </label>
+                        <label htmlFor="email" className="form-label">Email</label>
                         <input
                             type="email"
                             className={`form-control ${formik.errors.email && formik.touched.email ? 'is-invalid' : ''}`}
@@ -84,17 +96,14 @@ const Add = () => {
                             onChange={formik.handleChange}
                             value={formik.values.email}
                         />
-                        {
-                            formik.errors.email && formik.touched.email ? (
-                                <div className="invalid-feedback">{formik.errors.email}</div>
-                            ) : null
-                        }
+                        {formik.errors.email && formik.touched.email && (
+                            <div className="invalid-feedback">{formik.errors.email}</div>
+                        )}
                     </div>
+
                     {/* Biography */}
                     <div className="form-group mb-3">
-                        <label htmlFor="bio" className="form-label">
-                            Description
-                        </label>
+                        <label htmlFor="bio" className="form-label">Description</label>
                         <textarea
                             className={`form-control ${formik.errors.bio && formik.touched.bio ? 'is-invalid' : ''}`}
                             id="bio"
@@ -104,31 +113,31 @@ const Add = () => {
                             onChange={formik.handleChange}
                             value={formik.values.bio}
                         />
-                        {
-                            formik.errors.bio && formik.touched.bio ? (
-                                <div className="invalid-feedback">{formik.errors.bio}</div>
-                            ) : null
-                        }
+                        {formik.errors.bio && formik.touched.bio && (
+                            <div className="invalid-feedback">{formik.errors.bio}</div>
+                        )}
                     </div>
+
+                    {/* Profile Image */}
                     <div className="form-group mb-3">
                         <label htmlFor="formFile" className="form-label">Profile Image</label>
-
                         {previewProfileImage && (
                             <div className='preview-profile mx-auto mb-3' style={{ width: "200px", height: "150px" }}>
-                                <img className='img-fluid h-100' src={previewProfileImage} alt="" />
+                                <img className='img-fluid h-100' src={previewProfileImage} alt="Preview" />
                             </div>
                         )}
-                        <input className={`form-control ${formik.errors.profile_img && formik.touched.profile_img ? 'is-invalid' : ''}`} name='profile_img' type="file" id="formFile"
+                        <input
+                            className={`form-control ${formik.errors.profile_img && formik.touched.profile_img ? 'is-invalid' : ''}`}
+                            name='profile_img'
+                            type="file"
+                            id="formFile"
                             onChange={handleFileChange}
                             onBlur={() => formik.setFieldTouched("profile_img")}
                         />
-                        {
-                            formik.errors.profile_img && formik.touched.profile_img ? (
-                                <div className="invalid-feedback">{formik.errors.profile_img}</div>
-                            ) : null
-                        }
+                        {formik.errors.profile_img && formik.touched.profile_img && (
+                            <div className="invalid-feedback">{formik.errors.profile_img}</div>
+                        )}
                     </div>
-
 
                     {/* Premium Author Status */}
                     <div className="form-group mb-3">
@@ -139,12 +148,10 @@ const Add = () => {
                                 type="radio"
                                 name="premiumStatus"
                                 id="premiumYes"
+                                value="yes"
                                 onChange={formik.handleChange}
-
                             />
-                            <label className="form-check-label" htmlFor="premiumYes">
-                                Yes (Premium Author)
-                            </label>
+                            <label className="form-check-label" htmlFor="premiumYes">Yes (Premium Author)</label>
                         </div>
                         <div className="form-check">
                             <input
@@ -152,25 +159,26 @@ const Add = () => {
                                 type="radio"
                                 name="premiumStatus"
                                 id="premiumNo"
-                                onChange={formik.handleChange}
+                                value="no"
+                                onChange={formik.handleChange}                                
                             />
-                            <label className="form-check-label" htmlFor="premiumNo">
-                                No (Non-Premium Author)
-                            </label>
+                            <label className="form-check-label" htmlFor="premiumNo">No (Non-Premium Author)</label>
                         </div>
+                        {formik.errors.premiumStatus && formik.touched.premiumStatus && (
+                            <div className="text-danger mt-2">{formik.errors.premiumStatus}</div>
+                        )}
                     </div>
 
                     {/* Submit Button */}
                     <div className="form-group">
-                        <button type="submit" className="btn btn-primary btn-block">
-                            <i className="fa-solid fa-check" /> Submit
+                        <button type="submit" className="btn btn-primary btn-block" disabled={isSubmitting}>
+                            {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
                     </div>
-                </form >
-
-            </div >
+                </form>
+            </div>
         </>
-    )
-}
+    );
+};
 
-export default Add
+export default Add;
