@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 13, 2024 at 02:42 AM
+-- Generation Time: Nov 20, 2024 at 05:55 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `email`, `name`, `password`, `image`, `last_active`, `address`) VALUES
-(1, 'Arif Dhali', 'arif98@gmail.com', 'Arif ', 'test1', 'tsfds', '2024-11-12 23:59:22', 'kolkata');
+(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2024-11-20 22:16:16', 'kolkata');
 
 -- --------------------------------------------------------
 
@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `author` (
   `name` text,
   `email` text,
   `profile` text,
+  `password` text,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -67,8 +68,8 @@ CREATE TABLE IF NOT EXISTS `author` (
 -- Dumping data for table `author`
 --
 
-INSERT INTO `author` (`id`, `name`, `email`, `profile`, `created_at`) VALUES
-(1, 'Arif Dhali', 'arifdhali98@gmail.com', 'test', '2024-11-12 23:04:12');
+INSERT INTO `author` (`id`, `name`, `email`, `profile`, `password`, `created_at`) VALUES
+(1, 'Arif Dhali', 'arifdhali98@gmail.com', 'test', NULL, '2024-11-12 23:04:12');
 
 -- --------------------------------------------------------
 
@@ -82,7 +83,8 @@ CREATE TABLE IF NOT EXISTS `book` (
   `author_id` int DEFAULT NULL,
   `name` int DEFAULT NULL,
   `prcie` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_author_id` (`author_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -98,6 +100,16 @@ CREATE TABLE IF NOT EXISTS `book_category` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `book`
+--
+ALTER TABLE `book`
+  ADD CONSTRAINT `fk_author_id` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
