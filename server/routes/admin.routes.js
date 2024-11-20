@@ -10,7 +10,6 @@ adminRoute.get("/", validAdminVerify, (req, res) => {
 })
 
 
-
 adminRoute.post("/login", AdminLogin);
 
 module.exports = adminRoute;

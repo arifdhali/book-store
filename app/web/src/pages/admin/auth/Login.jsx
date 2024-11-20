@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AppRoutes from "../../../routes/routes";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useDispatch } from 'react-redux';
+import Cookies from "js-cookie";
 import { login } from '../../../store/slices/authSlice';
+import Header_alert from '../../../utils/Header_alert';
 
 const Login = () => {
   const navigate = useNavigate();
   const dispath = useDispatch();
+  const token = Cookies.get("ADMIN_TOKEN");
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -38,15 +42,22 @@ const Login = () => {
         status
       }
       dispath(login(serverData));
-      navigate(AppRoutes.ADMIN.BASE);
+      if (status) {
+        navigate(AppRoutes.ADMIN.BASE);
+      }
     } catch (error) {
       console.error('Error during login request:', error);
     }
   };
-
+  useEffect(() => {
+    if (token) {
+      navigate(AppRoutes.ADMIN.BASE);
+    }
+  }, [])
 
   return (
     <div className='col-md-4 '>
+      <Header_alert userrole='Admin' />
       <div className='card bg-white p-4 rounded-2 shadow-lg border-0'>
         <div className='card-body'>
           <div className='text-center mb-4'>

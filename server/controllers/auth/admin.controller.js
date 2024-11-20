@@ -31,10 +31,10 @@ const AdminLogin = async (req, res) => {
             {
                 role: "admin"
             },
-            process.env.SECRET_KEY,
+            process.env.SECRET_KEY || 'secret',
             { expiresIn: '1h' }
         );
-        res.cookie('Login_token', token);
+        res.cookie('ADMIN_TOKEN', token);
         return res.status(200).json(
             {
                 token,
