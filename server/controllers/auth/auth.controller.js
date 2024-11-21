@@ -32,9 +32,15 @@ const AdminLogin = async (req, res) => {
                 role: "admin"
             },
             process.env.SECRET_KEY || 'secret',
-            { expiresIn: '1h' }
+            { expiresIn: '2d' }
         );
-        res.cookie('ADMIN_TOKEN', token);
+        res.cookie(
+            'ADMIN_TOKEN',
+            token,
+            {
+                maxAge: 2 * 24 * 60 * 60 * 1000 
+            }
+        );
         return res.status(200).json(
             {
                 token,

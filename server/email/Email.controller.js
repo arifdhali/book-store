@@ -25,7 +25,6 @@ class EmailController {
 
     // global for sending email
     async sendingMailData(content) {
-        console.log(content);
         return this.#preparingMail(content);
     }
 
