@@ -1,6 +1,7 @@
-import Joi from "joi";
+const Joi = require('joi');
 
-
-const AddValidator = Joi.object({
+const AddSchema = Joi.object({
 
 })
+
+module.exports = AddSchema;

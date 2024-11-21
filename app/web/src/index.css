@@ -230,13 +230,16 @@ textarea.form-control {
   background: #e2e3f7;
   color: #6b72ff;
 }
+
 .item-actions .analytics:hover {
   background: #6b72ff;
 }
+
 .item-actions .view {
   background: #e2e3f7;
   color: #6b72ff;
 }
+
 .item-actions .view:hover {
   background: #6b72ff;
 }
@@ -272,7 +275,12 @@ input:active {
   background-color: #20d6a9 !important;
   border-color: #20d6a9;
 }
-.error-img{
+
+.error-img {
   max-width: 600px;
   width: auto;
+}
+
+.no-records {
+  color: rgb(121, 121, 121) !important;
 }

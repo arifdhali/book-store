@@ -3,10 +3,13 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import { toast } from "react-toastify";
+import AppRoutes from "../../../routes/routes";
+import { useNavigate } from 'react-router-dom';
 
 const Add = () => {
     const [previewProfileImage, setPreviewProfileImage] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -33,9 +36,8 @@ const Add = () => {
             });
 
             try {
-                console.log(form_data);
                 const response = await axios.post(
-                    `${import.meta.env.VITE_SERVER_API_URL}/admin/author/add`,
+                    `${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.ADMIN.AUTHORS.ADD}`,
                     form_data,
                     {
                         headers: {
@@ -43,10 +45,14 @@ const Add = () => {
                         },
                     }
                 );
-                
-                toast.success("Author added successfully!");
-                resetForm();
-                setPreviewProfileImage(null);
+                if (response.data.result.status) {
+                    toast.success(response.data.result.message);
+                    resetForm();
+                    setPreviewProfileImage(null);
+                    navigate(AppRoutes.ADMIN.AUTHORS.LIST)
+                } else {
+                    toast.error(response.data.result.message);
+                }
             } catch (error) {
                 toast.error("Failed to add author. Please try again.");
                 console.error(error);
@@ -160,7 +166,7 @@ const Add = () => {
                                 name="premiumStatus"
                                 id="premiumNo"
                                 value="no"
-                                onChange={formik.handleChange}                                
+                                onChange={formik.handleChange}
                             />
                             <label className="form-check-label" htmlFor="premiumNo">No (Non-Premium Author)</label>
                         </div>

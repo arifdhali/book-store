@@ -36,7 +36,7 @@ const Login = () => {
 
   const sendToDatabase = async (values) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}/admin/login`, values);
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.ADMIN.LOGIN}`, values);
       const { role, status } = response.data.result;
       const serverData = {
         role,
@@ -46,7 +46,7 @@ const Login = () => {
       if (status) {
         navigate(AppRoutes.ADMIN.BASE);
         toast.success(response.data.result.message)
-      }else{
+      } else {
         toast.error(response.data.result.message)
       }
     } catch (error) {

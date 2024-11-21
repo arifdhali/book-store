@@ -13,12 +13,12 @@ import AuthorHome from './pages/author/AuthorHome';
 import ProtectedRoutes from './routes/protected.routes';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
   return (
     <Router>
-      <ToastContainer newestOnTop hideProgressBar />
+      <ToastContainer autoClose={2000} newestOnTop hideProgressBar />
       <Suspense fallback={<Loader />}>
         <Routes>
           {/* Main routes */}

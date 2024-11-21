@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 20, 2024 at 05:55 PM
--- Server version: 8.0.31
--- PHP Version: 8.0.26
+-- Generation Time: Nov 21, 2024 at 01:29 PM
+-- Server version: 8.0.27
+-- PHP Version: 8.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `email`, `name`, `password`, `image`, `last_active`, `address`) VALUES
-(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2024-11-20 22:16:16', 'kolkata');
+(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2024-11-21 17:32:53', 'kolkata');
 
 -- --------------------------------------------------------
 
@@ -58,18 +58,13 @@ CREATE TABLE IF NOT EXISTS `author` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` text,
   `email` text,
-  `profile` text,
+  `profile_img` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `bio` text,
   `password` text,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('active','inactive','block') NOT NULL DEFAULT 'active',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `author`
---
-
-INSERT INTO `author` (`id`, `name`, `email`, `profile`, `password`, `created_at`) VALUES
-(1, 'Arif Dhali', 'arifdhali98@gmail.com', 'test', NULL, '2024-11-12 23:04:12');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -100,6 +95,29 @@ CREATE TABLE IF NOT EXISTS `book_category` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subscriptions`
+--
+
+DROP TABLE IF EXISTS `subscriptions`;
+CREATE TABLE IF NOT EXISTS `subscriptions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `subscription_type` enum('standard','premium') DEFAULT NULL,
+  `purchase_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `price` double DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `subscriptions`
+--
+
+INSERT INTO `subscriptions` (`id`, `subscription_type`, `purchase_at`, `price`) VALUES
+(1, 'standard', '2024-11-21 14:23:32', 100.05),
+(2, 'premium', '2024-11-21 14:23:32', 999.99);
 
 --
 -- Constraints for dumped tables

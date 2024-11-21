@@ -2,7 +2,7 @@ const express = require("express");
 const adminRoute = express.Router();
 const { AdminLogin } = require("../controllers/auth/auth.controller");
 const { validAdminVerify } = require("../middleware/verify.auth");
-const { AddAuthorController } = require("../controllers/author.controller");
+const { AddAuthorController, GetAllAuthorsController } = require("../controllers/admin/author.controller");
 const uploadMulter = require("../utils/multer");
 
 
@@ -13,7 +13,8 @@ adminRoute.get("/", validAdminVerify, (req, res) => {
 
 // author
 const uploadAuthor = uploadMulter("author");
-adminRoute.post("/author/add", uploadAuthor.single('profile_img'), AddAuthorController);
+adminRoute.post("/authors/add", uploadAuthor.single('profile_img'), AddAuthorController);
+adminRoute.get("/authors/list",GetAllAuthorsController);
 
 
 // auth
