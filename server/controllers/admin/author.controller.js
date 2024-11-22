@@ -18,6 +18,18 @@ const AddAuthorController = async (req, res) => {
         const author_image = thumbnail.filename;
 
         const { author_name, email, bio, premiumStatus } = req.body;
+
+        const exitsUsers = await AuthorModel.checkUserExists(email);
+        if (exitsUsers.length > 0) {
+            const result = {
+                status: false,
+                message: "Email already exists",
+            }
+            return res.status(401).json({
+
+                result
+            });
+        }
         // generate passwords for author
         const password = generator.generate({
             length: 10,
@@ -38,7 +50,8 @@ const AddAuthorController = async (req, res) => {
             subject: "Your Account created successfully",
             html: LoginTemplate(email, password, new Date())
         }
-        sendAuthormail.sendingMailData(maildata);
+        const emailStatus = await sendAuthormail.sendingMailData(maildata);
+        console.log(emailStatus);
         return res.status(201).json({
             result
         });

@@ -27,6 +27,19 @@ class AuthorModels extends BaseModal {
             return { status: false, message: error };
         }
     }
+
+    async checkUserExists(email) {
+        let checkQuery = 'SELECT email FROM author WHERE email = ?';
+        try {
+            return await this.preparingQuery(checkQuery, [email]);
+        }
+        catch (error) {
+            console.error("Error in when check Author  " + error);
+            return { status: false, message: error };
+        }
+
+
+    }
 }
 
 module.exports = AuthorModels;

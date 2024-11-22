@@ -1,5 +1,4 @@
-const LoginTemplate = (email, passord, date) => {
-    console.log(email, passord, date)
+const LoginTemplate = (email, passord, date) => {    
     return `
 <!DOCTYPE html>
 <html lang="en">

@@ -49,7 +49,7 @@ const AdminLogin = async (req, res) => {
             }
         )
     }
-    return res.json(
+    return res.status(401).json(
         {
             result,
         }

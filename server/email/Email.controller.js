@@ -13,9 +13,15 @@ class EmailController {
             };
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
-                    console.log(error);
+                    return {
+                        error,
+                        status: false,
+                    }
                 } else {
-                    console.log('Email sent: ' + info.response);
+                    return {
+                        info,
+                        status: true,
+                    };
                 }
             });
         } catch (error) {

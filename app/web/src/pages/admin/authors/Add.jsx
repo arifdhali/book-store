@@ -50,12 +50,10 @@ const Add = () => {
                     resetForm();
                     setPreviewProfileImage(null);
                     navigate(AppRoutes.ADMIN.AUTHORS.LIST)
-                } else {
-                    toast.error(response.data.result.message);
                 }
             } catch (error) {
-                toast.error("Failed to add author. Please try again.");
-                console.error(error);
+                const { message } = error?.response?.data?.result;
+                toast.error(message);
             } finally {
                 setIsSubmitting(false);
             }
