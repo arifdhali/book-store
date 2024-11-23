@@ -4,6 +4,7 @@ const { AdminLogin } = require("../controllers/auth/auth.controller");
 const { validAdminVerify } = require("../middleware/verify.auth");
 const { AddAuthorController, GetAllAuthorsController } = require("../controllers/admin/author.controller");
 const uploadMulter = require("../utils/multer");
+const { AddCategoryController } = require("../controllers/admin/category.controller");
 
 
 
@@ -14,7 +15,13 @@ adminRoute.get("/", validAdminVerify, (req, res) => {
 // author
 const uploadAuthor = uploadMulter("author");
 adminRoute.post("/authors/add", uploadAuthor.single('profile_img'), AddAuthorController);
-adminRoute.get("/authors/list",GetAllAuthorsController);
+adminRoute.get("/authors/list", GetAllAuthorsController);
+
+
+
+// add category
+
+adminRoute.post("/category/add", AddCategoryController);
 
 
 // auth
