@@ -4,7 +4,7 @@ const { AdminLogin } = require("../controllers/auth/auth.controller");
 const { validAdminVerify } = require("../middleware/verify.auth");
 const { AddAuthorController, GetAllAuthorsController } = require("../controllers/admin/author.controller");
 const uploadMulter = require("../utils/multer");
-const { AddCategoryController } = require("../controllers/admin/category.controller");
+const { AddCategoryController, AllCategoryController } = require("../controllers/admin/category.controller");
 
 
 
@@ -21,6 +21,7 @@ adminRoute.get("/authors/list", GetAllAuthorsController);
 
 // add category
 
+adminRoute.get("/category", AllCategoryController);
 adminRoute.post("/category/add", AddCategoryController);
 
 

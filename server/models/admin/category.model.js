@@ -2,6 +2,22 @@ const BaseModal = require("../Base.model");
 
 class CategoryModels extends BaseModal {
 
+
+    async getCategories() {
+
+        try {
+
+            const getSql = 'SELECT * FROM book_category';
+
+            return await this.preparingQuery(getSql);
+
+        } catch (error) {
+            console.error("Error in Geting Category modal " + error);
+            return { status: false, message: error };
+        }
+
+    }
+
     async addCategory(name, description) {
 
         try {
@@ -25,8 +41,6 @@ class CategoryModels extends BaseModal {
         try {
             const checkSql = 'SELECT id FROM book_category WHERE name = ?';
             return await this.preparingQuery(checkSql, name);
-         
-
         }
         catch (error) {
             console.error("Error in Admin Category modal " + error);
@@ -36,4 +50,4 @@ class CategoryModels extends BaseModal {
     }
 
 }
-module.exports = CategoryModels;
+module.exports = new CategoryModels();

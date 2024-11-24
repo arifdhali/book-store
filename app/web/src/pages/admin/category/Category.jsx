@@ -1,14 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppRoute from "../../../routes/routes"
-
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faEdit } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 
 
 const Category = () => {
+    const [Catgories, setCatgories] = useState([]);
+
+    const getCategories = () => {
+        axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.CATEGORY.LIST}`)
+            .then((response) => {
+                setCatgories(response.data?.result)
+            }).catch((error) => {
+                console.log(error)
+            })
+
+    }
+    useEffect(() => {
+        getCategories()
+    }, []);
+    console.log(Catgories);
     return (
         <>
             <div className='d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom'>
@@ -31,25 +45,41 @@ const Category = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td valign='middle'>1</td>
+                    {
+                        Catgories.length > 0 ? (
 
-                        <td valign='middle'>Jhone Steben</td>
-                        <td valign='middle'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rhoncus non elit a scelerisque.
-                            Etiam feugiat luctus est, vel commodo odio rhoncus sit amet. </td>
-                        <td valign='middle' align='center'>10</td>
-                        <td valign='middle'>
-                            <div className='d-flex gap-2 item-actions'>
-                                <Link className='act edit' to={`${AppRoute.ADMIN.AUTHORS.VIEW(1)}`}>
-                                    <FontAwesomeIcon icon={faEdit} />
-                                </Link>
+                            Catgories.map((item, index) => (
 
-                                <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                    <FontAwesomeIcon icon={faTrashCan} />
-                                </span>
-                            </div>
-                        </td>
-                    </tr>
+                                <tr key={item.id}>
+                                    <td valign='top'>{index + 1}</td>
+
+                                    <td valign='top'>{item.name}</td>
+                                    <td valign='top'>
+                                        {item.description}
+                                    </td>
+                                    <td valign='top' align='center'>10</td>
+                                    <td valign='top'>
+                                        <div className='d-flex gap-2 item-actions'>
+                                            <Link className='act edit' to={`${AppRoute.ADMIN.AUTHORS.VIEW(1)}`}>
+                                                <FontAwesomeIcon icon={faEdit} />
+                                            </Link>
+
+                                            <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                <FontAwesomeIcon icon={faTrashCan} />
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            ))) : (
+                            <>
+                                <tr>
+                                    <td className="py-5 no-records" align="center" colSpan="5">No records found</td>
+                                </tr>
+                            </>
+                        )
+                    }
+
 
                 </tbody>
             </table>

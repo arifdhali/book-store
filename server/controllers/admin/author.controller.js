@@ -1,5 +1,4 @@
-const AuthorModelController = require('../../models/admin/author.model');
-const AuthorModel = new AuthorModelController();
+const AuthorModel = require('../../models/admin/author.model');
 const AddSchema = require('../../utils/validators/Add');
 var generator = require('generate-password');
 const EmailController = require("../../email/Email.controller");

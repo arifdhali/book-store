@@ -39,4 +39,4 @@ class AdminAuthModels extends BaseModal {
     }
 }
 
-module.exports = AdminAuthModels;
+module.exports = new AdminAuthModels();

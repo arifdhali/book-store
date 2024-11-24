@@ -1,6 +1,5 @@
 const AddSchema = require('../../utils/validators/Add');
 const CatgoryModel = require("../../models/admin/category.model");
-const InstanceOfModel = new CatgoryModel();
 const AddCategoryController = async (req, res) => {
     const { name, description } = req.body;
     const { error } = AddSchema.validate({ name, description });
@@ -11,7 +10,7 @@ const AddCategoryController = async (req, res) => {
         })
     }
 
-    const existsCategory = await InstanceOfModel.checkCategory(name)
+    const existsCategory = await CatgoryModel.checkCategory(name)
     if (existsCategory.length > 0) {
         const result = {
             status: false,
@@ -22,12 +21,25 @@ const AddCategoryController = async (req, res) => {
         });
     }
 
-    let result = await InstanceOfModel.addCategory(name, description);
+    let result = await CatgoryModel.addCategory(name, description);
     return res.status(201).json({
         result,
     })
 }
 
+
+const AllCategoryController = async (req, res) => {
+
+    let result = await CatgoryModel.getCategories();    
+    return res.json({
+        result
+    })
+
+
+
+}
+
 module.exports = {
     AddCategoryController,
+    AllCategoryController
 }

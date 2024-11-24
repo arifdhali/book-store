@@ -42,4 +42,4 @@ class AuthorModels extends BaseModal {
     }
 }
 
-module.exports = AuthorModels;
+module.exports = new AuthorModels();

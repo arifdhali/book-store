@@ -18,14 +18,14 @@ const AdminLogin = async (req, res) => {
             status,
         })
     }
-    const adminAuth = new AdminAuthModels(email);
+    // const adminAuth = AdminAuthModels(email);
 
     // sending to the Login models
     const data = {
         email,
         password
     }
-    let result = await adminAuth.LoginModels(data);
+    let result = await AdminAuthModels.LoginModels(data);
     if (result.status) {
         const token = jwt.sign(
             {
