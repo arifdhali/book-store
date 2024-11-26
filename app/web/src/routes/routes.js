@@ -39,6 +39,7 @@ const routes = {
         BASE: "/auth",
         ADMIN: {
             LOGIN: "/admin/login",
+            LOGOUT: "/admin/logout",
             FORGOTPASS: "/admin/forgot-password"
         },
         USER: {

@@ -38,7 +38,7 @@ const AdminLogin = async (req, res) => {
             'ADMIN_TOKEN',
             token,
             {
-                maxAge: 2 * 24 * 60 * 60 * 1000 
+                maxAge: 2 * 24 * 60 * 60 * 1000
             }
         );
         return res.status(200).json(
@@ -56,7 +56,19 @@ const AdminLogin = async (req, res) => {
     )
 }
 
+const AdminLogout = (req, res) => {
+    res.clearCookie('ADMIN_TOKEN', {
+        httpOnly: true,
+        // secure: process.env.NODE_ENV === 'production', // Send cookie only over HTTPS in production
+        sameSite: 'strict', // Prevents CSRF
+    });
+    return res.status(200).json({
+        message: "Logout successful",
+        status: true,
+    });
 
+}
 module.exports = {
-    AdminLogin
+    AdminLogin,
+    AdminLogout
 }

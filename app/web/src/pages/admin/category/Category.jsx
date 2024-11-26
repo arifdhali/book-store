@@ -57,7 +57,7 @@ const Category = () => {
                                     <td valign='top'>
                                         {item.description}
                                     </td>
-                                    <td valign='top' align='center'>10</td>
+                                    <td valign='top' align='center'>{item.total_book}</td>
                                     <td valign='top'>
                                         <div className='d-flex gap-2 item-actions'>
                                             <Link className='act edit' to={`${AppRoute.ADMIN.AUTHORS.VIEW(1)}`}>

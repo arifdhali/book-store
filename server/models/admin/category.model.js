@@ -7,8 +7,21 @@ class CategoryModels extends BaseModal {
 
         try {
 
-            const getSql = 'SELECT * FROM book_category';
-
+            const getSql = `
+                SELECT 
+                c.id, 
+                c.name, 
+                c.description,
+                COUNT(bck.book_id) AS total_book
+            FROM 
+                book_category c
+            LEFT JOIN 
+                book_category_relation bck 
+            ON 
+                c.id = bck.category_id
+            GROUP BY 
+                c.id, c.name, c.description
+          `;
             return await this.preparingQuery(getSql);
 
         } catch (error) {

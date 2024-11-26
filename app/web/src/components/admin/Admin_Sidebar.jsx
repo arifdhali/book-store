@@ -109,7 +109,7 @@ const Sidebar = () => {
                     </li>
                 </ul>
                 <hr />
-                <button className="btn btn-danger d-flex gap-3 justify-content-between">
+                <button data-bs-target="#Logout" data-bs-toggle="modal" className="btn btn-danger d-flex gap-3 justify-content-between">
                     Logout
                     <FontAwesomeIcon icon={faRightFromBracket} />
                 </button>

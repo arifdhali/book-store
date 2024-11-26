@@ -1,6 +1,6 @@
 const express = require("express");
 const adminRoute = express.Router();
-const { AdminLogin } = require("../controllers/auth/auth.controller");
+const { AdminLogin, AdminLogout } = require("../controllers/auth/auth.controller");
 const { validAdminVerify } = require("../middleware/verify.auth");
 const { AddAuthorController, GetAllAuthorsController } = require("../controllers/admin/author.controller");
 const uploadMulter = require("../utils/multer");
@@ -27,5 +27,6 @@ adminRoute.post("/category/add", AddCategoryController);
 
 // auth
 adminRoute.post("/login", AdminLogin);
+adminRoute.post("/logout", AdminLogout);
 
 module.exports = adminRoute;
