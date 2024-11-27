@@ -17,7 +17,7 @@ const Footer = () => {
 
             if (response?.data?.status) {
                 setLogout(true);
-                // navigate(AppRoutes.AUTH.ADMIN.LOGIN);
+                navigate(AppRoutes.AUTH.ADMIN.LOGIN);
             } else {
                 console.error("Logout failed:", response?.data?.message);
             }
@@ -51,7 +51,7 @@ const Footer = () => {
                             <button
                                 type="button"
                                 className="btn-close"
-                                data-bs-dismiss={logout ? "modal" : undefined}
+                                data-bs-dismiss="modal"
                                 aria-label="Close"
 
                             />
@@ -69,6 +69,7 @@ const Footer = () => {
                                 onClick={handleLogout}
                                 type="button"
                                 className="btn btn-primary"
+                                data-bs-dismiss="modal"
                             >
                                 Ok
                             </button>

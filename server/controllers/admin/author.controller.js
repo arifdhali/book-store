@@ -4,6 +4,7 @@ var generator = require('generate-password');
 const EmailController = require("../../email/Email.controller");
 const { LoginTemplate } = require('../../email/Template');
 const sendAuthormail = new EmailController();
+const bcrypt = require('bcrypt');
 const AddAuthorController = async (req, res) => {
     const status = false;
     try {
@@ -36,12 +37,13 @@ const AddAuthorController = async (req, res) => {
             strict: true,
             symbols: true,
         })
+        let hashed_password = await bcrypt.hash(password, 10);
         const data =
             [author_name,
                 email,
                 author_image,
                 bio,
-                password
+                hashed_password
             ]
         const result = await AuthorModel.addAuthor(data);
         const maildata = {
@@ -50,7 +52,7 @@ const AddAuthorController = async (req, res) => {
             html: LoginTemplate(email, password, new Date())
         }
         const emailStatus = await sendAuthormail.sendingMailData(maildata);
-        console.log(emailStatus);
+        // console.log(emailStatus);
         return res.status(201).json({
             result
         });
