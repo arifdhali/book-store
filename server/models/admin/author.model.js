@@ -15,7 +15,16 @@ class AuthorModels extends BaseModal {
         }
 
     }
+    async singleAuthor(data) {
+        try {
+            let singleSql = 'SELECT id, name,email,bio,profile_img ,status FROM author WHERE id = ?';
+            return await this.preparingQuery(singleSql, [data]);
+        } catch (error) {
+            console.error("Error in when get single Author  " + error);
+            return { status: false, message: error };
+        }
 
+    }
     async getAuthors(data) {
         try {
             const getSql = `SELECT id, name, email, profile_img, bio, status 
@@ -35,6 +44,24 @@ class AuthorModels extends BaseModal {
         }
         catch (error) {
             console.error("Error in when check Author  " + error);
+            return { status: false, message: error };
+        }
+
+
+    }
+
+    async deleteAuthor(data) {
+        try {
+            const delteSql = 'DELETE FROM author WHERE id = ?';
+            let result = await this.preparingQuery(delteSql, [data]);
+            if (result.affectedRows >= 1) {
+                return {
+                    status: true,
+                    message: "Author delete successfully"
+                }
+            }
+        } catch (error) {
+            console.error("Error in when  delte Author  " + error);
             return { status: false, message: error };
         }
 

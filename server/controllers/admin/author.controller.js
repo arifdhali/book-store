@@ -1,5 +1,4 @@
 const AuthorModel = require('../../models/admin/author.model');
-const AddSchema = require('../../utils/validators/Add');
 var generator = require('generate-password');
 const EmailController = require("../../email/Email.controller");
 const { LoginTemplate } = require('../../email/Template');
@@ -78,10 +77,28 @@ const GetAllAuthorsController = async (req, res) => {
 }
 
 
+//  GET SPECIFIC AUTHOR
+const GetSpecificAuthor = async (req, res) => {
+    const { authorid } = req.params;
+    let result = await AuthorModel.singleAuthor(authorid);
+    return res.status(200).json({
+        result
+    })
+}
 
+//  DELETE AUTHOR
+const DeleteAuthor = async (req, res) => {
+    const { authorid } = req.params;
+    let result = await AuthorModel.deleteAuthor(authorid);
+    return res.status(200).json({
+        result
+    })
+}
 
 
 module.exports = {
     AddAuthorController,
-    GetAllAuthorsController
+    GetAllAuthorsController,
+    GetSpecificAuthor,
+    DeleteAuthor
 }

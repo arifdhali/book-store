@@ -1,5 +1,5 @@
 const { LoginSchema } = require("../../utils/validators/AdminValidator");
-const AdminAuthModels = require("../../models/auth/auth.model");
+const AdminAuthModels = require("../../models/auth/admin.model");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();

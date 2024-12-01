@@ -7,13 +7,25 @@ import { faGear, faBell, faTrashCan, faIcons, faEye, faEdit } from '@fortawesome
 
 const Authors = () => {
   const [Author, setAuthor] = useState();
+  const [DeleteAuthorID, setDeleteAuthorId] = useState(null);
   const getAuthors = () => {
     axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.LIST}`)
       .then((value) => setAuthor(value.data.result));
   }
+
+  // delete
+  const handelDelete = (id) => {
+    axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(id)}`)
+      .then((response) => {
+        if (response.data.result.status) {
+          getAuthors();
+        }
+      })
+  }
   useEffect(() => {
     getAuthors();
   }, [])
+  
   return (
     <div className='p-4 bg-white rounded-2'>
       <>
@@ -40,7 +52,6 @@ const Authors = () => {
             {
               Author && Author.length > 0 ? (
                 Author.map((author, index) => (
-
                   <tr key={author.id}>
                     <td valign='middle'>{index + 1}</td>
                     <td valign='middle'>
@@ -51,14 +62,14 @@ const Authors = () => {
                     <td valign='middle'>
                       {author?.bio}
                     </td>
-                    <td valign='middle'>{author?.status}</td>
+                    <td valign='middle'>{`${author?.status.charAt(0).toUpperCase()}${author?.status.slice(1)} `}</td>
                     <td valign='middle'>
                       <div className='d-flex gap-2 item-actions'>
                         <Link className='act edit' to={`${AppRoute.ADMIN.AUTHORS.VIEW(author?.id)}`}>
                           <FontAwesomeIcon icon={faEdit} />
                         </Link>
 
-                        <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        <span role='button' onClick={() => setDeleteAuthorId(author.id)} className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                           <FontAwesomeIcon icon={faTrashCan} />
                         </span>
                       </div>
@@ -105,7 +116,13 @@ const Authors = () => {
                 >
                   Cancel
                 </button>
-                <button type="button" className="btn btn-primary">
+                <button type="button" className="btn btn-primary"
+                  onClick={() => {
+                    handelDelete(DeleteAuthorID);
+                    setDeleteAuthorId(null);
+                  }}
+                  data-bs-dismiss="modal"
+                >
                   Ok
                 </button>
               </div>
