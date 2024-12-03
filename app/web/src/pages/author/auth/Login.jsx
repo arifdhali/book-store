@@ -1,11 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useReducer } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import AppRoutes from "../../../routes/routes";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const Login = () => {
+  const authorToken = Cookies.get("AUTHOR_TOKEN");
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -24,10 +27,27 @@ const Login = () => {
     }
   });
 
-  const sendToDatabse = (values) => {
-    const response = axios.post()
+  const sendToDatabse = async (values) => {
 
+    try {
+
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.AUTHOR.LOGIN}`, values, {
+        withCredentials: true,
+      });
+      const { role, status } = response.data.result;
+      if (status) {
+        navigate(AppRoutes.AUTHOR.BASE);
+        toast.success(response.data.result.message)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
+  useEffect(() => {
+    if (authorToken) {
+      navigate(AppRoutes.AUTHOR.BASE);
+    }
+  }, [])
 
 
   return (

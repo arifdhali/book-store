@@ -4,9 +4,6 @@ import { Admin_Footer, Admin_Header, Admin_Sidebar } from '../components'
 import "../style/dashboard.css"
 const AdminLayout = () => {
 
-
-
-
   return (
     <>
       <Admin_Sidebar />

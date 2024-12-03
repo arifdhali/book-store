@@ -20,7 +20,6 @@ const Sidebar = () => {
         }
     }, [location]);
 
-console.log(collapseExpanded)
     return (
         <aside className='position-fixed z-3 start-0 h-100 bg-dark '>
             <div className="navigation d-flex flex-column flex-shrink-0 px-2">

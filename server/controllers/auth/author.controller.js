@@ -1,4 +1,4 @@
-const { LoginSchema } = require("../../utils/validators/AdminValidator");
+const { LoginSchema } = require("../../utils/validators/AuthValidator");
 const AuthorAuthModels = require("../../models/auth/author.model");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -29,7 +29,7 @@ const AuthorLogin = async (req, res) => {
     if (result.status) {
         const token = jwt.sign(
             {
-                role: "admin"
+                role: "author"
             },
             process.env.SECRET_KEY || 'secret',
             { expiresIn: '2d' }
@@ -57,15 +57,15 @@ const AuthorLogin = async (req, res) => {
 }
 
 const AuthorLogout = (req, res) => {
-    res.clearCookie('AUTHOR_TOKEN', {
-        httpOnly: true,
-        // secure: process.env.NODE_ENV === 'production', // Send cookie only over HTTPS in production
-        sameSite: 'strict', // Prevents CSRF
-    });
-    return res.status(200).json({
-        message: "Logout successful",
-        status: true,
-    });
+    // res.clearCookie('AUTHOR_TOKEN', {
+    //     httpOnly: true,
+    //     // secure: process.env.NODE_ENV === 'production', // Send cookie only over HTTPS in production
+    //     sameSite: 'strict', // Prevents CSRF
+    // });
+    // return res.status(200).json({
+    //     message: "Logout successful",
+    //     status: true,
+    // });
 
 }
 module.exports = {

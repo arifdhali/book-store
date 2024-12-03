@@ -1,4 +1,4 @@
-const { LoginSchema } = require("../../utils/validators/AdminValidator");
+const { LoginSchema } = require("../../utils/validators/AuthValidator");
 const AdminAuthModels = require("../../models/auth/admin.model");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -60,7 +60,7 @@ const AdminLogout = (req, res) => {
     res.clearCookie('ADMIN_TOKEN', {
         httpOnly: true,
         // secure: process.env.NODE_ENV === 'production', // Send cookie only over HTTPS in production
-        sameSite: 'strict', // Prevents CSRF
+        sameSite: 'strict', 
     });
     return res.status(200).json({
         message: "Logout successful",
