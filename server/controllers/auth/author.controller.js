@@ -45,7 +45,6 @@ const AuthorLogin = async (req, res) => {
             {
                 token,
                 result,
-                role: "author"
             }
         )
     }

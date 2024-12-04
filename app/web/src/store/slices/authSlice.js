@@ -3,19 +3,22 @@ import Cookies from "js-cookie";
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        isAuthorized: Cookies.get('ADMIN_TOKEN') || false,
+        isAdmin: Cookies.get('ADMIN_TOKEN') || false,
+        isAuthor: Cookies.get('AUTHOR_TOKEN') || false,
         role: null,
     },
     reducers: {
         login: (state, action) => {
-            state.isAuthorized = action.payload?.status,
-                state.role = action.payload?.role
+            state.role = action.payload?.role;
+            if (action?.payload?.role == 'admin') {
+                state.isAdmin = action.payload?.status;
+            }
+            if (action?.payload?.role == 'author') {
+                state.isAuthor = action.payload?.status;
+            }
         }
 
     }
 })
 export const { login } = authSlice.actions;
 export default authSlice.reducer
-
-
-// author

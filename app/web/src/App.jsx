@@ -36,7 +36,7 @@ const App = () => {
           </Route>
 
           {/* Admin routes */}
-          <Route path={AppRoute.ADMIN.BASE} element={<ProtectedRoutes role='admin'><AdminLayout /></ProtectedRoutes>}>
+          <Route path={AppRoute.ADMIN.BASE} element={<ProtectedRoutes roleOfUser='admin'><AdminLayout /></ProtectedRoutes>}>
             <Route index element={<AdminHome />} />
             <Route path={AppRoute.ADMIN.CATEGORY.LIST} element={<Category />} />
             <Route path={AppRoute.ADMIN.CATEGORY.ADD} element={<CategoryAdd />} />
@@ -49,7 +49,7 @@ const App = () => {
           </Route>
 
           {/* Author routes */}
-          <Route path={AppRoute.AUTHOR.BASE} element={<AuthorLayout />}>
+          <Route path={AppRoute.AUTHOR.BASE} element={<ProtectedRoutes roleOfUser={'author'}> <AuthorLayout /></ProtectedRoutes>}>
             <Route index element={<AuthorHome />} />
             <Route path={AppRoute.AUTHOR.BOOK.LIST} element={<BookList />} />
             <Route path={AppRoute.AUTHOR.BOOK.ADD} element={<AddBook />} />

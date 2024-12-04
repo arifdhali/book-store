@@ -5,10 +5,15 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { toast } from 'react-toastify';
+import { login } from '../../../store/slices/authSlice';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
   const authorToken = Cookies.get("AUTHOR_TOKEN");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -28,27 +33,32 @@ const Login = () => {
   });
 
   const sendToDatabse = async (values) => {
-
     try {
-
       const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.AUTHOR.LOGIN}`, values, {
         withCredentials: true,
       });
       const { role, status } = response.data.result;
+      const serverData = {
+        role,
+        status
+      }
+      dispatch(login(serverData))
       if (status) {
         navigate(AppRoutes.AUTHOR.BASE);
         toast.success(response.data.result.message)
       }
     } catch (error) {
-      console.log(error)
+      console.error('Error during login request:', error);
+      const { message } = error.response.data.result;
+      toast.error(message)
     }
   }
+
   useEffect(() => {
     if (authorToken) {
       navigate(AppRoutes.AUTHOR.BASE);
     }
   }, [])
-
 
   return (
     <div className='col-md-4 '>

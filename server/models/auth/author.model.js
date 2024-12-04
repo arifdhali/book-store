@@ -29,7 +29,8 @@ class AuthorAuthModels extends BaseModal {
 
             return {
                 message: "Login successful",
-                status: true
+                status: true,
+                role:'author'
             };
 
         } catch (error) {
