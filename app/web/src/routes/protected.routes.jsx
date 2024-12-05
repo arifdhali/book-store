@@ -6,30 +6,24 @@ import Cookies from "js-cookie";
 
 const ProtectedRoutes = ({ children, roleOfUser }) => {
     const navigate = useNavigate();
-    useEffect(() => {
-        const token = Cookies.get("ADMIN_TOKEN");
-        const authorToken = Cookies.get("ADMIN_TOKEN");
-        if (!token) {
-            navigate("/admin/login");
-        }
-        if (!authorToken) {
-            navigate("/author/login");
-        }
+    const token = Cookies.get("ADMIN_TOKEN");
+    const authorToken = Cookies.get("AUTHOR_TOKEN");
 
-
-    }, [navigate])
-    console.log(roleOfUser);
     const isAuthenticated = useSelector((state) => state.authentication);
     const { isAdmin, isAuthor, role } = isAuthenticated;
-    console.log(isAuthenticated);
-    // if (!isAdmin && role == roleOfUser) {
-    //     console.log('admin');
-    //     return <Navigate to={`/${roleOfUser}/login`} />;
-    // }
-    if (!isAuthor && role == roleOfUser) {
-        console.log('author');
-        return <Navigate to={`/${roleOfUser}/login`} />;
+    
+    if (roleOfUser == 'author') {
+        if (!authorToken) {
+            return <Navigate to={`/${roleOfUser}/login`} />;
+        }
     }
+    if (roleOfUser == 'admin') {
+        if (!token) {
+            return <Navigate to={`/${roleOfUser}/login`} />;
+        }
+    }
+
+
     return children;
 }
 

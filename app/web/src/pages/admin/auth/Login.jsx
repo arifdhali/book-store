@@ -37,19 +37,14 @@ const Login = () => {
   const sendToDatabase = async (values) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.ADMIN.LOGIN}`, values);
-      const { role, status } = response.data.result;
-      const serverData = {
-        role,
-        status
-      }
-      dispath(login(serverData));
+      const { status } = response.data.result;
       if (status) {
         navigate(AppRoutes.ADMIN.BASE);
         toast.success(response.data.result.message)
-      } 
+      }
     } catch (error) {
       console.error('Error during login request:', error);
-      const{ message } = error.response.data.result;
+      const { message } = error.response.data.result;
       toast.error(message)
     }
   };

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Author_Header, Author_Sidebar } from '../components'
+import { Author_Footer, Author_Header, Author_Sidebar } from '../components'
 import { Outlet } from 'react-router-dom'
 
 
@@ -12,6 +12,7 @@ const AuthorLayout = () => {
         <div className="inner-content m-4">
           <Outlet />
         </div>
+        <Author_Footer />
       </main>
     </>
   )

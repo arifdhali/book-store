@@ -37,12 +37,7 @@ const Login = () => {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.AUTHOR.LOGIN}`, values, {
         withCredentials: true,
       });
-      const { role, status } = response.data.result;
-      const serverData = {
-        role,
-        status
-      }
-      dispatch(login(serverData))
+      const { status } = response.data.result;
       if (status) {
         navigate(AppRoutes.AUTHOR.BASE);
         toast.success(response.data.result.message)
@@ -55,10 +50,11 @@ const Login = () => {
   }
 
   useEffect(() => {
+    console.log(authorToken)
     if (authorToken) {
       navigate(AppRoutes.AUTHOR.BASE);
     }
-  }, [])
+  }, [authorToken])
 
   return (
     <div className='col-md-4 '>

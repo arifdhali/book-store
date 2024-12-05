@@ -55,7 +55,7 @@ const Authors = () => {
                   <tr key={author.id}>
                     <td valign='middle'>{index + 1}</td>
                     <td valign='middle'>
-                      <img className='user-img' src={`${import.meta.env.VITE_SERVER_MAIN_URL}/author/${author?.profile_img}`} alt={author?.name} />
+                      <img className='user-img' src={`${import.meta.env.VITE_SERVER_MAIN_URL}author/${author?.profile_img}`} alt={author?.name} />
                     </td>
                     <td valign='middle'>{author?.name}</td>
                     <td valign='middle'>{author?.email}</td>

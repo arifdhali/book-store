@@ -28,7 +28,7 @@ const Footer = () => {
 
     return (
         <>
-            <footer>
+            <footer className="m-4">
                 <p>Copyrights @Arif Dhali</p>
             </footer>
 
