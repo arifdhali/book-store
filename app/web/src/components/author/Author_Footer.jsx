@@ -1,11 +1,34 @@
-import React from 'react'
+import React, { useRef, useState } from "react";
+import AppRoutes from "../../routes/routes";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = async (e) => {
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.AUTHOR.LOGOUT}`,
+                {},
+                { withCredentials: true }
+            );
+            if (response?.data?.status) {
+                navigate(AppRoutes.AUTH.AUTHOR.LOGIN);
+            } else {
+                console.error("Logout failed:", response?.data?.message);
+            }
+        } catch (error) {
+            console.error("Error during logout:", error);
+        }
+    };
+
     return (
         <>
-            <footer className='m-4'>
+            <footer className="m-4">
                 <p>Copyrights @Arif Dhali</p>
             </footer>
+
             <div
                 className="modal fade"
                 id="LogoutAuthor"
@@ -40,6 +63,7 @@ const Footer = () => {
                                 Cancel
                             </button>
                             <button
+                                onClick={handleLogout}
                                 type="button"
                                 className="btn btn-primary"
                                 data-bs-dismiss="modal"
@@ -51,8 +75,7 @@ const Footer = () => {
                 </div>
             </div>
         </>
+    );
+};
 
-    )
-}
-
-export default Footer
+export default Footer;

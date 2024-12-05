@@ -49,6 +49,7 @@ const routes = {
         },
         AUTHOR: {
             LOGIN: "/author/login",
+            LOGOUT: "/author/logout",
             REGISTER: "/author/register",
             FORGOTPASS: "/author/forgot-password"
         }

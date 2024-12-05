@@ -56,15 +56,15 @@ const AuthorLogin = async (req, res) => {
 }
 
 const AuthorLogout = (req, res) => {
-    // res.clearCookie('AUTHOR_TOKEN', {
-    //     httpOnly: true,
-    //     // secure: process.env.NODE_ENV === 'production', // Send cookie only over HTTPS in production
-    //     sameSite: 'strict', // Prevents CSRF
-    // });
-    // return res.status(200).json({
-    //     message: "Logout successful",
-    //     status: true,
-    // });
+    res.clearCookie('AUTHOR_TOKEN', {
+        httpOnly: true,
+        // secure: process.env.NODE_ENV === 'production', // Send cookie only over HTTPS in production
+        sameSite: 'strict', // Prevents CSRF
+    });
+    return res.status(200).json({
+        message: "Logout successful",
+        status: true,
+    });
 
 }
 module.exports = {

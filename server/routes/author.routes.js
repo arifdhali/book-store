@@ -12,6 +12,6 @@ const { AuthorLogin, AuthorLogout } = require("../controllers/auth/author.contro
 
 // auth
 authorRoute.post("/login", AuthorLogin);
-// authorRoute.post("/logout", AuthorLogout);
+authorRoute.post("/logout", AuthorLogout);
 
 module.exports = authorRoute;
