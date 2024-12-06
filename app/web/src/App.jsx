@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AdminLayout, AuthLayout, AuthorLayout } from './layouts';
 import { AdminHome, Users, Subscription, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd } from './pages/admin';
-import { Author_Login, Author_Forgotpass, BookList, AddBook, Coupon, OrderList, SingleOrderView, MySubscription, ReaderFeedback, BookAnalytics } from './pages/author';
+import { Author_Login, Author_Forgotpass, BookList, AddBook, Coupon, OrderList, SingleOrderView, MySubscription, ReaderFeedback, BookAnalytics, Author_Register } from './pages/author';
 import AppRoute from "./routes/routes";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -33,6 +33,7 @@ const App = () => {
           <Route path={AppRoute.HOME} element={<AuthLayout />}>
             <Route path={AppRoute.AUTH.AUTHOR.LOGIN} element={<Author_Login />} />
             <Route path={AppRoute.AUTH.AUTHOR.FORGOTPASS} element={<Author_Forgotpass />} />
+            <Route path={AppRoute.AUTH.AUTHOR.REGISTER} element={<Author_Register />} />
           </Route>
 
           {/* Admin routes */}

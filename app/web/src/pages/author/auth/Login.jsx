@@ -59,7 +59,7 @@ const Login = () => {
   return (
     <div className='col-md-4 '>
       <div className='card bg-white p-4 rounded-2 shadow-lg border-0'>
-        <div className='card-body'>
+        <div className='card-body pb-0'>
           <div className='text-center mb-4'>
             <h2>Hi, Author</h2>
             <p>Enter your credentials to continue</p>
@@ -100,6 +100,10 @@ const Login = () => {
             </div>
             <div>
               <button type="submit" className='btn btn-primary w-100 justify-content-center py-3'>Login</button>
+            </div>
+
+            <div className='mt-4 mb-0'>
+              <p>Dont have an account ? <Link to={AppRoutes.AUTH.AUTHOR.REGISTER}>Signup</Link></p>
             </div>
           </form>
         </div>

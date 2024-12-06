@@ -1,5 +1,6 @@
 import Author_Login from "./auth/Login";
 import Author_Forgotpass from "./auth/Forgot-pass"
+import Author_Register from "./auth/Register";
 import BookList from "./book/List";
 import AddBook from "./book/Add";
 import BookAnalytics from "./book/Analytics";
@@ -13,6 +14,7 @@ import ReaderFeedback from "./Reader_feedback";
 export {
     Author_Login,
     Author_Forgotpass,
+    Author_Register,
     BookList,
     AddBook,
     BookAnalytics,

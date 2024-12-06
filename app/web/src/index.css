@@ -284,3 +284,7 @@ input:active {
 .no-records {
   color: rgb(121, 121, 121) !important;
 }
+.example{
+  color: rgb(121, 121, 121) !important;
+  font-size: 12px;
+}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 01, 2024 at 05:18 PM
+-- Generation Time: Dec 06, 2024 at 06:25 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `email`, `name`, `password`, `image`, `last_active`, `address`) VALUES
-(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2024-12-01 22:47:41', 'kolkata');
+(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2024-12-05 23:30:01', 'kolkata');
 
 -- --------------------------------------------------------
 
@@ -65,14 +65,14 @@ CREATE TABLE IF NOT EXISTS `author` (
   `status` enum('active','inactive','block') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'active',
   `last_active` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `author`
 --
 
 INSERT INTO `author` (`id`, `name`, `email`, `profile_img`, `bio`, `password`, `created_at`, `status`, `last_active`) VALUES
-(9, 'Arif Dhali', 'arifdhali1231@gmail.com', 'profile_img-me.jpg', 'Irure velit placeat', '$2b$10$KzpxoU5Mx4v4UiNS4JJa7OX6vqefkCTSWEsfcC3LStmhySevAZvjq', '2024-12-01 22:44:59', 'active', '2024-12-01 17:14:59');
+(9, 'Arif Dhali', 'arifdhali1231@gmail.com', 'profile_img-me.jpg', 'Irure velit placeat', '$2b$10$KzpxoU5Mx4v4UiNS4JJa7OX6vqefkCTSWEsfcC3LStmhySevAZvjq', '2024-12-01 22:44:59', 'active', '2024-12-06 18:15:16');
 
 -- --------------------------------------------------------
 
@@ -148,19 +148,21 @@ CREATE TABLE IF NOT EXISTS `book_category_relation` (
 DROP TABLE IF EXISTS `subscriptions`;
 CREATE TABLE IF NOT EXISTS `subscriptions` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `author_id` int NOT NULL,
   `subscription_type` enum('standard','premium') DEFAULT NULL,
   `purchase_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `price` double DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_author` (`author_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `subscriptions`
 --
 
-INSERT INTO `subscriptions` (`id`, `subscription_type`, `purchase_at`, `price`) VALUES
-(1, 'standard', '2024-11-21 14:23:32', 100.05),
-(2, 'premium', '2024-11-21 14:23:32', 999.99);
+INSERT INTO `subscriptions` (`id`, `author_id`, `subscription_type`, `purchase_at`, `price`) VALUES
+(1, 0, 'standard', '2024-11-21 14:23:32', 100.05),
+(2, 0, 'premium', '2024-11-21 14:23:32', 999.99);
 
 --
 -- Constraints for dumped tables

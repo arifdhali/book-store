@@ -117,7 +117,7 @@ const LoginTemplate = (email, passord, date) => {
         </table>
         <p>Please make sure to keep this information secure. If you didn’t request this account, please contact us immediately.</p>
         <p style="text-align: center;">
-          <a href="https://example.com/login" class="btn">Go to Login</a>
+          <a href=${process.env.CLIENT_URL} class="btn">Go to Login</a>
         </p>
       </td>
     </tr>

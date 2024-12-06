@@ -111,9 +111,9 @@ const Add = () => {
             id="status"
             name="status"
             onChange={formik.handleChange}
-            value={formik.values.status}
+            value={formik.values.status}            
           >
-            <option selected>Select Status</option>
+            <option value={'default'} >Select Status</option>
             <option value="draft">Draft</option>
             <option value="published">Published</option>
           </select>
