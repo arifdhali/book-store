@@ -12,7 +12,6 @@ import { toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispath = useDispatch();
   const token = Cookies.get("ADMIN_TOKEN");
 
   const formik = useFormik({
@@ -33,7 +32,6 @@ const Login = () => {
     }
   });
   axios.defaults.withCredentials = true;
-
   const sendToDatabase = async (values) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.ADMIN.LOGIN}`, values);

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const validAdminVerify = (req, res, next) => {
+const validAuthVerify = (req, res, next) => {
 
     const token = req.headers['authorization'];
     if (!token) {
@@ -10,8 +10,8 @@ const validAdminVerify = (req, res, next) => {
     }
 
     try {
-        const decode = jwt.verify(token, process.env.SECRET_KEY);
-        req.user = decode;
+        const decode = jwt.verify(token, process.env.SECRET_KEY);        
+        req.user = decode.user;
         next();
 
     } catch (err) {
@@ -31,4 +31,4 @@ const validAdminVerify = (req, res, next) => {
 
 
 }
-module.exports = { validAdminVerify };
+module.exports = validAuthVerify;

@@ -26,11 +26,16 @@ const Register = () => {
             bio: Yup.string().required("Bio is required").min(100, "Minimum 100 words"),
             dob: Yup.date()
                 .required("Date of birth is required")
-                .min(
-                    new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-                    "You must be at least 18 years old"
-                )
-                .max(new Date(), "Date of birth cannot be greater than today"),
+                .test(
+                    "is-18-plus",
+                    "You must be at least 18 years old",
+                    (value) => {
+                        if (!value) return false;
+                        const today = new Date();
+                        const ageThreshold = new Date(today.setFullYear(today.getFullYear() - 18));
+                        return value <= ageThreshold;
+                    }
+                ),
             thumbnail: Yup.mixed().required("Profile image is required").test(
                 "fileType",
                 "Only image files are allowed",

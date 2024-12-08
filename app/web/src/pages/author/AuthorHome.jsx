@@ -1,16 +1,30 @@
 import { faBook, faCartShopping, faTowerCell, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect } from 'react'
 import CountUp from "react-countup";
+import AppRoute from "../../routes/routes";
+import Cookies from "js-cookie";
 
 const AuthorHome = () => {
-
+  const token = Cookies.get('AUTHOR_TOKEN');
   // FORMATING VALUE 
   const handelFormatingCount = (value) => {
     return value >= 1000 ? `${(value / 1000).toFixed(1)}K` : value;
   }
 
-  
+  const getDashboardInfo = () => {
+    axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTHOR.BASE}`, {
+      headers: {
+        Authorization: token,
+      }
+    })
+      .then((value) => console.log(value));
+  }
+  useEffect(() => {
+    getDashboardInfo();
+  }, [])
+
   return (
     <>
       <div className="row ">

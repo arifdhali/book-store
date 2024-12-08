@@ -1,7 +1,7 @@
 const express = require("express");
 const adminRoute = express.Router();
 const { AdminLogin, AdminLogout } = require("../controllers/auth/admin.controller");
-const { validAdminVerify } = require("../middleware/verify.auth");
+const  validAdminVerify  = require("../middleware/verify.auth");
 const { AddAuthorController, GetAllAuthorsController, GetSpecificAuthor, DeleteAuthor } = require("../controllers/admin/author.controller");
 const uploadMulter = require("../utils/multer");
 const { AddCategoryController, AllCategoryController } = require("../controllers/admin/category.controller");

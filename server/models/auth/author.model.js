@@ -9,7 +9,11 @@ class AuthorAuthModels extends BaseModal {
         let sql = "SELECT * FROM author WHERE email = ? ";
         try {
             const [user] = await this.preparingQuery(sql, [email]);
-
+            const userinfo = {
+                user_id: user.id,
+                user_profile: user.profile_img,
+                user_status: user.status
+            }
             if (!user) {
                 return {
                     message: "User not found",
@@ -30,7 +34,8 @@ class AuthorAuthModels extends BaseModal {
             return {
                 message: "Login successful",
                 status: true,
-                role:'author'
+                role: 'author',
+                userinfo
             };
 
         } catch (error) {

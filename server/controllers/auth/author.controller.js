@@ -18,7 +18,6 @@ const AuthorLogin = async (req, res) => {
             status,
         })
     }
-    // const adminAuth = AuthorAuthModels(email);
 
     // sending to the Login models
     const data = {
@@ -29,18 +28,19 @@ const AuthorLogin = async (req, res) => {
     if (result.status) {
         const token = jwt.sign(
             {
-                role: "author"
+                role: "author",
+                user: result.userinfo
             },
             process.env.SECRET_KEY || 'secret',
             { expiresIn: '2d' }
         );
-        res.cookie(
+         res.cookie(
             'AUTHOR_TOKEN',
             token,
             {
                 maxAge: 2 * 24 * 60 * 60 * 1000
             }
-        );
+        );        
         return res.status(200).json(
             {
                 token,
