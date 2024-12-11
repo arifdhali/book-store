@@ -9,18 +9,17 @@ class AuthorAuthModels extends BaseModal {
         let sql = "SELECT * FROM author WHERE email = ? ";
         try {
             const [user] = await this.preparingQuery(sql, [email]);
-            const userinfo = {
-                user_id: user.id,
-                user_profile: user.profile_img,
-                user_status: user.status
-            }
             if (!user) {
                 return {
                     message: "User not found",
                     status: false
                 };
             }
-
+            const userinfo = {
+                user_id: user.id,
+                user_profile: user.profile_img,
+                user_status: user.status
+            }
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 return {
@@ -39,9 +38,13 @@ class AuthorAuthModels extends BaseModal {
             };
 
         } catch (error) {
-            console.error("Error in Admin Auth modal " + error);
+            console.error("Error in Author Auth modal " + error);
             return { success: false, message: "Database error" };
         }
+    }
+
+    async RegisterModel(data) {
+
     }
 }
 

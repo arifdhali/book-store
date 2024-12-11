@@ -2,6 +2,7 @@ const { LoginSchema } = require("../../utils/validators/AuthValidator");
 const AuthorAuthModels = require("../../models/auth/author.model");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const bcrypt = require('bcrypt');
 dotenv.config();
 
 
@@ -34,13 +35,13 @@ const AuthorLogin = async (req, res) => {
             process.env.SECRET_KEY || 'secret',
             { expiresIn: '2d' }
         );
-         res.cookie(
+        res.cookie(
             'AUTHOR_TOKEN',
             token,
             {
                 maxAge: 2 * 24 * 60 * 60 * 1000
             }
-        );        
+        );
         return res.status(200).json(
             {
                 token,
@@ -67,7 +68,25 @@ const AuthorLogout = (req, res) => {
     });
 
 }
+
+const AuthorRegister = async (req, res) => {
+    const thumbnail = req?.file;
+    if (!thumbnail) {
+        return res.json({
+            status: false,
+            message: "No thumbnail uploaded",
+        });
+    }
+    const profile_img = thumbnail?.filename;
+    const { name, email, bio, dob, address, phone_no, social_link, password } = req.body;
+    const hashedPassowrd = await bcrypt.hash(password, 10);
+
+    const result = await AuthorAuthModels.RegisterModel(name, email, profile_img, bio, dob, address, phone_no, social_link, hashedPassowrd)
+
+
+}
 module.exports = {
     AuthorLogin,
-    AuthorLogout
+    AuthorLogout,
+    AuthorRegister
 }

@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import axios from 'axios';
+import AppRoute from "../../../routes/routes"
+import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Register = () => {
     const [previewBookImage, setPreviewBookImage] = useState(null);
-
+    const [togglePassword, setTogglePassword] = useState(false);
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -18,7 +23,8 @@ const Register = () => {
                 facebook: "",
                 linkedin: "",
                 instagram: "",
-            }
+            },
+            password: "",
         },
         validationSchema: Yup.object({
             name: Yup.string().required("Name is required"),
@@ -47,10 +53,21 @@ const Register = () => {
                 facebook: Yup.string().url("Please enter a valid URL"),
                 linkedin: Yup.string().url("Please enter a valid URL"),
                 instagram: Yup.string().url("Please enter a valid URL")
-            })
+            }),
+            password: Yup.string()
+                .required("Password is required")
+                .min(6, "Password must be at least 6 chracters")
         }),
-        onSubmit: (values) => {
-            handelFormSubmit(values);
+        onSubmit: async (values) => {
+            const form_data = new FormData();
+            Object.entries(values).forEach(([key, value]) => {
+                if (key === "social_link") {
+                    form_data.append(key, JSON.stringify(value));
+                } else {
+                    form_data.append(key, value);
+                }
+            })
+            await handelFormSubmit(form_data);
         }
     });
 
@@ -60,8 +77,17 @@ const Register = () => {
         setPreviewBookImage(URL.createObjectURL(file));
     };
 
-    const handelFormSubmit = (data) => {
-        console.log(data);
+    const handelFormSubmit = async (data) => {
+        try {
+            await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTH.AUTHOR.REGISTER}`, data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+                .then((response) => console.log(response));
+        } catch (error) {
+            console.log('error while registering', error);
+        }
     };
 
     return (
@@ -163,7 +189,7 @@ const Register = () => {
                 <div className="mb-3">
                     <label htmlFor="phone_no" className="form-label">Phone No</label>
                     <input
-                        type="text"  // Change to string to handle leading zeros
+                        type="text"
                         className={`form-control ${formik.errors?.phone_no && formik.touched?.phone_no ? "is-invalid" : ""}`}
                         id="phone_no"
                         name="phone_no"
@@ -214,8 +240,42 @@ const Register = () => {
                         <div className="invalid-feedback">{formik.errors?.social_link?.linkedin}</div>
                     )}
                 </div>
+                <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <div className="position-relative">
+                        <div>
+                            <input
+                                type={togglePassword ? "text" : "password"}
+                                className={`form-control ${formik.errors?.password && formik.touched?.password ? "is-invalid" : ""}`}
+                                id="password"
+                                name="password"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.password}
+                            />
 
-                <button type="submit" className="btn btn-primary">
+                            {formik.errors?.password ? (
+                                <div className="invalid-feedback">{formik.errors.password}</div>
+                            ) : null}
+
+                        </div>
+                        <FontAwesomeIcon
+                            style={{
+                                width: "20px",
+                                height: "16px",
+                                top: "25px",
+                                background: "#fff"
+                            }}
+                            role="button"
+                            onClick={() => setTogglePassword(!togglePassword)}
+                            className="position-absolute end-0 translate-middle"
+                            icon={togglePassword ? faEye : faEyeSlash}
+                        />
+                    </div>
+                </div>
+
+
+                <button type="submit" className="btn btn-primary mt-4">
                     Submit
                 </button>
             </form>
