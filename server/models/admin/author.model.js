@@ -50,6 +50,22 @@ class AuthorModels extends BaseModal {
 
     }
 
+    async updateAuthor(id, data) {
+        const fields = [];
+        const values = [];
+        for (let [key, value] of Object.entries(data)) {
+            fields.push(`${key} = ?`);
+            values.push(value);
+        }
+        let updateQuery = `UPDATE author SET ${fields} WHERE id = ?`;
+        try {
+            return await this.preparingQuery(updateQuery, [...values, id]);
+        } catch (error) {
+            console.error('Error in when update author')
+        }
+
+    }
+
     async deleteAuthor(data) {
         try {
             const delteSql = 'DELETE FROM author WHERE id = ?';

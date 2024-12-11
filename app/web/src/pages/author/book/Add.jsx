@@ -9,6 +9,7 @@ const Add = () => {
     initialValues: {
       title: "",
       date: "",
+      quantity: "",
       price: "",
       thumbnail: null,
       status: ""
@@ -16,7 +17,12 @@ const Add = () => {
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required"),
       date: Yup.date().nullable().required("Date is required"),
-      price: Yup.number().required("Price is required"),
+      quantity: Yup.number()
+        .required("Quantity is required")
+        .min(1, "Quantity must be at least 1")
+        .typeError("Quantity must be a number"),
+      price: Yup.number().required("Price is required")
+        .typeError("Price must be a number"),
       status: Yup.string().required("Please select a status"),
       thumbnail: Yup.mixed().required("Thumbnail is required"),
     }),
@@ -70,6 +76,20 @@ const Add = () => {
         </div>
 
         <div className="mb-3">
+          <label htmlFor="quantity" className="form-label">Quantity</label>
+          <input
+            type="text"
+            className={`form-control ${formik.errors?.quantity && formik.touched?.quantity ? "is-invalid" : ""}`}
+            id="quantity"
+            name="quantity"
+            onChange={formik.handleChange}
+            value={formik.values.quantity}
+          />
+          {formik.errors?.quantity && formik.touched?.quantity ? (
+            <div className="invalid-feedback">{formik.errors?.quantity}</div>
+          ) : null}
+        </div>
+        <div className="mb-3">
           <label htmlFor="price" className="form-label">Price ($)</label>
           <input
             type="text"
@@ -111,7 +131,7 @@ const Add = () => {
             id="status"
             name="status"
             onChange={formik.handleChange}
-            value={formik.values.status}            
+            value={formik.values.status}
           >
             <option value={'default'} >Select Status</option>
             <option value="draft">Draft</option>

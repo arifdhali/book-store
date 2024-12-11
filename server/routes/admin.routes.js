@@ -1,8 +1,8 @@
 const express = require("express");
 const adminRoute = express.Router();
 const { AdminLogin, AdminLogout } = require("../controllers/auth/admin.controller");
-const  validAdminVerify  = require("../middleware/verify.auth");
-const { AddAuthorController, GetAllAuthorsController, GetSpecificAuthor, DeleteAuthor } = require("../controllers/admin/author.controller");
+const validAdminVerify = require("../middleware/verify.auth");
+const { AddAuthorController, GetAllAuthorsController, GetSpecificAuthor, DeleteAuthor, UpdateAuthorsController } = require("../controllers/admin/author.controller");
 const uploadMulter = require("../utils/multer");
 const { AddCategoryController, AllCategoryController } = require("../controllers/admin/category.controller");
 
@@ -16,6 +16,7 @@ adminRoute.get("/", validAdminVerify, (req, res) => {
 const uploadAuthor = uploadMulter("author");
 adminRoute.post("/authors/add", uploadAuthor.single('profile_img'), AddAuthorController);
 adminRoute.get("/authors/list", GetAllAuthorsController);
+adminRoute.patch("/authors/:authorid", uploadAuthor.single('profile_img'), UpdateAuthorsController);
 
 adminRoute.get("/authors/:authorid", GetSpecificAuthor);
 adminRoute.delete('/authors/:authorid', DeleteAuthor);

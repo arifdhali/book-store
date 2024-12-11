@@ -76,7 +76,15 @@ a:hover {
 
 .dashboard-owner {
   width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  object-fit: cover;
 }
+
 
 .notifaction-popup {
   width: 350px;
@@ -284,7 +292,8 @@ input:active {
 .no-records {
   color: rgb(121, 121, 121) !important;
 }
-.example{
+
+.example {
   color: rgb(121, 121, 121) !important;
   font-size: 12px;
 }

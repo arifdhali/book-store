@@ -15,7 +15,7 @@ class BaseModal {
 
     }
     // making this for usage processDatabase
-    preparingQuery(query, processData = null) {        
+    preparingQuery(query, processData = null) {
         return this.#ProcessDatabase(query, processData);
     }
 

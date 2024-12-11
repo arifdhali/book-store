@@ -95,10 +95,23 @@ const DeleteAuthor = async (req, res) => {
     })
 }
 
+// EDIT AUTHOR
+const UpdateAuthorsController = async (req, res) => {
+    const { name, email, bio, status } = req.body;
+    const profile_img = req?.file?.filename;
+    const { authorid } = req.params;
+    let result = await AuthorModel.updateAuthor(authorid, { name, email, bio, profile_img, status });
+    return res.status(200).json({
+        result
+    })
+}
+
+
 
 module.exports = {
     AddAuthorController,
     GetAllAuthorsController,
     GetSpecificAuthor,
-    DeleteAuthor
+    DeleteAuthor,
+    UpdateAuthorsController
 }

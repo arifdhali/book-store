@@ -7,7 +7,7 @@ import AppRoute from "../../routes/routes";
 
 
 
-const Header = () => {
+const Header = ({ user }) => {
     const [backUrl, setBackUrl] = useState({
         prev_url: "",
         current_url: "",
@@ -80,7 +80,7 @@ const Header = () => {
 
                 <div className="btn-group ">
                     <span className="dropdown-toggle user-section" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img className='rounded-circle dashboard-owner' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtuphMb4mq-EcVWhMVT8FCkv5dqZGgvn_QiA&s" alt="" />
+                        <img className='rounded-circle dashboard-owner' src={`${import.meta.env.VITE_SERVER_MAIN_URL}author/${user?.user_profile}`} alt="" />
                         <FontAwesomeIcon icon={faGear} />
                     </span>
                     <ul className="dropdown-menu">
@@ -89,7 +89,7 @@ const Header = () => {
                                 Settings
                             </Link>
                         </li>
-                      
+
                     </ul>
                 </div>
 

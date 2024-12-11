@@ -11,17 +11,17 @@ const Edit = () => {
 
     const formik = useFormik({
         initialValues: {
-            author_name: '',
+            name: '',
             email: '',
             bio: '',
             profile_img: null,
-            status: '', // New status field
+            status: '', 
         },
         validationSchema: Yup.object({
-            author_name: Yup.string().required('Author name is required'),
+            name: Yup.string().required('Author name is required'),
             email: Yup.string().email('Invalid email format').required('Email is required'),
             bio: Yup.string().required('Description is required'),
-            profile_img: Yup.mixed().nullable(), // Allow profile_img to be nullable for updates
+            profile_img: Yup.mixed().nullable(), 
             status: Yup.string().required('Status is required'),
         }),
         onSubmit: (values) => {
@@ -43,9 +43,10 @@ const Edit = () => {
 
     // API call to update author data
     const updateAuthor = async (formData) => {
+        console.log(formData)
         try {
-            await axios.put(
-                `${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.UPDATE(params.id)}`,
+            await axios.patch(
+                `${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(params.id)}`,
                 formData,
                 {
                     headers: {
@@ -68,10 +69,10 @@ const Edit = () => {
             );
             const authordata = response.data?.result[0];
             formik.setValues({
-                author_name: authordata?.name || '',
+                name: authordata?.name || '',
                 email: authordata?.email || '',
                 bio: authordata?.bio || '',
-                profile_img: null, // Reset file input
+                profile_img: null,
                 status: authordata?.status || '',
             });
             if (authordata?.profile_img) {
@@ -93,21 +94,21 @@ const Edit = () => {
             <form id="author-form" autoComplete="off" onSubmit={formik.handleSubmit}>
                 {/* Author Name */}
                 <div className="form-group mb-3">
-                    <label htmlFor="author_name" className="form-label">
+                    <label htmlFor="name" className="form-label">
                         Author Name
                     </label>
                     <input
                         type="text"
-                        className={`form-control ${formik.errors.author_name && formik.touched.author_name ? 'is-invalid' : ''
+                        className={`form-control ${formik.errors.name && formik.touched.name ? 'is-invalid' : ''
                             }`}
-                        id="author_name"
-                        name="author_name"
+                        id="name"
+                        name="name"
                         placeholder="Enter Author Name"
                         onChange={formik.handleChange}
-                        value={formik.values.author_name}
+                        value={formik.values.name}
                     />
-                    {formik.errors.author_name && formik.touched.author_name ? (
-                        <div className="invalid-feedback">{formik.errors.author_name}</div>
+                    {formik.errors.name && formik.touched.name ? (
+                        <div className="invalid-feedback">{formik.errors.name}</div>
                     ) : null}
                 </div>
                 {/* Email */}

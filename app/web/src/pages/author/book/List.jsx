@@ -11,7 +11,7 @@ const BookList = () => {
                 <div className='d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom'>
                     <h4 className='section-title m-0'>My Books</h4>
                     <div>
-                        <Link to={`${AppRoute.AUTHOR.BOOK.ADD}`} className="btn btn-primary">Add New Book</Link>
+                        {/* <Link to={`${AppRoute.AUTHOR.BOOK.ADD}`} className="btn btn-primary">Add New Book</Link> */}
                     </div>
                 </div>
 
@@ -22,8 +22,8 @@ const BookList = () => {
                             <th>Thumbnail</th>
                             <th>Title</th>
                             <th>Publication Date</th>
-                            <th>Price</th>
-                            <th>Sales</th>
+                            <th>Price</th>                            
+                            <th>Quntity</th>
                             <th>Ratings</th>
                             <th>Status</th>
                             <th>Actions</th>
