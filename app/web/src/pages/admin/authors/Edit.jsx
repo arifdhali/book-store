@@ -3,47 +3,60 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import AppRoute from '../../../routes/routes';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from "react-toastify"
 
 const Edit = () => {
+    const navigate = useNavigate();
     const params = useParams();
     const [previewProfileImage, setPreviewProfileImage] = useState(null);
+    const [initialValues, setInitialValues] = useState({
+        name: '',
+        email: '',
+        bio: '',
+        profile_img: null,
+        status: '',
+    });
 
     const formik = useFormik({
-        initialValues: {
-            name: '',
-            email: '',
-            bio: '',
-            profile_img: null,
-            status: '', 
-        },
+        initialValues,
         validationSchema: Yup.object({
             name: Yup.string().required('Author name is required'),
             email: Yup.string().email('Invalid email format').required('Email is required'),
             bio: Yup.string().required('Description is required'),
-            profile_img: Yup.mixed().nullable(), 
+            profile_img: Yup.mixed().nullable(),
             status: Yup.string().required('Status is required'),
         }),
         onSubmit: (values) => {
-            const form_data = new FormData();
-            Object.entries(values).forEach(([key, data]) => {
-                form_data.append(key, data);
+            // Compare values with initial values
+            const changedData = {};
+            Object.entries(values).forEach(([key, value]) => {
+                if (key === 'profile_img') {
+                    if (value) {
+                        changedData[key] = value;
+                    }
+                } else if (value !== initialValues[key]) {
+                    changedData[key] = value;
+                }
             });
-            updateAuthor(form_data);
+
+            const formData = new FormData();
+            Object.entries(changedData).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+
+            updateAuthor(formData);
         },
         enableReinitialize: true,
     });
 
-    // Handle file change for profile image
     const handleFileChange = (event) => {
         const image = event.target.files[0];
         formik.setFieldValue('profile_img', image);
         setPreviewProfileImage(URL.createObjectURL(image));
     };
 
-    // API call to update author data
     const updateAuthor = async (formData) => {
-        console.log(formData)
         try {
             await axios.patch(
                 `${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(params.id)}`,
@@ -53,28 +66,34 @@ const Edit = () => {
                         'Content-Type': 'multipart/form-data',
                     },
                 }
-            );
-            alert('Author updated successfully!');
+            ).then((response) => {
+
+                if (response?.data?.result?.status) {
+                    toast.success(response?.data?.result?.message)
+                    navigate(AppRoute.ADMIN.AUTHORS.LIST);
+                }
+            })
+
         } catch (error) {
             console.error('Error updating author:', error);
             alert('Failed to update author. Please try again.');
         }
     };
 
-    // Fetch specific author data
     const getSpecificData = async () => {
         try {
             const response = await axios.get(
                 `${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(params.id)}`
             );
             const authordata = response.data?.result[0];
-            formik.setValues({
+            const values = {
                 name: authordata?.name || '',
                 email: authordata?.email || '',
                 bio: authordata?.bio || '',
                 profile_img: null,
                 status: authordata?.status || '',
-            });
+            };
+            setInitialValues(values);
             if (authordata?.profile_img) {
                 setPreviewProfileImage(
                     `${import.meta.env.VITE_SERVER_MAIN_URL}/author/${authordata.profile_img}`
@@ -94,13 +113,10 @@ const Edit = () => {
             <form id="author-form" autoComplete="off" onSubmit={formik.handleSubmit}>
                 {/* Author Name */}
                 <div className="form-group mb-3">
-                    <label htmlFor="name" className="form-label">
-                        Author Name
-                    </label>
+                    <label htmlFor="name" className="form-label">Author Name</label>
                     <input
                         type="text"
-                        className={`form-control ${formik.errors.name && formik.touched.name ? 'is-invalid' : ''
-                            }`}
+                        className={`form-control ${formik.errors.name && formik.touched.name ? 'is-invalid' : ''}`}
                         id="name"
                         name="name"
                         placeholder="Enter Author Name"
@@ -113,13 +129,10 @@ const Edit = () => {
                 </div>
                 {/* Email */}
                 <div className="form-group mb-3">
-                    <label htmlFor="email" className="form-label">
-                        Email
-                    </label>
+                    <label htmlFor="email" className="form-label">Email</label>
                     <input
                         type="email"
-                        className={`form-control ${formik.errors.email && formik.touched.email ? 'is-invalid' : ''
-                            }`}
+                        className={`form-control ${formik.errors.email && formik.touched.email ? 'is-invalid' : ''}`}
                         id="email"
                         name="email"
                         placeholder="Enter Author Email"
@@ -132,12 +145,9 @@ const Edit = () => {
                 </div>
                 {/* Biography */}
                 <div className="form-group mb-3">
-                    <label htmlFor="bio" className="form-label">
-                        Biography
-                    </label>
+                    <label htmlFor="bio" className="form-label">Biography</label>
                     <textarea
-                        className={`form-control ${formik.errors.bio && formik.touched.bio ? 'is-invalid' : ''
-                            }`}
+                        className={`form-control ${formik.errors.bio && formik.touched.bio ? 'is-invalid' : ''}`}
                         id="bio"
                         name="bio"
                         rows={4}
@@ -151,17 +161,14 @@ const Edit = () => {
                 </div>
                 {/* Profile Image */}
                 <div className="form-group mb-3">
-                    <label htmlFor="formFile" className="form-label">
-                        Profile Image
-                    </label>
+                    <label htmlFor="formFile" className="form-label">Profile Image</label>
                     {previewProfileImage && (
                         <div className="preview-profile mx-auto mb-3" style={{ width: '200px', height: '150px' }}>
                             <img className="img-fluid h-100" src={previewProfileImage} alt="Preview" />
                         </div>
                     )}
                     <input
-                        className={`form-control ${formik.errors.profile_img && formik.touched.profile_img ? 'is-invalid' : ''
-                            }`}
+                        className={`form-control ${formik.errors.profile_img && formik.touched.profile_img ? 'is-invalid' : ''}`}
                         name="profile_img"
                         type="file"
                         id="formFile"
@@ -174,20 +181,15 @@ const Edit = () => {
                 </div>
                 {/* Status */}
                 <div className="form-group mb-3">
-                    <label htmlFor="status" className="form-label">
-                        Status
-                    </label>
+                    <label htmlFor="status" className="form-label">Status</label>
                     <select
                         id="status"
                         name="status"
-                        className={`form-control ${formik.errors.status && formik.touched.status ? 'is-invalid' : ''
-                            }`}
+                        className={`form-control ${formik.errors.status && formik.touched.status ? 'is-invalid' : ''}`}
                         onChange={formik.handleChange}
                         value={formik.values.status}
                     >
-                        <option value="" disabled>
-                            Select Status
-                        </option>
+                        <option value="" disabled>Select Status</option>
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                         <option value="blocked">Blocked</option>

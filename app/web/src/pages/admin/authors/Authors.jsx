@@ -53,17 +53,17 @@ const Authors = () => {
               Author && Author.length > 0 ? (
                 Author.map((author, index) => (
                   <tr key={author.id}>
-                    <td valign='middle'>{index + 1}</td>
-                    <td valign='middle'>
+                    <td valign='top'>{index + 1}</td>
+                    <td valign='top'>
                       <img className='user-img' src={`${import.meta.env.VITE_SERVER_MAIN_URL}author/${author?.profile_img}`} alt={author?.name} />
                     </td>
-                    <td valign='middle'>{author?.name}</td>
-                    <td valign='middle'>{author?.email}</td>
-                    <td valign='middle'>
+                    <td valign='top'>{author?.name}</td>
+                    <td valign='top'>{author?.email}</td>
+                    <td valign='top'>
                       {author?.bio}
                     </td>
-                    <td valign='middle'>{`${author?.status.charAt(0).toUpperCase()}${author?.status.slice(1)} `}</td>
-                    <td valign='middle'>
+                    <td valign='top'>{`${author?.status.charAt(0).toUpperCase()}${author?.status.slice(1)} `}</td>
+                    <td valign='top'>
                       <div className='d-flex gap-2 item-actions'>
                         <Link className='act edit' to={`${AppRoute.ADMIN.AUTHORS.VIEW(author?.id)}`}>
                           <FontAwesomeIcon icon={faEdit} />

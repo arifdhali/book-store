@@ -24,7 +24,7 @@ const Register = () => {
                 linkedin: "",
                 instagram: "",
             },
-            password: "",
+            plain_password: "",
         },
         validationSchema: Yup.object({
             name: Yup.string().required("Name is required"),
@@ -54,7 +54,7 @@ const Register = () => {
                 linkedin: Yup.string().url("Please enter a valid URL"),
                 instagram: Yup.string().url("Please enter a valid URL")
             }),
-            password: Yup.string()
+            plain_password: Yup.string()
                 .required("Password is required")
                 .min(6, "Password must be at least 6 chracters")
         }),
@@ -241,21 +241,21 @@ const Register = () => {
                     )}
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
+                    <label htmlFor="plain_password" className="form-label">Password</label>
                     <div className="position-relative">
                         <div>
                             <input
                                 type={togglePassword ? "text" : "password"}
-                                className={`form-control ${formik.errors?.password && formik.touched?.password ? "is-invalid" : ""}`}
-                                id="password"
-                                name="password"
+                                className={`form-control ${formik.errors?.plain_password && formik.touched?.plain_password ? "is-invalid" : ""}`}
+                                id="plain_password"
+                                name="plain_password"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.password}
+                                value={formik.values.plain_password}
                             />
 
-                            {formik.errors?.password ? (
-                                <div className="invalid-feedback">{formik.errors.password}</div>
+                            {formik.errors?.plain_password ? (
+                                <div className="invalid-feedback">{formik.errors.plain_password}</div>
                             ) : null}
 
                         </div>

@@ -6,10 +6,10 @@ class EmailController {
         const { to_user, subject, html } = content;
         try {
             let mailOptions = {
-                from: process.env.ADMIN_GMAIL,
+                from: `Book-Store-${process.env.ADMIN_GMAIL}`,
                 to: to_user,
                 subject: subject,
-                html: html
+                html: html                
             };
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {

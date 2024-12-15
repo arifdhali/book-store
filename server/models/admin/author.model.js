@@ -54,12 +54,20 @@ class AuthorModels extends BaseModal {
         const fields = [];
         const values = [];
         for (let [key, value] of Object.entries(data)) {
-            fields.push(`${key} = ?`);
-            values.push(value);
+            if (value !== undefined && value !== null) {
+                fields.push(`${key} = ?`);
+                values.push(value);
+            }
         }
         let updateQuery = `UPDATE author SET ${fields} WHERE id = ?`;
         try {
-            return await this.preparingQuery(updateQuery, [...values, id]);
+            const result = await this.preparingQuery(updateQuery, [...values, id]);
+            if (result.affectedRows) {
+                return {
+                    status: true,
+                    message: "Update successfully"
+                }
+            }
         } catch (error) {
             console.error('Error in when update author')
         }

@@ -44,8 +44,35 @@ class AuthorAuthModels extends BaseModal {
     }
 
     async RegisterModel(data) {
+        const { email } = data;
+        let sql = "SELECT id, email FROM author WHERE email = ?";
 
+        try {
+            const user = await this.preparingQuery(sql, [email]);
+            if (user.length > 0) {
+                return {
+                    message: "User already exists",
+                    status: false
+                };
+            } else {
+                const fields = Object.keys(data);
+                const placeholders = fields.map(() => "?").join(", ");
+                const values = Object.values(data);
+                console.log(placeholders,values)
+                const insertSql = `INSERT INTO author (${fields.join(", ")}) VALUES (${placeholders})`;
+                const result = await this.preparingQuery(insertSql, values);
+                return {
+                    message: "Author registered successfully",
+                    status: true,
+                    result
+                };
+            }
+        } catch (error) {
+            console.error("Error in Author Auth Register: " + error);
+            return { success: false, message: "Database error" };
+        }
     }
+
 }
 
 module.exports = new AuthorAuthModels();
