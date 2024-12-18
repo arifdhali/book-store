@@ -17,7 +17,7 @@ const Add = () => {
             email: "",
             bio: "",
             profile_img: null,
-            premiumStatus: "",
+            subscription_type: "free" || null,
         },
         validationSchema: Yup.object({
             author_name: Yup.string().required("Author name is required"),
@@ -26,7 +26,7 @@ const Add = () => {
                 .required("Email is required"),
             bio: Yup.string().required("Description is required"),
             profile_img: Yup.mixed().required("Profile image is required"),
-            premiumStatus: Yup.string().required("Premium status is required"),
+            subscription_type: Yup.string().required("Premium status is required"),
         }),
         onSubmit: async (values, { resetForm }) => {
             setIsSubmitting(true);
@@ -34,7 +34,6 @@ const Add = () => {
             Object.entries(values).forEach(([key, data]) => {
                 form_data.append(key, data);
             });
-
             try {
                 const response = await axios.post(
                     `${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.ADMIN.AUTHORS.ADD}`,
@@ -146,30 +145,44 @@ const Add = () => {
                     {/* Premium Author Status */}
                     <div className="form-group mb-3">
                         <label className="form-label">Premium Status</label>
-                        <div className="form-check">
-                            <input
-                                className="form-check-input"
-                                type="radio"
-                                name="premiumStatus"
-                                id="premiumYes"
-                                value="yes"
-                                onChange={formik.handleChange}
-                            />
-                            <label className="form-check-label" htmlFor="premiumYes">Yes (Premium Author)</label>
+                        <div className="d-flex gap-3">
+                            <div className="form-check">
+                                <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="subscription_type"
+                                    id="free"
+                                    value="free"
+                                    onChange={formik.handleChange}
+                                    defaultChecked
+                                />
+                                <label role={"button"} className="form-check-label" htmlFor="free">Free</label>
+                            </div>
+                            <div className="form-check">
+                                <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="subscription_type"
+                                    id="standard"
+                                    value="standard"
+                                    onChange={formik.handleChange}
+                                />
+                                <label role={"button"} className="form-check-label" htmlFor="standard">Standard</label>
+                            </div>
+                            <div className="form-check">
+                                <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="subscription_type"
+                                    id="premium"
+                                    value="premium"
+                                    onChange={formik.handleChange}
+                                />
+                                <label role={"button"} className="form-check-label" htmlFor="premium">Premium </label>
+                            </div>
                         </div>
-                        <div className="form-check">
-                            <input
-                                className="form-check-input"
-                                type="radio"
-                                name="premiumStatus"
-                                id="premiumNo"
-                                value="no"
-                                onChange={formik.handleChange}
-                            />
-                            <label className="form-check-label" htmlFor="premiumNo">No (Non-Premium Author)</label>
-                        </div>
-                        {formik.errors.premiumStatus && formik.touched.premiumStatus && (
-                            <div className="text-danger mt-2">{formik.errors.premiumStatus}</div>
+                        {formik.errors.subscription_type && formik.touched.subscription_type && (
+                            <div className="text-danger mt-2">{formik.errors.subscription_type}</div>
                         )}
                     </div>
 

@@ -131,7 +131,7 @@ const Edit = () => {
                 <div className="form-group mb-3">
                     <label htmlFor="email" className="form-label">Email</label>
                     <input
-                        type="email"
+                        type="text"
                         className={`form-control ${formik.errors.email && formik.touched.email ? 'is-invalid' : ''}`}
                         id="email"
                         name="email"

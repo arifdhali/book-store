@@ -1,10 +1,14 @@
+const authorRoute = require("../../routes/author.routes");
 const BaseModal = require("../Base.model");
 class AuthorModels extends BaseModal {
 
-    async addAuthor(data) {
+    async addAuthor(data, subscription_type) {
         try {
             const insertSql = "INSERT INTO author(name, email,profile_img,bio,password) VALUES (?,?,?,?,?)";
-            await this.preparingQuery(insertSql, data);
+            const authorResult = await this.preparingQuery(insertSql, data);
+            const authorID = authorResult.insertId;
+            let insertSubscriptionSql = `INSERT INTO subscription (author_id,subscription_type) VALUES(?,?)`;
+            await this.preparingQuery(insertSubscriptionSql, [authorID, subscription_type]);
             return {
                 status: true,
                 message: "Admin created successfully"

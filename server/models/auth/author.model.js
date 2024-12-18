@@ -6,7 +6,12 @@ class AuthorAuthModels extends BaseModal {
 
     async LoginModels(data) {
         const { email, password } = data;
-        let sql = "SELECT * FROM author WHERE email = ? ";
+        let sql = `
+        SELECT A.id, A.profile_img, A.password, A.status, S.subscription_type
+        FROM author A
+        JOIN subscription S
+        ON A.id = S.author_id
+        WHERE A.email = ? `;
         try {
             const [user] = await this.preparingQuery(sql, [email]);
             if (!user) {
@@ -15,10 +20,12 @@ class AuthorAuthModels extends BaseModal {
                     status: false
                 };
             }
+            console.log(user);
             const userinfo = {
                 user_id: user.id,
                 user_profile: user.profile_img,
-                user_status: user.status
+                user_status: user.status,
+                subscription_type:user.subscription_type,
             }
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
@@ -58,7 +65,6 @@ class AuthorAuthModels extends BaseModal {
                 const fields = Object.keys(data);
                 const placeholders = fields.map(() => "?").join(", ");
                 const values = Object.values(data);
-                console.log(placeholders,values)
                 const insertSql = `INSERT INTO author (${fields.join(", ")}) VALUES (${placeholders})`;
                 const result = await this.preparingQuery(insertSql, values);
                 return {

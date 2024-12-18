@@ -16,8 +16,7 @@ const AddAuthorController = async (req, res) => {
         }
         const author_image = thumbnail.filename;
 
-        const { author_name, email, bio, premiumStatus } = req.body;
-
+        const { author_name, email, bio, subscription_type } = req.body;
         const exitsUsers = await AuthorModel.checkUserExists(email);
         if (exitsUsers.length > 0) {
             const result = {
@@ -42,9 +41,9 @@ const AddAuthorController = async (req, res) => {
                 email,
                 author_image,
                 bio,
-                hashed_password
+                hashed_password,
             ]
-        const result = await AuthorModel.addAuthor(data);
+        const result = await AuthorModel.addAuthor(data,subscription_type);
         const maildata = {
             to_user: email,
             subject: "Your Account created successfully",
