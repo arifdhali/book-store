@@ -6,11 +6,9 @@ import { faTrashCan, faEdit, faChartLine, faCloudDownloadAlt } from '@fortawesom
 import { useSelector } from 'react-redux';
 
 const BookList = () => {
-    useEffect(() => {
-
-        const subs_type = useSelector((state) => state.authors.subscription_type);
-        console.log(subs_type);
-    }, [])
+    const subs_type = useSelector((state) => state.authors.subscription_type);
+    console.log(subs_type);
+    
     return (
         <div className='p-4 bg-white rounded-2'>
             <>

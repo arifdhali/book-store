@@ -9,14 +9,21 @@ const authSlice = createSlice({
     },
     reducers: {
         login: (state, action) => {
+            switch (action?.payload?.role) {
+                case 'admin':
+                    state.isAdmin = action.payload?.status;
+                    break;
+
+                case 'author':
+                    state.isAuthor = action.payload?.status;
+                    break;
+
+                default:
+                    console.warn("Unknown role:", action.payload?.role);
+            }
             state.role = action.payload?.role;
-            if (action?.payload?.role == 'admin') {
-                state.isAdmin = action.payload?.status;
-            }
-            if (action?.payload?.role == 'author') {
-                state.isAuthor = action.payload?.status;
-            }
         }
+
 
     }
 })

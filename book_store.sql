@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 06, 2024 at 06:25 PM
+-- Generation Time: Dec 19, 2024 at 05:32 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `email`, `name`, `password`, `image`, `last_active`, `address`) VALUES
-(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2024-12-05 23:30:01', 'kolkata');
+(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2024-12-18 23:12:15', 'kolkata');
 
 -- --------------------------------------------------------
 
@@ -60,19 +60,27 @@ CREATE TABLE IF NOT EXISTS `author` (
   `email` text,
   `profile_img` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `bio` text,
+  `dob` date DEFAULT NULL,
+  `address` longtext,
+  `phone_no` tinyint DEFAULT NULL,
+  `social_link` json DEFAULT NULL,
   `password` text,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `status` enum('active','inactive','block') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'active',
   `last_active` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `password_reset_token` longtext,
+  `password_reset_expires` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `phone_no` (`phone_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `author`
 --
 
-INSERT INTO `author` (`id`, `name`, `email`, `profile_img`, `bio`, `password`, `created_at`, `status`, `last_active`) VALUES
-(9, 'Arif Dhali', 'arifdhali1231@gmail.com', 'profile_img-me.jpg', 'Irure velit placeat', '$2b$10$KzpxoU5Mx4v4UiNS4JJa7OX6vqefkCTSWEsfcC3LStmhySevAZvjq', '2024-12-01 22:44:59', 'active', '2024-12-06 18:15:16');
+INSERT INTO `author` (`id`, `name`, `email`, `profile_img`, `bio`, `dob`, `address`, `phone_no`, `social_link`, `password`, `created_at`, `status`, `last_active`, `password_reset_token`, `password_reset_expires`) VALUES
+(1, 'Arif Dhali', 'arif-a@yopmail.com', 'profile_img-todo.png', 'Free testing account', NULL, NULL, NULL, NULL, '$2b$10$HF185KhuLi7kZ5JQRUejaueyeZ7y98q8FBQjI0e1o/vBLhttRBuwe', '2024-12-18 23:09:02', 'active', '2024-12-18 17:41:44', NULL, NULL),
+(2, 'David Bass', 'arif-b@yopmail.com', 'profile_img-todo.png', 'standard', NULL, NULL, NULL, NULL, '$2b$10$hLwEFcFG3/Hr5uBEO1WWkOHodIj6cN2wC6pnCvcbcH4gW3gIeaE9S', '2024-12-18 23:12:48', 'active', '2024-12-19 17:30:37', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -90,13 +98,6 @@ CREATE TABLE IF NOT EXISTS `book` (
   PRIMARY KEY (`id`),
   KEY `fk_author_id` (`author_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `book`
---
-
-INSERT INTO `book` (`id`, `author_id`, `name`, `prcie`, `created_at`) VALUES
-(1, NULL, 'The last word', 201, '2024-11-26 17:04:24');
 
 -- --------------------------------------------------------
 
@@ -137,32 +138,32 @@ CREATE TABLE IF NOT EXISTS `book_category_relation` (
   PRIMARY KEY (`id`),
   KEY `fk_book` (`book_id`),
   KEY `fk_categgory` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `subscriptions`
+-- Table structure for table `subscription`
 --
 
-DROP TABLE IF EXISTS `subscriptions`;
-CREATE TABLE IF NOT EXISTS `subscriptions` (
+DROP TABLE IF EXISTS `subscription`;
+CREATE TABLE IF NOT EXISTS `subscription` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `author_id` int NOT NULL,
-  `subscription_type` enum('standard','premium') DEFAULT NULL,
-  `purchase_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `price` double DEFAULT NULL,
+  `author_id` int DEFAULT NULL,
+  `subscription_type` enum('free','standard','premium') NOT NULL DEFAULT 'free',
+  `start_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `end_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_author` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `subscriptions`
+-- Dumping data for table `subscription`
 --
 
-INSERT INTO `subscriptions` (`id`, `author_id`, `subscription_type`, `purchase_at`, `price`) VALUES
-(1, 0, 'standard', '2024-11-21 14:23:32', 100.05),
-(2, 0, 'premium', '2024-11-21 14:23:32', 999.99);
+INSERT INTO `subscription` (`id`, `author_id`, `subscription_type`, `start_date`, `end_date`) VALUES
+(1, 1, 'free', '2024-12-18 23:09:02', '2024-12-18 23:09:02'),
+(2, 2, 'standard', '2024-12-18 23:12:48', '2024-12-18 23:12:48');
 
 --
 -- Constraints for dumped tables
@@ -180,6 +181,12 @@ ALTER TABLE `book`
 ALTER TABLE `book_category_relation`
   ADD CONSTRAINT `fk_book` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_categgory` FOREIGN KEY (`category_id`) REFERENCES `book_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `subscription`
+--
+ALTER TABLE `subscription`
+  ADD CONSTRAINT `fk_author` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
