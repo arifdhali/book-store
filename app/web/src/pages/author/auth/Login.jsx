@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
-import { login } from '../../../store/slices/authSlice';
+import { LoginSlice } from '../../../store/slices/author/AuthorSlice';
 import { useDispatch } from 'react-redux';
 
 const Login = () => {
@@ -39,6 +39,7 @@ const Login = () => {
       });
       const { status } = response.data.result;
       if (status) {
+        dispatch(LoginSlice(response.data.result))
         navigate(AppRoutes.AUTHOR.BASE);
         toast.success(response.data.result.message)
       }
@@ -50,7 +51,6 @@ const Login = () => {
   }
 
   useEffect(() => {
-    console.log(authorToken)
     if (authorToken) {
       navigate(AppRoutes.AUTHOR.BASE);
     }

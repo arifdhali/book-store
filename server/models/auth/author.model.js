@@ -20,7 +20,6 @@ class AuthorAuthModels extends BaseModal {
                     status: false
                 };
             }
-            console.log(user);
             const userinfo = {
                 user_id: user.id,
                 user_profile: user.profile_img,

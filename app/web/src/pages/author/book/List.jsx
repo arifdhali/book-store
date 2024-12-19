@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AppRoute from "../../../routes/routes";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faEdit, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan, faEdit, faChartLine, faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 const BookList = () => {
+    useEffect(() => {
+
+        const subs_type = useSelector((state) => state.authors.subscription_type);
+        console.log(subs_type);
+    }, [])
     return (
         <div className='p-4 bg-white rounded-2'>
             <>
@@ -22,7 +28,7 @@ const BookList = () => {
                             <th>Thumbnail</th>
                             <th>Title</th>
                             <th>Publication Date</th>
-                            <th>Price</th>                            
+                            <th>Price</th>
                             <th>Quntity</th>
                             <th>Ratings</th>
                             <th>Status</th>

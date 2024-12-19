@@ -24,7 +24,6 @@ const AddAuthorController = async (req, res) => {
                 message: "Email already exists",
             }
             return res.status(401).json({
-
                 result
             });
         }
@@ -36,14 +35,8 @@ const AddAuthorController = async (req, res) => {
             symbols: true,
         })
         let hashed_password = await bcrypt.hash(password, 10);
-        const data =
-            [author_name,
-                email,
-                author_image,
-                bio,
-                hashed_password,
-            ]
-        const result = await AuthorModel.addAuthor(data,subscription_type);
+        const data = [author_name, email, author_image, bio, hashed_password];
+        const result = await AuthorModel.addAuthor(data, subscription_type);
         const maildata = {
             to_user: email,
             subject: "Your Account created successfully",
