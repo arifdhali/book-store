@@ -4,11 +4,10 @@ import AppRoute from "../../../routes/routes";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faEdit, faChartLine, faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
-
 const BookList = () => {
-    const subs_type = useSelector((state) => state.authors.subscription_type);
-    console.log(subs_type);
-    
+
+    const { user_id, subscription_type } = useSelector((state) => state.authors.user)
+
     return (
         <div className='p-4 bg-white rounded-2'>
             <>
@@ -25,11 +24,11 @@ const BookList = () => {
                             <th style={{ width: "40px" }}>No</th>
                             <th>Thumbnail</th>
                             <th>Title</th>
-                            <th>Publication Date</th>
-                            <th>Price</th>
-                            <th>Quntity</th>
-                            <th>Ratings</th>
-                            <th>Status</th>
+                            <th className='text-center'>Publication Date</th>
+                            <th className='text-center'>Price</th>
+                            <th className='text-center'>Quntity</th>
+                            <th className='text-center'>Ratings</th>
+                            <th className='text-center'>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -40,18 +39,24 @@ const BookList = () => {
                                 <img className='book-thumbnail' src="https://example.com/book-thumbnail.jpg" alt="Book Thumbnail" />
                             </td>
                             <td valign='middle'>Book Title</td>
-                            <td valign='middle'>2024-11-07</td>
-                            <td valign='middle'>$19.99</td>
-                            <td valign='middle'>120</td>
-                            <td valign='middle'>4.5</td>
-                            <td valign='middle'>Published</td>
+                            <td valign='middle' align='center'>2024-11-07</td>
+                            <td valign='middle' align='center'>$19.99</td>
+                            <td valign='middle' align='center'>120</td>
+                            <td valign='middle' align='center'>4.5</td>
+                            <td valign='middle' align='center'>Published</td>
                             <td valign='middle'>
                                 <div className='d-flex gap-2 item-actions'>
+
+                                    {
+                                        subscription_type == 'premium' && (
+
+                                            <Link className='act analytics' to={`${AppRoute.AUTHOR.BOOK.ANALYTICS(user_id)}`}>
+                                                <FontAwesomeIcon icon={faChartLine} /> Analytics
+                                            </Link>
+                                        )
+                                    }
                                     <Link className='act edit' to={AppRoute.AUTHOR.BOOK_EDTI}>
                                         <FontAwesomeIcon icon={faEdit} /> Edit
-                                    </Link>
-                                    <Link className='act analytics' to={`${AppRoute.AUTHOR.BOOK.ANALYTICS(11)}`}>
-                                        <FontAwesomeIcon icon={faChartLine} /> Analytics
                                     </Link>
                                     <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
                                         <FontAwesomeIcon icon={faTrashCan} /> Delete

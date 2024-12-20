@@ -6,13 +6,10 @@ import * as Yup from "yup";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
-import { LoginSlice } from '../../../store/slices/author/AuthorSlice';
-import { useDispatch } from 'react-redux';
 
 const Login = () => {
   const authorToken = Cookies.get("AUTHOR_TOKEN");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -39,7 +36,6 @@ const Login = () => {
       });
       const { status } = response.data.result;
       if (status) {
-        dispatch(LoginSlice(response.data.result))
         navigate(AppRoutes.AUTHOR.BASE);
         toast.success(response.data.result.message)
       }

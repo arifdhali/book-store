@@ -1,18 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const AuthorSlice = createSlice({
-    name: "Author slice",
+    name: "Author_slice",
     initialState: {
-        subscription_type: null || ""
+        user: "",
     },
     reducers: {
-        LoginSlice: (state, action) => {
-            const { userinfo } = action.payload;
-            state.subscription_type = userinfo.subscription_type;
+        AboutAtuhorSlice: (state, action) => {
+            state.user = action.payload;
         }
     }
 })
 
 
-export const { LoginSlice } = AuthorSlice.actions;
+export const { AboutAtuhorSlice } = AuthorSlice.actions;
 export default AuthorSlice.reducer;

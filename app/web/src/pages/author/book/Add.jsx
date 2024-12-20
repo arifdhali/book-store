@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-
+import AppRoute from "../../../routes/routes";
+import axios from "axios";
+import Cookies from "js-cookie";
 const Add = () => {
   const [previewBookImage, setPreviewBookImage] = useState(null);
 
@@ -16,7 +18,9 @@ const Add = () => {
     },
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required"),
-      date: Yup.date().nullable().required("Date is required"),
+      date: Yup.date()
+        .required("Date is required")
+        .min(new Date(), "Date should be present or in the future"),
       quantity: Yup.number()
         .required("Quantity is required")
         .min(1, "Quantity must be at least 1")
@@ -36,9 +40,11 @@ const Add = () => {
     formik.setFieldValue("thumbnail", file);
     setPreviewBookImage(URL.createObjectURL(file));
   };
-
+  const Cookie = Cookies.get("AUTHOR_TOKEN");
+  // const authorId = Cookie.
   const handelFormSubmit = (data) => {
-    console.log(data);
+
+    axios.post(AppRoute.AUTHOR.BOOK.ADD, data)
   };
 
   return (
@@ -69,6 +75,7 @@ const Add = () => {
             name="date"
             onChange={formik.handleChange}
             value={formik.values.date}
+            min={new Date().toISOString().split("T")[0]}
           />
           {formik.errors?.date && formik.touched?.date ? (
             <div className="invalid-feedback">{formik.errors?.date}</div>
