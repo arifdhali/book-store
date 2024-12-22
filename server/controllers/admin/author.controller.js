@@ -50,7 +50,6 @@ const AddAuthorController = async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-
     res.json({
         status: true,
     })

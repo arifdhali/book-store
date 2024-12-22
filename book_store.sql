@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 19, 2024 at 05:32 PM
+-- Generation Time: Dec 22, 2024 at 04:03 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `email`, `name`, `password`, `image`, `last_active`, `address`) VALUES
-(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2024-12-18 23:12:15', 'kolkata');
+(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2024-12-22 20:08:23', 'kolkata');
 
 -- --------------------------------------------------------
 
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `author` (
 
 INSERT INTO `author` (`id`, `name`, `email`, `profile_img`, `bio`, `dob`, `address`, `phone_no`, `social_link`, `password`, `created_at`, `status`, `last_active`, `password_reset_token`, `password_reset_expires`) VALUES
 (1, 'Arif Dhali', 'arif-a@yopmail.com', 'profile_img-todo.png', 'Free testing account', NULL, NULL, NULL, NULL, '$2b$10$HF185KhuLi7kZ5JQRUejaueyeZ7y98q8FBQjI0e1o/vBLhttRBuwe', '2024-12-18 23:09:02', 'active', '2024-12-18 17:41:44', NULL, NULL),
-(2, 'David Bass', 'arif-b@yopmail.com', 'profile_img-todo.png', 'standard', NULL, NULL, NULL, NULL, '$2b$10$hLwEFcFG3/Hr5uBEO1WWkOHodIj6cN2wC6pnCvcbcH4gW3gIeaE9S', '2024-12-18 23:12:48', 'active', '2024-12-19 17:30:37', NULL, NULL);
+(2, 'David Bass', 'arif-b@yopmail.com', 'profile_img-WhatsApp Image 2024-11-30 at 21.28.13_ae133996.jpg', 'standard', NULL, NULL, NULL, NULL, '$2b$10$hLwEFcFG3/Hr5uBEO1WWkOHodIj6cN2wC6pnCvcbcH4gW3gIeaE9S', '2024-12-18 23:12:48', 'active', '2024-12-22 14:40:25', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -92,12 +92,24 @@ DROP TABLE IF EXISTS `book`;
 CREATE TABLE IF NOT EXISTS `book` (
   `id` int NOT NULL AUTO_INCREMENT,
   `author_id` int DEFAULT NULL,
+  `category_id` int NOT NULL,
   `name` text,
-  `prcie` int DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  `thumbnail` longtext,
+  `status` varchar(30) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `fk_author_id` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_author_id` (`author_id`),
+  KEY `fk_category_id` (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `book`
+--
+
+INSERT INTO `book` (`id`, `author_id`, `category_id`, `name`, `price`, `quantity`, `thumbnail`, `status`, `created_at`) VALUES
+(3, 1, 1, 'test', 199, 10, 'fsd', 'publish', '2024-12-22 15:54:04');
 
 -- --------------------------------------------------------
 
@@ -138,7 +150,14 @@ CREATE TABLE IF NOT EXISTS `book_category_relation` (
   PRIMARY KEY (`id`),
   KEY `fk_book` (`book_id`),
   KEY `fk_categgory` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `book_category_relation`
+--
+
+INSERT INTO `book_category_relation` (`id`, `book_id`, `category_id`, `created_at`) VALUES
+(5, 3, 1, '2024-12-22 15:54:58');
 
 -- --------------------------------------------------------
 
@@ -173,7 +192,8 @@ INSERT INTO `subscription` (`id`, `author_id`, `subscription_type`, `start_date`
 -- Constraints for table `book`
 --
 ALTER TABLE `book`
-  ADD CONSTRAINT `fk_author_id` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_author_id` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `book_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `book_category_relation`

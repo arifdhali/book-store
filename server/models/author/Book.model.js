@@ -3,7 +3,8 @@ const BaseModal = require("../Base.model");
 class BookModels extends BaseModal {
 
 
-    async AddBook() {
+    async AddBook(data) {
+        // const insertQuery =  ' INSERT INTO '
 
     }
 

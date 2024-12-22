@@ -3,13 +3,18 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import AppRoute from "../../../routes/routes";
 import axios from "axios";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
+import { jwtDecode } from "jwt-decode";
 const Add = () => {
   const [previewBookImage, setPreviewBookImage] = useState(null);
+  const author_cookie = jwtDecode(Cookies.get("AUTHOR_TOKEN"));
 
+  let user_id = author_cookie.user.user_id;
   const formik = useFormik({
     initialValues: {
+      user_id: user_id,
       title: "",
+      category: "",
       date: "",
       quantity: "",
       price: "",
@@ -18,16 +23,17 @@ const Add = () => {
     },
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required"),
+      category: Yup.string().required("Please select a category"),
       date: Yup.date()
         .required("Date is required")
-        .min(new Date(), "Date should be present or in the future"),
+        .min(new Date(new Date().setHours(0, 0, 0, 0)), "Date should be present or in the future"),
       quantity: Yup.number()
         .required("Quantity is required")
         .min(1, "Quantity must be at least 1")
         .typeError("Quantity must be a number"),
       price: Yup.number().required("Price is required")
         .typeError("Price must be a number"),
-      status: Yup.string().required("Please select a status"),
+      status: Yup.string().required("Please select a status"),    
       thumbnail: Yup.mixed().required("Thumbnail is required"),
     }),
     onSubmit: (values) => {
@@ -40,11 +46,12 @@ const Add = () => {
     formik.setFieldValue("thumbnail", file);
     setPreviewBookImage(URL.createObjectURL(file));
   };
-  const Cookie = Cookies.get("AUTHOR_TOKEN");
-  // const authorId = Cookie.
-  const handelFormSubmit = (data) => {
 
-    axios.post(AppRoute.AUTHOR.BOOK.ADD, data)
+
+  const handelFormSubmit = (data) => {
+    console.log(data);
+    let res = axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTHOR.BOOK.ADD}`, data);
+
   };
 
   return (
@@ -65,6 +72,24 @@ const Add = () => {
             <div className="invalid-feedback">{formik.errors?.title}</div>
           ) : null}
         </div>
+        <div className="mb-3">
+          <label htmlFor="category" className="form-label">Select Category</label>
+          <select
+            className={`form-control ${formik.errors?.category && formik.touched.category ? "is-invalid" : ""}`}
+            id="category"
+            name="category"
+            onChange={formik.handleChange}
+            value={formik.values.category}
+          >
+            <option value={'default'} >Select Status</option>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+          </select>
+          {formik.errors?.category && formik.touched.category ? (
+            <div className="invalid-feedback">{formik.errors?.category}</div>
+          ) : null}
+        </div>
+
 
         <div className="mb-3">
           <label htmlFor="date" className="form-label">Publication Date</label>

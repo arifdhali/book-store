@@ -10,7 +10,7 @@ const uploadAuthor = uploadMulter("author");
 
 
 authorRoute.get("/", validAuthorVerify, HomepageController)
-authorRoute.post("/book/add", AddBookController);
+authorRoute.post("/book/add",uploadAuthor.single("thumbnail"), AddBookController);
 
 
 // auth
