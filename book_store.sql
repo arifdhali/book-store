@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 22, 2024 at 04:03 PM
+-- Generation Time: Dec 22, 2024 at 07:04 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -98,18 +98,12 @@ CREATE TABLE IF NOT EXISTS `book` (
   `quantity` int DEFAULT NULL,
   `thumbnail` longtext,
   `status` varchar(30) DEFAULT NULL,
+  `publication_date` date DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_author_id` (`author_id`),
   KEY `fk_category_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `book`
---
-
-INSERT INTO `book` (`id`, `author_id`, `category_id`, `name`, `price`, `quantity`, `thumbnail`, `status`, `created_at`) VALUES
-(3, 1, 1, 'test', 199, 10, 'fsd', 'publish', '2024-12-22 15:54:04');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -150,14 +144,7 @@ CREATE TABLE IF NOT EXISTS `book_category_relation` (
   PRIMARY KEY (`id`),
   KEY `fk_book` (`book_id`),
   KEY `fk_categgory` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `book_category_relation`
---
-
-INSERT INTO `book_category_relation` (`id`, `book_id`, `category_id`, `created_at`) VALUES
-(5, 3, 1, '2024-12-22 15:54:58');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 

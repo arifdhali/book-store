@@ -1,23 +1,48 @@
-const BookModel = require("../../models/author/Book.model")
+const BookModel = require("../../models/author/Book.model");
 
-const AddBookController = (req, res) => {
-    const { title, date, quantity, price, status } = req.body;
-    const thumbnail = req?.file;
-    if (!thumbnail) {
-        return res.json({
+const AddBookController = async (req, res) => {
+    try {
+        const { user_id, category_id, title, date, quantity, price, status } = req.body;
+        const thumbnail = req.file;
+        if (!thumbnail) {
+            return res.status(400).json({
+                status: false,
+                message: "No thumbnail uploaded",
+            });
+        }
+        const bookThumbnail = thumbnail.filename;
+
+        const data = {
+            user_id,
+            category_id,
+            title,
+            price,
+            quantity,
+            bookThumbnail,
+            status,
+            date,
+        }
+        const result = await BookModel.AddBook(data);
+        if (result?.status) {
+            return res.status(201).json({
+                status: true,
+                message: result.message,
+            });
+        } else {
+            return res.status(500).json({
+                status: false,
+                message: result?.message || "Failed to add the book",
+            });
+        }
+    } catch (error) {
+        console.error("Error in AddBookController:", error.message);
+        return res.status(500).json({
             status: false,
-            message: "No thumbnail uploaded",
+            message: "Internal server error",
         });
     }
-    const bookThumbnail = thumbnail?.filename;
-    const result = BookModel.AddBook([user_id, title, date, quantity, price, bookThumbnail, status])
-    return res.status(201).json({
-        result
-    })
-
-
-}
+};
 
 module.exports = {
     AddBookController,
-}
+};

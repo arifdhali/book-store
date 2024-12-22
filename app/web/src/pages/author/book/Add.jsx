@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import AppRoute from "../../../routes/routes";
+import AppRoutes from "../../../routes/routes";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
 const Add = () => {
   const [previewBookImage, setPreviewBookImage] = useState(null);
+  const [BookCategory, setBookCategory] = useState([]);
   const author_cookie = jwtDecode(Cookies.get("AUTHOR_TOKEN"));
+  const navigate = useNavigate();
 
   let user_id = author_cookie.user.user_id;
   const formik = useFormik({
     initialValues: {
       user_id: user_id,
       title: "",
-      category: "",
+      category_id: "",
       date: "",
       quantity: "",
       price: "",
@@ -23,7 +27,7 @@ const Add = () => {
     },
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required"),
-      category: Yup.string().required("Please select a category"),
+      category_id: Yup.string().required("Please select a category"),
       date: Yup.date()
         .required("Date is required")
         .min(new Date(new Date().setHours(0, 0, 0, 0)), "Date should be present or in the future"),
@@ -33,11 +37,11 @@ const Add = () => {
         .typeError("Quantity must be a number"),
       price: Yup.number().required("Price is required")
         .typeError("Price must be a number"),
-      status: Yup.string().required("Please select a status"),    
+      status: Yup.string().required("Please select a status"),
       thumbnail: Yup.mixed().required("Thumbnail is required"),
     }),
-    onSubmit: (values) => {
-      handelFormSubmit(values);
+    onSubmit: (values, { resetForm }) => {
+      handelFormSubmit(values, resetForm);
     }
   });
 
@@ -48,11 +52,44 @@ const Add = () => {
   };
 
 
-  const handelFormSubmit = (data) => {
-    console.log(data);
-    let res = axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTHOR.BOOK.ADD}`, data);
+  const handelFormSubmit = async (data, resetForm) => {
+    try {
+      const form_data = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        form_data.append(key, value);
+      })
+      let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.BOOK.ADD}`, form_data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (response.data.status) {
+        toast.success(response.data.message);
+        resetForm();
+        navigate(AppRoutes.AUTHOR.BOOK.LIST);
+      }
+
+    } catch (error) {
+
+    }
 
   };
+
+  const getAllCategory = async () => {
+    try {
+
+      await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.ADMIN.CATEGORY.LIST}`)
+        .then((value) => {
+          setBookCategory(value?.data?.result);
+        })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getAllCategory();
+  }, [])
 
   return (
     <div className='p-4 bg-white rounded-2 w-50'>
@@ -75,18 +112,21 @@ const Add = () => {
         <div className="mb-3">
           <label htmlFor="category" className="form-label">Select Category</label>
           <select
-            className={`form-control ${formik.errors?.category && formik.touched.category ? "is-invalid" : ""}`}
+            className={`form-control ${formik.errors?.category_id && formik.touched.category_id ? "is-invalid" : ""}`}
             id="category"
-            name="category"
+            name="category_id"
             onChange={formik.handleChange}
-            value={formik.values.category}
+            value={formik.values.category_id}
           >
-            <option value={'default'} >Select Status</option>
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
+            <option value={'default'} >Select Category</option>
+            {
+              BookCategory.map((item) => (
+                <option key={item.id} value={item.id}>{item.name}</option>
+              ))
+            }
           </select>
-          {formik.errors?.category && formik.touched.category ? (
-            <div className="invalid-feedback">{formik.errors?.category}</div>
+          {formik.errors?.category_id && formik.touched.category_id ? (
+            <div className="invalid-feedback">{formik.errors?.category_id}</div>
           ) : null}
         </div>
 
@@ -165,7 +205,6 @@ const Add = () => {
             onChange={formik.handleChange}
             value={formik.values.status}
           >
-            <option value={'default'} >Select Status</option>
             <option value="draft">Draft</option>
             <option value="published">Published</option>
           </select>
