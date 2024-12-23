@@ -4,13 +4,15 @@ const validAuthorVerify = require("../middleware/verify.auth");
 const { AuthorLogin, AuthorLogout, AuthorRegister } = require("../controllers/auth/author.controller");
 const HomepageController = require("../controllers/author/Home.Controller");
 const uploadMulter = require("../utils/multer");
-const { AddBookController } = require("../controllers/author/Book.controller");
+const { AddBookController, BookListController } = require("../controllers/author/Book.controller");
 
 const uploadAuthor = uploadMulter("author");
+const uploadBook = uploadMulter("book");
 
 
 authorRoute.get("/", validAuthorVerify, HomepageController)
-authorRoute.post("/book/add",uploadAuthor.single("thumbnail"), AddBookController);
+authorRoute.post("/book/add", uploadBook.single("thumbnail"), AddBookController);
+authorRoute.get("/book/list", BookListController);
 
 
 // auth

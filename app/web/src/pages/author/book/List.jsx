@@ -4,18 +4,28 @@ import AppRoute from "../../../routes/routes";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faEdit, faChartLine, faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
+import axios from 'axios'
 const BookList = () => {
-
+    const [book, setBook] = useState([]);
     const { user_id, subscription_type } = useSelector((state) => state.authors.user)
+    const GetBooks = async () => {
+        try {
+            await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTHOR.BOOK.LIST}`, {
+                params: { user_id }
+            }).then((value) => setBook(value.data.books))
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    useEffect(() => {
+        GetBooks();
+    }, [user_id])
 
     return (
         <div className='p-4 bg-white rounded-2'>
             <>
                 <div className='d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom'>
                     <h4 className='section-title m-0'>My Books</h4>
-                    <div>
-                        {/* <Link to={`${AppRoute.AUTHOR.BOOK.ADD}`} className="btn btn-primary">Add New Book</Link> */}
-                    </div>
                 </div>
 
                 <table className="table">
@@ -33,37 +43,51 @@ const BookList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td valign='middle'>1</td>
-                            <td valign='middle'>
-                                <img className='book-thumbnail' src="https://example.com/book-thumbnail.jpg" alt="Book Thumbnail" />
-                            </td>
-                            <td valign='middle'>Book Title</td>
-                            <td valign='middle' align='center'>2024-11-07</td>
-                            <td valign='middle' align='center'>$19.99</td>
-                            <td valign='middle' align='center'>120</td>
-                            <td valign='middle' align='center'>4.5</td>
-                            <td valign='middle' align='center'>Published</td>
-                            <td valign='middle'>
-                                <div className='d-flex gap-2 item-actions'>
+                        {
+                          book.length &&  book.length > 0 ? (
+                                book.map((book) => (
+                                    <tr key={book.id}>
+                                        <td valign='middle'>1</td>
+                                        <td valign='middle'>
+                                            <img className='book-thumbnail' src={`${import.meta.env.VITE_SERVER_MAIN_URL}/book/${book.thumbnail}`} alt="Book Thumbnail" />
+                                        </td>
+                                        <td valign='middle'>{book.name}</td>
+                                        <td valign='middle' align='center'>
+                                            {new Date(book.publication_date).toISOString().split('T')[0]}
+                                        </td>
+                                        <td valign='middle' align='center'>${book.price}</td>
+                                        <td valign='middle' align='center'>{book.quantity}</td>
+                                        <td valign='middle' align='center'>{book.rating_value}</td>
+                                        <td valign='middle' align='center'>{book.status}</td>
+                                        <td valign='middle'>
+                                            <div className='d-flex gap-2 item-actions'>
 
-                                    {
-                                        subscription_type == 'premium' && (
+                                                {
+                                                    subscription_type == 'premium' && (
 
-                                            <Link className='act analytics' to={`${AppRoute.AUTHOR.BOOK.ANALYTICS(user_id)}`}>
-                                                <FontAwesomeIcon icon={faChartLine} /> Analytics
-                                            </Link>
-                                        )
-                                    }
-                                    <Link className='act edit' to={AppRoute.AUTHOR.BOOK_EDTI}>
-                                        <FontAwesomeIcon icon={faEdit} /> Edit
-                                    </Link>
-                                    <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                        <FontAwesomeIcon icon={faTrashCan} /> Delete
-                                    </span>
-                                </div>
-                            </td>
-                        </tr>
+                                                        <Link className='act analytics' to={`${AppRoute.AUTHOR.BOOK.ANALYTICS(user_id)}`}>
+                                                            <FontAwesomeIcon icon={faChartLine} /> Analytics
+                                                        </Link>
+                                                    )
+                                                }
+                                                <Link className='act edit' to={AppRoute.AUTHOR.BOOK.VIEW(book.id)}>
+                                                    <FontAwesomeIcon icon={faEdit} /> Edit
+                                                </Link>
+                                                <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                    <FontAwesomeIcon icon={faTrashCan} /> Delete
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+
+                            ) : (
+                                <tr>
+                                    <td colSpan={9} className='text-center py-4'>No record</td>
+                                </tr>
+                            )
+                        }
+
                     </tbody>
                 </table>
 

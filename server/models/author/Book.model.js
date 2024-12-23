@@ -46,6 +46,39 @@ class BookModels extends BaseModal {
             };
         }
     }
+    async GetAllBooks(userid) {
+        const getQuery = `
+            SELECT 
+               B.id,
+                B.name, 
+                B.price, 
+                B.quantity, 
+                B.thumbnail, 
+                B.status,
+                B.publication_date,
+                R.rating_value
+            FROM 
+                book B 
+            LEFT JOIN 
+                rating R 
+            ON 
+                R.author_id = B.author_id 
+            WHERE 
+                B.author_id = ?`;
+
+        try {
+            const books = await this.preparingQuery(getQuery, [userid]);
+            return {
+                status: true,
+                message: "Book fetch successfull",
+                books
+            }
+        } catch (err) {
+            console.error("Error fetching books: ", err);
+            throw err;
+        }
+    }
+
 }
 
 module.exports = new BookModels();

@@ -43,6 +43,30 @@ const AddBookController = async (req, res) => {
     }
 };
 
+const BookListController = async (req, res) => {
+    const { user_id } = req.query;
+    let result = await BookModel.GetAllBooks(user_id);
+    const { books, status, message } = result;
+    if (status) {
+        return res.status(200).json({
+            status: true,
+            message: message,
+            books
+        });
+    } else {
+        return res.status(500).json({
+            status: false,
+            message: result?.message || "Failed to get book",
+        });
+    }
+
+}
+
+
+
+
+
 module.exports = {
     AddBookController,
+    BookListController
 };
