@@ -44,7 +44,7 @@ const BookList = () => {
                     </thead>
                     <tbody>
                         {
-                          book.length &&  book.length > 0 ? (
+                            book.length && book.length > 0 ? (
                                 book.map((book) => (
                                     <tr key={book.id}>
                                         <td valign='middle'>1</td>
@@ -57,7 +57,7 @@ const BookList = () => {
                                         </td>
                                         <td valign='middle' align='center'>${book.price}</td>
                                         <td valign='middle' align='center'>{book.quantity}</td>
-                                        <td valign='middle' align='center'>{book.rating_value}</td>
+                                        <td valign='middle' align='center'>{book.rating_value ? book.rating_value : "N/A"}</td>
                                         <td valign='middle' align='center'>{book.status}</td>
                                         <td valign='middle'>
                                             <div className='d-flex gap-2 item-actions'>
