@@ -42,9 +42,15 @@ const AddBookController = async (req, res) => {
         });
     }
 };
-
 const BookListController = async (req, res) => {
     const { user_id } = req.query;
+    if (user_id === undefined || user_id === null) {
+        return res.status(403).json({
+            status: false,
+            message: "User id not valid"
+        })
+    }
+
     let result = await BookModel.GetAllBooks(user_id);
     const { books, status, message } = result;
     if (status) {
@@ -61,12 +67,46 @@ const BookListController = async (req, res) => {
     }
 
 }
+const GetSingleBookController = async (req, res) => {
+    const { book_id } = req.params;
+    const { author } = req.query;
+    if (book_id === undefined || book_id === null) {
+        return res.status(403).json({
+            status: false,
+            message: "User id not valid"
+        })
+    }
+    const userIDS = {
+        book_id,
+        author
+    }
+    let result = await BookModel.GetSingleBook(userIDS);
+    return res.json({
+        result
+    })
+
+}
+const EditBookController = async (req, res) => {
+
+    try {
+        console.log(req.params)
+        const thumbnail = req.file;
+        if (!thumbnail) {
+            return res.status(400).json({
+                status: false,
+                message: "No thumbnail uploaded",
+            });
+        }
+    } catch (error) {
+
+    }
 
 
-
-
+}
 
 module.exports = {
     AddBookController,
-    BookListController
+    GetSingleBookController,
+    BookListController,
+    EditBookController
 };

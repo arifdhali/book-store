@@ -4,15 +4,9 @@ import { Outlet } from 'react-router-dom'
 import AppRoute from "../routes/routes";
 import Cookies from "js-cookie";
 import axios from 'axios';
-import { AboutAtuhorSlice } from '../store/slices/author/AuthorSlice';
-import { useDispatch } from 'react-redux';
-import { jwtDecode } from "jwt-decode";
 
 const AuthorLayout = () => {
-  const dispatch = useDispatch();
-
   const token = Cookies.get('AUTHOR_TOKEN');
-  const decode = jwtDecode(token);
   const [dashboardData, setDashboardData] = useState({});
 
   const getDashboardInfo = () => {
@@ -25,8 +19,6 @@ const AuthorLayout = () => {
   }
   useEffect(() => {
     getDashboardInfo();
-    dispatch(AboutAtuhorSlice(decode.user));
-
   }, [token])
 
   return (

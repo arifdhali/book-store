@@ -1,31 +1,32 @@
 import React, { useEffect } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import { useDispatch } from 'react-redux';
+import { AboutAtuhorSlice } from '../store/slices/author/AuthorSlice';
 
 const ProtectedRoutes = ({ children, roleOfUser }) => {
-    const navigate = useNavigate();
-    const token = Cookies.get("ADMIN_TOKEN");
+    const adminToken = Cookies.get("ADMIN_TOKEN");
     const authorToken = Cookies.get("AUTHOR_TOKEN");
+    const dispatch = useDispatch();
 
-
-
-    const isAuthenticated = useSelector((state) => state.authentication);
-    const { isAdmin, isAuthor, role } = isAuthenticated;
 
     if (roleOfUser == 'author') {
         if (!authorToken) {
             return <Navigate to={`/${roleOfUser}/login`} />;
         }
+        const decode = jwtDecode(authorToken);
+        dispatch(AboutAtuhorSlice(decode.user));
     }
     if (roleOfUser == 'admin') {
-        if (!token) {
+        if (!adminToken) {
             return <Navigate to={`/${roleOfUser}/login`} />;
         }
     }
 
 
     return children;
+
 }
 
 export default ProtectedRoutes;

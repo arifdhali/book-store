@@ -3,6 +3,7 @@ import Author_Forgotpass from "./auth/Forgot-pass"
 import Author_Register from "./auth/Register";
 import BookList from "./book/List";
 import AddBook from "./book/Add";
+import EditBook from "./book/Edit"
 import BookAnalytics from "./book/Analytics";
 
 import Coupon from "./Coupon";
@@ -17,6 +18,7 @@ export {
     Author_Register,
     BookList,
     AddBook,
+    EditBook,
     BookAnalytics,
     Coupon,
     OrderList,

@@ -78,6 +78,45 @@ class BookModels extends BaseModal {
             throw err;
         }
     }
+    async GetSingleBook(id) {
+        try {
+            const { book_id, author } = id;
+            let selectBook = `SELECT 
+                                  B.id as book_id,
+                                  B.name ,
+                                  B.price,
+                                  B.quantity,
+                                  B.thumbnail,
+                                  B.status,
+                                  B.publication_date,
+                                  C.id as category_id,
+                                  C.name AS category_name
+                              FROM 
+                                  book B
+                              LEFT JOIN 
+                                  book_category C ON B.category_id = C.id
+                              WHERE 
+                                  B.id = ? AND author_id = ? `
+            let book = await this.preparingQuery(selectBook, [book_id, author]);
+            if (book.length > 0) {
+                return {
+                    status: true,
+                    message: "Fetching book success",
+                    book,
+                }
+            } else {
+                return {
+                    status: false,
+                    message: "No Books found based on the book id and author id",
+                }
+            }
+        } catch (err) {
+            console.error("Error fetching single books: ", err);
+            throw err;
+        }
+
+
+    }
 
 }
 

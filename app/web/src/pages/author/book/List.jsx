@@ -45,9 +45,9 @@ const BookList = () => {
                     <tbody>
                         {
                             book.length && book.length > 0 ? (
-                                book.map((book) => (
+                                book.map((book, index) => (
                                     <tr key={book.id}>
-                                        <td valign='middle'>1</td>
+                                        <td valign='middle'>{index + 1}</td>
                                         <td valign='middle'>
                                             <img className='book-thumbnail' src={`${import.meta.env.VITE_SERVER_MAIN_URL}/book/${book.thumbnail}`} alt="Book Thumbnail" />
                                         </td>
@@ -58,7 +58,7 @@ const BookList = () => {
                                         <td valign='middle' align='center'>${book.price}</td>
                                         <td valign='middle' align='center'>{book.quantity}</td>
                                         <td valign='middle' align='center'>{book.rating_value ? book.rating_value : "N/A"}</td>
-                                        <td valign='middle' align='center'>{book.status}</td>
+                                        <td valign='middle' align='center' style={{ textTransform: "capitalize" }}>{book.status}</td>
                                         <td valign='middle'>
                                             <div className='d-flex gap-2 item-actions'>
 
@@ -70,7 +70,7 @@ const BookList = () => {
                                                         </Link>
                                                     )
                                                 }
-                                                <Link className='act edit' to={AppRoute.AUTHOR.BOOK.VIEW(book.id)}>
+                                                <Link className='act edit' to={AppRoute.AUTHOR.BOOK.SINGLE(book.id)}>
                                                     <FontAwesomeIcon icon={faEdit} /> Edit
                                                 </Link>
                                                 <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">

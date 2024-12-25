@@ -21,7 +21,7 @@ const routes = {
             BASE: '/author/book',
             LIST: "/author/book/list",
             ADD: "/author/book/add",
-            VIEW: (id) => `/author/book/${id}/edit`,
+            SINGLE: (BOOK_ID) => `/author/book/${BOOK_ID}`,
             PUBLISH: "/author/book/publish",
             ANALYTICS: (id) => `/author/book/${id}`,
         },
