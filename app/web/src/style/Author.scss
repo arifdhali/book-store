@@ -1,0 +1,28 @@
+.book-thumbnail {
+    width: 70px;
+    height: 65px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    border: 1px solid #20d6a9;
+}
+
+.panel {
+    h3 {
+        margin-bottom: 0;
+        color: #ffffff;
+    }
+}
+
+.basic-plan {
+
+    .panel {
+        &-heading {
+            background: #de960f;
+
+        }
+
+    }
+}
