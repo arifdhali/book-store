@@ -34,6 +34,7 @@ const Add = () => {
       quantity: Yup.number()
         .required("Quantity is required")
         .min(1, "Quantity must be at least 1")
+        .max(10,"Maximum you can add 10 Quantity")
         .typeError("Quantity must be a number"),
       price: Yup.number().required("Price is required")
         .typeError("Price must be a number"),

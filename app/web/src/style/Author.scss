@@ -16,6 +16,16 @@
     }
 }
 
+.standard-plan {
+    .panel {
+        &-heading {
+            background: #057bd8;
+
+        }
+
+    }
+}
+
 .basic-plan {
 
     .panel {
@@ -24,5 +34,19 @@
 
         }
 
+    }
+}
+
+.subscription {
+    svg {
+        margin-right: 10px;
+    }
+
+    .fa-check {
+        color: rgb(14, 165, 14);
+    }
+
+    .fa-xmark {
+        color: red;
     }
 }
