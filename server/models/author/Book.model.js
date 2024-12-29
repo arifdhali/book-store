@@ -118,6 +118,10 @@ class BookModels extends BaseModal {
 
     }
 
+    async EditBook(id, data) {
+        console.log(id,data)
+    }
+
 }
 
 module.exports = new BookModels();

@@ -14,7 +14,7 @@ authorRoute.get("/", validAuthorVerify, HomepageController)
 authorRoute.post("/book/add", uploadBook.single("thumbnail"), AddBookController);
 authorRoute.get("/book/list", BookListController);
 authorRoute.get("/book/:book_id", GetSingleBookController);
-// authorRoute.post("/book/:book_id", uploadBook.single("thumbnail"), EditBookController);
+authorRoute.patch("/book/:book_id", uploadBook.single("thumbnail"), EditBookController);
 
 
 // auth

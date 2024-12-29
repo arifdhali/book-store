@@ -39,13 +39,16 @@ const Edit = () => {
                     changedData[key] = value;
                 }
             });
+            if (Object.keys(changedData).length >= 1) {
+                const formData = new FormData();
+                Object.entries(changedData).forEach(([key, value]) => {
+                    formData.append(key, value);
+                });
 
-            const formData = new FormData();
-            Object.entries(changedData).forEach(([key, value]) => {
-                formData.append(key, value);
-            });
-
-            updateAuthor(formData);
+                updateAuthor(formData);
+            } else {
+                console.log("No input changes!.")
+            }
         },
         enableReinitialize: true,
     });

@@ -43,53 +43,68 @@ const AddBookController = async (req, res) => {
     }
 };
 const BookListController = async (req, res) => {
-    const { user_id } = req.query;
-    if (user_id === undefined || user_id === null) {
-        return res.status(403).json({
-            status: false,
-            message: "User id not valid"
-        })
-    }
+    try {
+        const { user_id } = req.query;
+        if (user_id === undefined || user_id === null) {
+            return res.status(403).json({
+                status: false,
+                message: "User id not valid"
+            })
+        }
 
-    let result = await BookModel.GetAllBooks(user_id);
-    const { books, status, message } = result;
-    if (status) {
-        return res.status(200).json({
-            status: true,
-            message: message,
-            books
-        });
-    } else {
+        let result = await BookModel.GetAllBooks(user_id);
+        const { books, status, message } = result;
+        if (status) {
+            return res.status(200).json({
+                status: true,
+                message: message,
+                books
+            });
+        } else {
+            return res.status(500).json({
+                status: false,
+                message: result?.message || "Failed to get book",
+            });
+        }
+    } catch (error) {
+        console.error("Error in BookListController:", error.message);
         return res.status(500).json({
             status: false,
-            message: result?.message || "Failed to get book",
+            message: "Internal server error",
         });
     }
 
 }
 const GetSingleBookController = async (req, res) => {
-    const { book_id } = req.params;
-    const { author } = req.query;
-    if (book_id === undefined || book_id === null) {
-        return res.status(403).json({
-            status: false,
-            message: "User id not valid"
+    try {
+        const { book_id } = req.params;
+        const { author } = req.query;
+        if (book_id === undefined || book_id === null) {
+            return res.status(403).json({
+                status: false,
+                message: "User id not valid"
+            })
+        }
+        const userIDS = {
+            book_id,
+            author
+        }
+        let result = await BookModel.GetSingleBook(userIDS);
+        return res.json({
+            result
         })
+    } catch (error) {
+        console.error("Error in GetSingleBookController:", error.message);
+        return res.status(500).json({
+            status: false,
+            message: "Internal server error",
+        });
     }
-    const userIDS = {
-        book_id,
-        author
-    }
-    let result = await BookModel.GetSingleBook(userIDS);
-    return res.json({
-        result
-    })
 
 }
 const EditBookController = async (req, res) => {
-
     try {
-        console.log(req.params)
+        const { book_id } = req.params;
         const thumbnail = req.file;
         if (!thumbnail) {
             return res.status(400).json({
@@ -97,13 +112,21 @@ const EditBookController = async (req, res) => {
                 message: "No thumbnail uploaded",
             });
         }
+        const filteredValue = [];
+        for (let key in req.body) {
+            if (req.body[key] !== undefined && req.body[key] !== null) {
+                filteredValue[key] = req.body[key];
+            }
+        }
+        let result = await BookModel.EditBook(book_id, filteredValue);
     } catch (error) {
-
+        console.error("Error in EditBookController:", error.message);
+        return res.status(500).json({
+            status: false,
+            message: "Internal server error",
+        });
     }
-
-
 }
-
 module.exports = {
     AddBookController,
     GetSingleBookController,

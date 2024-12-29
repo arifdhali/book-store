@@ -15,9 +15,12 @@ adminRoute.get("/", validAdminVerify, (req, res) => {
 // author
 const uploadAuthor = uploadMulter("author");
 adminRoute.post("/authors/add", uploadAuthor.single('profile_img'), AddAuthorController);
+// all list
 adminRoute.get("/authors/list", GetAllAuthorsController);
+// edit
 adminRoute.patch("/authors/:authorid", uploadAuthor.single('profile_img'), UpdateAuthorsController);
 
+//  get specific authors
 adminRoute.get("/authors/:authorid", GetSpecificAuthor);
 adminRoute.delete('/authors/:authorid', DeleteAuthor);
 

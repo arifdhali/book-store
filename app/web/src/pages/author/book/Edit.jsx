@@ -3,25 +3,25 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import AppRoutes from "../../../routes/routes"
+import AppRoutes from "../../../routes/routes";
 import { useSelector } from 'react-redux';
 
 const EditBook = () => {
   const { user_id } = useSelector((state) => state.authors.user);
   const { BOOK_ID } = useParams();
   const [previewBookImage, setPreviewBookImage] = useState(null);
+  const [initialValues, setInitialValues] = useState({
+    title: '',
+    category_id: '',
+    date: '',
+    quantity: '',
+    price: '',
+    thumbnail: null,
+    status: 'draft',
+  });
 
   const formik = useFormik({
-    initialValues: {
-      title: '',
-      category_id: '',
-      date: '',
-      quantity: '',
-      price: '',
-      thumbnail: null,
-      status: 'draft',
-    },
-    enableReinitialize: true,
+    initialValues: initialValues,
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required"),
       category_id: Yup.string().required("Please select a category"),
@@ -29,48 +29,84 @@ const EditBook = () => {
       quantity: Yup.number().required("Quantity is required").min(1, "Quantity must be at least 1"),
       price: Yup.number().required("Price is required"),
       status: Yup.string().required("Please select a status"),
-      thumbnail: Yup.mixed().required("Thumbnail is required").test("fileSize", "File is too large max-size(2MB)", (value) => value && value.size <= 2000000),
+      thumbnail: Yup.mixed()
+        .required("Thumbnail is required")
+        .test("fileSize", "File is too large (max-size 2MB)", (value) => {
+          if (typeof value === "string" || !value) return true;
+          return value && value.size <= 2000000;
+        }),
     }),
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log(values);
+    enableReinitialize: true,
+
+    onSubmit: async (values) => {
+      const changedValues = {};
+      Object.entries(values).forEach(([key, value]) => {
+        if (value !== initialValues[key]) {
+          changedValues[key] = value;
+        }
+      });
+      //  if changedValues has any values in the object  then do this
+      if (Object.keys(changedValues).length >= 1) {
+        const formData = new FormData();
+        Object.entries(changedValues).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+        updateBooks(formData);
+      } else {
+        console.log("No input changes!.")
+      }
     },
   });
+
+  const updateBooks = async (formData) => {
+    try {
+      let response = await axios.patch(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.BOOK.SINGLE(BOOK_ID)}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     formik.setFieldValue("thumbnail", file);
+    formik.setFieldTouched("thumbnail", true);
     setPreviewBookImage(URL.createObjectURL(file));
   };
 
   const getBook = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.BOOK.SINGLE(BOOK_ID)}`,
-        {
-          params: {
-            author: user_id,
-            bookID: BOOK_ID,
-          },
+        `${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.BOOK.SINGLE(BOOK_ID)}`, {
+        params: {
+          author: user_id,
+          bookID: BOOK_ID,
         }
-      );
-      if (response.data.result.status) {
-        const book = response.data.result.book[0];
-        console.log(book)
-        formik.setValues({
-          title: book.name,
-          category_id: book.category_id,
-          category_name: book.category_name,
-          date: book.publication_date,
-          quantity: book.quantity,
-          price: book.price,
-          status: book.status,
-        });
-        if (book.thumbnail) {
-          setPreviewBookImage(
-            `${import.meta.env.VITE_SERVER_MAIN_URL}/book/${book.thumbnail}`
-          );
-        }
+      });
+
+      const book = response.data?.result?.book?.[0];
+      const values = {
+        title: book?.name || '',
+        category_id: book?.category_id || '',
+        category_name: book?.category_name || '',
+        date: book?.publication_date
+          ? new Date(book.publication_date).toISOString().split("T")[0]
+          : '',
+        quantity: book?.quantity || '',
+        price: book?.price || '',
+        status: book?.status || '',
+        thumbnail: book?.thumbnail || null,
+      };
+      setInitialValues(values);
+
+      if (book?.thumbnail) {
+        setPreviewBookImage(`${import.meta.env.VITE_SERVER_MAIN_URL}/book/${book.thumbnail}`);
       }
     } catch (error) {
       console.error("Error fetching the book:", error.response?.data || error.message);
@@ -79,7 +115,7 @@ const EditBook = () => {
 
   useEffect(() => {
     getBook();
-  }, []);
+  }, [BOOK_ID]);
 
   return (
     <div className="p-4 bg-white rounded-2 w-50">
@@ -118,6 +154,7 @@ const EditBook = () => {
             className={`form-control ${formik.errors.date && formik.touched.date ? 'is-invalid' : ''}`}
             id="date"
             name="date"
+            readOnly
             onChange={formik.handleChange}
             value={formik.values.date}
           />
