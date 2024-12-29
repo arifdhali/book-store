@@ -1,6 +1,9 @@
 const BaseModal = require("../Base.model");
-
 class BookModels extends BaseModal {
+    constructor(tableName) {
+        super();
+        this.tableName = tableName;
+    }
     async AddBook(data) {
         const {
             user_id, category_id, title, price, quantity, bookThumbnail, status, date } = data;
@@ -119,9 +122,28 @@ class BookModels extends BaseModal {
     }
 
     async EditBook(id, data) {
-        console.log(id,data)
+
+        try {
+            //  databse columns name
+            const columnsMap = {
+                title: "name",
+                price: "price",
+                quantity: "quantity",
+                thumbnail: "thumbnail",
+                status: "status"
+            }
+
+            let keys = Object.keys(data).map((column) => columnsMap[column]);
+            console.log(keys)
+            let updateQuery = `UPDATE ${this.tableName} 
+                              SET 
+                              WHERE id = ?`
+            // throw new Error("Edit model from")
+        } catch (error) {
+            throw error;
+            console.log("model", error);
+        }
     }
 
 }
-
-module.exports = new BookModels();
+module.exports = BookModels;

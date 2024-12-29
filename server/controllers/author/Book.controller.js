@@ -1,5 +1,6 @@
-const BookModel = require("../../models/author/Book.model");
-
+// const BookModel = require("../../models/author/Book.model");
+const BookModels = require("../../models/author/Book.model");
+const BookModel = new BookModels("book");
 const AddBookController = async (req, res) => {
     try {
         const { user_id, category_id, title, date, quantity, price, status } = req.body;
@@ -106,24 +107,22 @@ const EditBookController = async (req, res) => {
     try {
         const { book_id } = req.params;
         const thumbnail = req.file;
-        if (!thumbnail) {
-            return res.status(400).json({
-                status: false,
-                message: "No thumbnail uploaded",
-            });
-        }
-        const filteredValue = [];
+        const filteredValue = {};
+
         for (let key in req.body) {
             if (req.body[key] !== undefined && req.body[key] !== null) {
                 filteredValue[key] = req.body[key];
             }
+        }
+        if (thumbnail) {
+            filteredValue.thumbnail = thumbnail.filename;
         }
         let result = await BookModel.EditBook(book_id, filteredValue);
     } catch (error) {
         console.error("Error in EditBookController:", error.message);
         return res.status(500).json({
             status: false,
-            message: "Internal server error",
+            message: error.message || "Internal server error",
         });
     }
 }
