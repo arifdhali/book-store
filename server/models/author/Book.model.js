@@ -122,28 +122,43 @@ class BookModels extends BaseModal {
     }
 
     async EditBook(id, data) {
-
         try {
-            //  databse columns name
+            // Database columns in the correct sequence
             const columnsMap = {
                 title: "name",
                 price: "price",
                 quantity: "quantity",
                 thumbnail: "thumbnail",
-                status: "status"
+                status: "status",
+            };
+            let keys = [];
+            let values = [];
+            for (let i in columnsMap) {
+                if (data[i] !== undefined) {
+                    keys.push(`${columnsMap[i]} = ?`);
+                    values.push(data[i])
+                }
             }
+            if (keys.length === 0) {
+                throw new Error("No valid fields provide for update");
+            }
+            values.push(id)
+            let updateQuery = `UPDATE ${this.tableName} SET ${keys.join(", ")} WHERE id = ?`;
 
-            let keys = Object.keys(data).map((column) => columnsMap[column]);
-            console.log(keys)
-            let updateQuery = `UPDATE ${this.tableName} 
-                              SET 
-                              WHERE id = ?`
-            // throw new Error("Edit model from")
+            let result = await this.preparingQuery(updateQuery, values);
+            if (result.affectedRows >= 1) {
+                return {
+                    status: true,
+                    message: "Book Update successfully"
+                }
+            }
         } catch (error) {
+            console.error("Error in EditBook:", error);
             throw error;
-            console.log("model", error);
         }
     }
+
+
 
 }
 module.exports = BookModels;

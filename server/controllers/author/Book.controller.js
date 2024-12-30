@@ -117,7 +117,8 @@ const EditBookController = async (req, res) => {
         if (thumbnail) {
             filteredValue.thumbnail = thumbnail.filename;
         }
-        let result = await BookModel.EditBook(book_id, filteredValue);
+        let updateResult = await BookModel.EditBook(book_id, filteredValue);
+        return res.json(updateResult)
     } catch (error) {
         console.error("Error in EditBookController:", error.message);
         return res.status(500).json({

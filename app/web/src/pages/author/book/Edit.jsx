@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AppRoutes from "../../../routes/routes";
 import { useSelector } from 'react-redux';
-
+import { toast } from "react-toastify"
 const EditBook = () => {
+  const navigate = useNavigate();
   const { user_id } = useSelector((state) => state.authors.user);
   const { BOOK_ID } = useParams();
   const [previewBookImage, setPreviewBookImage] = useState(null);
@@ -67,9 +68,13 @@ const EditBook = () => {
             'Content-Type': 'multipart/form-data',
           },
         })
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+      if (response.data.status) {
+        toast.success(response.data.message)
+        navigate(`${AppRoutes.AUTHOR.BOOK.LIST}`)
+      }
+
+    } catch (err) {
+      toast.error(err.response.data.message)
     }
   }
 
