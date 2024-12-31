@@ -7,8 +7,24 @@ class AuthorModels extends BaseModal {
             const insertSql = "INSERT INTO author(name, email,profile_img,bio,password) VALUES (?,?,?,?,?)";
             const authorResult = await this.preparingQuery(insertSql, data);
             const authorID = authorResult.insertId;
-            let insertSubscriptionSql = `INSERT INTO subscription (author_id,subscription_type) VALUES(?,?)`;
-            await this.preparingQuery(insertSubscriptionSql, [authorID, subscription_type]);
+            let insertSubscriptionSql = `INSERT INTO subscription (author_id,subscription_type,book_quantity) VALUES(?,?,?)`;
+            let allowdBookCount = 0;
+            switch (subscription_type) {
+                case 'free':
+                    allowdBookCount = 10;
+                    break;
+                case 'standard':
+                    allowdBookCount = 30;
+                    break;
+                case 'premium':
+                    allowdBookCount = 10000;
+                    break;
+                default:
+                    allowdBookCount = 0;
+                    throw new Error("Invalid subscription type. Must be 'free', 'standard', or 'premium'.");
+
+            }
+            await this.preparingQuery(insertSubscriptionSql, [authorID, subscription_type, allowdBookCount]);
             return {
                 status: true,
                 message: "Admin created successfully"
