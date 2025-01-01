@@ -1,20 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AppRoute from "../../../routes/routes";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faEdit, faChartLine, faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import axios from 'axios'
+import { toast } from 'react-toastify';
 const BookList = () => {
     const [book, setBook] = useState([]);
+    const [bookID, setBookID] = useState(null);
     const { user_id, subscription_type } = useSelector((state) => state.authors.user)
     const GetBooks = async () => {
+        
         try {
             await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTHOR.BOOK.LIST}`, {
                 params: { user_id }
             }).then((value) => setBook(value.data.books))
         } catch (err) {
             console.log(err)
+        }
+    }
+    const handleDeleteBook = async () => {
+        try {
+
+            let respnse = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTHOR.BOOK.SINGLE(bookID)}`, {
+                params: {
+                    userID: user_id,
+                }
+            })
+            if (respnse.data.status) {
+                toast.success(respnse.data.message);
+                GetBooks();
+                
+            }
+        } catch (error) {
+            console.log('error', error)
         }
     }
     useEffect(() => {
@@ -73,7 +93,7 @@ const BookList = () => {
                                                 <Link className='act edit' to={AppRoute.AUTHOR.BOOK.SINGLE(book.id)}>
                                                     <FontAwesomeIcon icon={faEdit} /> Edit
                                                 </Link>
-                                                <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <span onClick={() => setBookID(book.id)} role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                     <FontAwesomeIcon icon={faTrashCan} /> Delete
                                                 </span>
                                             </div>
@@ -120,7 +140,7 @@ const BookList = () => {
                                 >
                                     Cancel
                                 </button>
-                                <button type="button" className="btn btn-danger">
+                                <button data-bs-dismiss='modal' onClick={handleDeleteBook} type="button" className="btn btn-danger">
                                     Delete
                                 </button>
                             </div>

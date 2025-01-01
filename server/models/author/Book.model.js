@@ -4,17 +4,39 @@ class BookModels extends BaseModal {
         super();
         this.tableName = tableName;
     }
-    async AddBook(data) {
-        const {
-            user_id, category_id, title, price, quantity, bookThumbnail, status, date } = data;
+    async AddBook(data, subscription_types) {
+        const { user_id, category_id, title, price, quantity, bookThumbnail, status, date } = data;
         try {
-            // TABLE NAME ARE HERE======>
-            const BOOK_TABLE = 'book';
+            let subscriptionLimit = `
+                SELECT 
+                    B.author_id,
+                    COUNT(B.id) AS book_count,
+                    S.book_quantity as max_book_quantity
+                FROM 
+                    book B
+                JOIN 
+                    subscription S
+                ON 
+                    B.author_id = S.author_id
+                WHERE 
+                    B.author_id = ? AND S.subscription_type = ?
+                GROUP BY 
+                    B.author_id, S.book_quantity
+            `;
+            let limitQuery = await this.preparingQuery(subscriptionLimit, [user_id, subscription_types]);
+            // Check if limit is exceeded or at the limit
+            const { book_count, max_book_quantity } = limitQuery[0];
+            if (book_count >= max_book_quantity) {
+                return {
+                    status: false,
+                    message: "You have reached the maximum limit to add a book"
+                };
+            } 
+            // Proceed with adding the book if the limit is not exceeded
             const RELATION_TABLE = 'book_category_relation';
-
             const insertQuery = `
-                INSERT INTO ${BOOK_TABLE} 
-                (author_id, category_id, name, price, quantity, thumbnail, status, publication_date) 
+                INSERT INTO ${this.tableName} 
+                (author_id, category_id, name, price, quantity, thumbnail, status, publication_date)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `;
             const insertResult = await this.preparingQuery(insertQuery, [user_id, category_id, title, price, quantity, bookThumbnail, status, date]);
@@ -158,7 +180,22 @@ class BookModels extends BaseModal {
         }
     }
 
-
+    async deleteModels(data) {
+        try {
+            const { book_id, userID } = data;
+            let delteQuery = `DELETE FROM ${this.tableName} WHERE author_id = ? AND id = ?`;
+            let result = await this.preparingQuery(delteQuery, [userID, book_id]);
+            if (result.affectedRows >= 1) {
+                return {
+                    status: true,
+                    message: "Book delete successfully"
+                }
+            }
+        } catch (error) {
+            console.error("Error in Book delete:", error);
+            throw error;
+        }
+    }
 
 }
 module.exports = BookModels;

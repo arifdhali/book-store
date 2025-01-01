@@ -13,7 +13,7 @@ const Add = () => {
   const author_cookie = jwtDecode(Cookies.get("AUTHOR_TOKEN"));
   const navigate = useNavigate();
 
-  let user_id = author_cookie.user.user_id;
+  let { user_id, subscription_type } = author_cookie.user;
   const formik = useFormik({
     initialValues: {
       user_id: user_id,
@@ -59,6 +59,7 @@ const Add = () => {
       Object.entries(data).forEach(([key, value]) => {
         form_data.append(key, value);
       })
+      form_data.append('subscription_type', subscription_type);
       let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.BOOK.ADD}`, form_data, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -69,9 +70,11 @@ const Add = () => {
         resetForm();
         navigate(AppRoutes.AUTHOR.BOOK.LIST);
       }
-
+      if (!response.data.status) {
+        toast.error(response.data.message);
+      }
     } catch (error) {
-      console.log(error)
+      console.log('error', error)
     }
 
   };

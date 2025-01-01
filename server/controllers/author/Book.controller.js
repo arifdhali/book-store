@@ -3,8 +3,9 @@ const BookModels = require("../../models/author/Book.model");
 const BookModel = new BookModels("book");
 const AddBookController = async (req, res) => {
     try {
-        const { user_id, category_id, title, date, quantity, price, status } = req.body;
+        const { user_id, category_id, title, date, quantity, price, status, subscription_type } = req.body;
         const thumbnail = req.file;
+
         if (!thumbnail) {
             return res.status(400).json({
                 status: false,
@@ -12,7 +13,7 @@ const AddBookController = async (req, res) => {
             });
         }
         const bookThumbnail = thumbnail.filename;
-
+        // Prepare data to be passed to the BookModel
         const data = {
             user_id,
             category_id,
@@ -23,20 +24,17 @@ const AddBookController = async (req, res) => {
             status,
             date,
         }
-        const result = await BookModel.AddBook(data);
+        const result = await BookModel.AddBook(data, subscription_type);
         if (result?.status) {
             return res.status(201).json({
                 status: true,
                 message: result.message,
             });
         } else {
-            return res.status(500).json({
-                status: false,
-                message: result?.message || "Failed to add the book",
-            });
+            return res.json(result);
         }
     } catch (error) {
-        console.error("Error in AddBookController:", error.message);
+        console.error("Error in AddBookController:", error.message || error.sqlMessage);
         return res.status(500).json({
             status: false,
             message: "Internal server error",
@@ -127,9 +125,18 @@ const EditBookController = async (req, res) => {
         });
     }
 }
+const DeleteBookController = async (req, res) => {
+    const { book_id } = req.params
+    const { userID } = req.query
+
+    let result = await BookModel.deleteModels({ book_id, userID })
+    return res.json(result)
+
+}
 module.exports = {
     AddBookController,
     GetSingleBookController,
     BookListController,
-    EditBookController
+    EditBookController,
+    DeleteBookController
 };
