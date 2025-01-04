@@ -1,3 +1,4 @@
+const FileServices = require("../../services/FileServices");
 const BaseModal = require("../Base.model");
 class BookModels extends BaseModal {
     constructor(tableName) {
@@ -24,14 +25,17 @@ class BookModels extends BaseModal {
                     B.author_id, S.book_quantity
             `;
             let limitQuery = await this.preparingQuery(subscriptionLimit, [user_id, subscription_types]);
+
             // Check if limit is exceeded or at the limit
-            const { book_count, max_book_quantity } = limitQuery[0];
-            if (book_count >= max_book_quantity) {
-                return {
-                    status: false,
-                    message: "You have reached the maximum limit to add a book"
-                };
-            } 
+            if (limitQuery[0]) {
+                const { book_count, max_book_quantity } = limitQuery[0];
+                if (book_count >= max_book_quantity) {
+                    return {
+                        status: false,
+                        message: "You have reached the maximum limit to add a book"
+                    };
+                }
+            }
             // Proceed with adding the book if the limit is not exceeded
             const RELATION_TABLE = 'book_category_relation';
             const insertQuery = `
@@ -180,15 +184,30 @@ class BookModels extends BaseModal {
         }
     }
 
-    async deleteModels(data) {
+    async deleteBookModels(data) {
         try {
             const { book_id, userID } = data;
-            let delteQuery = `DELETE FROM ${this.tableName} WHERE author_id = ? AND id = ?`;
-            let result = await this.preparingQuery(delteQuery, [userID, book_id]);
+            let thumbnailSql = `SELECT thumbnail FROM ${this.tableName} WHERE author_id = ? AND id = ?`;
+
+            let thumbnailResult = await this.preparingQuery(thumbnailSql, [userID, book_id]);
+            if (!thumbnailResult.length) {
+                return {
+                    status: false,
+                    message: "Book thumbnail not found"
+                };
+            }
+            //FileServices.deleteFile            
+            let deleteQuery = `DELETE FROM ${this.tableName} WHERE author_id = ? AND id = ?`;
+            let result = await this.preparingQuery(deleteQuery, [userID, book_id]);
             if (result.affectedRows >= 1) {
+                let { thumbnail } = thumbnailResult[0]
+                let thumDeleteResult;
+                if (thumbnail) {
+                    thumDeleteResult = await FileServices.deleteFile(thumbnail, "book");
+                }
                 return {
                     status: true,
-                    message: "Book delete successfully"
+                    message: "Book delete successfully",                    
                 }
             }
         } catch (error) {

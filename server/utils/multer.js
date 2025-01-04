@@ -9,7 +9,7 @@ const multerStorgeHandle = (folderName) => {
         filename: (req, file, cb) => {
             return cb(
                 null,
-                `${file.fieldname}-${file.originalname}`
+                `${new Date().getTime()}-${file.fieldname}-${file.originalname}`
             );
         },
     });
