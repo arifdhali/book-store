@@ -16,6 +16,7 @@ const Edit = () => {
         bio: '',
         profile_img: null,
         status: '',
+        inactive_date: ""
     });
 
     const formik = useFormik({
@@ -26,6 +27,9 @@ const Edit = () => {
             bio: Yup.string().required('Description is required'),
             profile_img: Yup.mixed().nullable(),
             status: Yup.string().required('Status is required'),
+            inactive_date: Yup.date()
+                .required("Inactive Date is required")
+                .min(new Date(new Date().setHours(0, 0, 0, 0)), "Date should be present or in the future"),
         }),
         onSubmit: (values) => {
             // Compare values with initial values
@@ -110,7 +114,7 @@ const Edit = () => {
     useEffect(() => {
         getSpecificData();
     }, []);
-
+    console.log(formik.errors.inactive_date)
     return (
         <div className="p-4 bg-white rounded-2 w-50">
             <form id="author-form" autoComplete="off" onSubmit={formik.handleSubmit}>
@@ -201,6 +205,23 @@ const Edit = () => {
                         <div className="invalid-feedback">{formik.errors.status}</div>
                     ) : null}
                 </div>
+                {formik.values.status == "inactive" && (
+                    <div className="mb-3">
+                        <label htmlFor="date" className="form-label">Inactive Date</label>
+                        <input
+                            type="date"
+                            className={`form-control ${formik.errors?.inactive_date && formik.touched?.inactive_date ? "is-invalid" : ""}`}
+                            id="date"
+                            name="inactive_date"
+                            onChange={formik.handleChange}
+                            value={formik.values.inactive_date}
+                            min={new Date().toISOString().split("T")[0]}
+                        />
+                        {formik.errors?.inactive_date && formik.touched?.inactive_date ? (
+                            <div className="invalid-feedback">{formik.errors?.inactive_date}</div>
+                        ) : null}
+                    </div>
+                )}
                 {/* Submit Button */}
                 <div className="form-group">
                     <button type="submit" className="btn btn-primary btn-block">
