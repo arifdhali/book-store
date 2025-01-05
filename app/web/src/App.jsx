@@ -54,8 +54,7 @@ const App = () => {
             <Route index element={<AuthorHome />} />
             <Route path={AppRoute.AUTHOR.BOOK.LIST} element={<BookList />} />
             <Route path={AppRoute.AUTHOR.BOOK.ADD} element={<AddBook />} />
-            <Route path={AppRoute.AUTHOR.BOOK.SINGLE(":BOOK_ID")} element={<EditBook />} />
-            <Route path={AppRoute.AUTHOR.BOOK.PUBLISH} element={"Publish book"} />
+            <Route path={AppRoute.AUTHOR.BOOK.SINGLE(":BOOK_ID")} element={<EditBook />} />            
             <Route path={AppRoute.AUTHOR.COUPON} element={<Coupon />} />
             <Route path={AppRoute.AUTHOR.BOOK.ANALYTICS(":id")} element={<BookAnalytics />} />
             <Route path={AppRoute.AUTHOR.ORDER} element={<OrderList />} />

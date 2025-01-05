@@ -45,12 +45,11 @@ class AuthorModels extends BaseModal {
         }
 
     }
-    async getAuthors(data) {
+    async getAuthors() {
         try {
             const getSql = `SELECT id, name, email, profile_img, bio, status 
-            FROM author 
-            WHERE status = ?`;
-            return await this.preparingQuery(getSql, [data]);
+            FROM author `;
+            return await this.preparingQuery(getSql,[]);
         } catch (error) {
             console.error("Error in when get all Author  " + error);
             return { status: false, message: error };

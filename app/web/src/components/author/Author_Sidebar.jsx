@@ -72,14 +72,6 @@ const Sidebar = () => {
                                         Add Book
                                     </Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link
-                                        to={AppRoute.AUTHOR.BOOK.PUBLISH}
-                                        className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.BOOK.PUBLISH ? 'active' : ''}`}
-                                    >
-                                        Published Book
-                                    </Link>
-                                </li>
                             </ul>
 
                         </div>

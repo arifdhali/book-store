@@ -14,17 +14,24 @@ class AuthorAuthModels extends BaseModal {
         WHERE A.email = ? `;
         try {
             const [user] = await this.preparingQuery(sql, [email]);
+            const { status } = user;
             if (!user) {
                 return {
                     message: "User not found",
                     status: false
                 };
+            } else if (status !== 'active') {
+                return {
+                    message: `Your account is ${status}, please contact to the Admin`,
+                    status: false
+                };
             }
+
             const userinfo = {
                 user_id: user.id,
                 user_profile: user.profile_img,
                 user_status: user.status,
-                subscription_type:user.subscription_type,
+                subscription_type: user.subscription_type,
             }
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
