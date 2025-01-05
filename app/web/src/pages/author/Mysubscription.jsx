@@ -10,16 +10,17 @@ const MySubscription = () => {
                 <div className="col-md-4">
                     <div className="shadow rounded-2 border border-2 border-info active-plan basic-plan">
                         <div className="p-3 text-center bg-info text-white">
-                            <h3>Basic Plan</h3>
+                            <h3>Free Plan</h3>
                             <p className="mb-0"><strong>$0</strong>/month</p>
                         </div>
                         <div className="p-4">
                             <h5 className="text-info">Features</h5>
                             <ul className="list-unstyled">
                                 <li><FontAwesomeIcon icon={faCheck} /> Up to <strong>10</strong> Books</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Basic Analytics</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: 10 Quantity</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: 30% margin</li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Basic <strong> Analytics</strong></li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Add  <strong>10</strong> Coupons </li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Per Book:  <strong>10</strong> Quantity</li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: <strong> 30%</strong> margin</li>
                                 <li><FontAwesomeIcon icon={faClose} /> Advanced Analytics</li>
                             </ul>
                         </div>
@@ -42,9 +43,10 @@ const MySubscription = () => {
                             <h5 className="text-secondary">Features</h5>
                             <ul className="list-unstyled">
                                 <li><FontAwesomeIcon icon={faCheck} /> Up to <strong>30</strong> Books</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Basic Analytics</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: 40 Quantity</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: 10% margin</li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Basic <strong> Analytics</strong></li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Add  <strong>40</strong> Coupons </li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: <strong>40</strong> Quantity</li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: <strong>10%</strong> margin</li>
                                 <li><FontAwesomeIcon icon={faClose} /> Advanced Analytics</li>
                             </ul>
                         </div>
@@ -66,11 +68,12 @@ const MySubscription = () => {
                         <div className="p-4">
                             <h5 className="text-primary">Features</h5>
                             <ul className="list-unstyled">
-                                <li><FontAwesomeIcon icon={faCheck} /> Unlimited Books</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Advanced Analytics</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: Unlimited Quantity</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: 0% margin</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Comprehensive Analytics Reporting</li>
+                                <li><FontAwesomeIcon icon={faCheck} /> <strong>Unlimited</strong> Books</li>
+                                <li><FontAwesomeIcon icon={faCheck} /> <strong>Advanced</strong> Analytics</li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Add  <strong>Unlimited</strong> Coupons </li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: <strong>Unlimited</strong> Quantity</li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: <strong> 0% margin</strong></li>
+                                <li><FontAwesomeIcon icon={faCheck} /> <strong>Comprehensive</strong> Analytics Reporting</li>
                             </ul>
                         </div>
                         <div className="p-3 text-center">
