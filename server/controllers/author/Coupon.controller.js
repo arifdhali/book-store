@@ -11,8 +11,8 @@ const AddCouponController = async (req, res) => {
         expire_date,
         status,
     }
+    console.log(req.body)
     let result = await CouponsModels.addCoupon(data)
-    console.log(result)
     return res.json(result);
 
 }

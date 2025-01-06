@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { formattedDateTime } from "../../utils/FormattedDateTime";
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const Coupon = () => {
     const { user_id } = useSelector((state) => state.authors.user);
@@ -16,8 +17,8 @@ const Coupon = () => {
             book_id: "",
             code: "",
             discount: "",
-            startingDate: "",
-            expirationDate: "",
+            start_date: "",
+            expire_date: "",
             where_to_apply: "",
             status: ""
         },
@@ -25,10 +26,10 @@ const Coupon = () => {
             book_id: Yup.string().required("Select the book name"),
             code: Yup.string().required("Code is required"),
             discount: Yup.number().required("Discount is required"),
-            startingDate: Yup.date()
+            start_date: Yup.date()
                 .min(new Date(), "Expiration Date cannot be in the past")
                 .required("Expiration Date is required"),
-            expirationDate: Yup.date()
+            expire_date: Yup.date()
                 .min(new Date(), "Expiration Date cannot be in the past")
                 .required("Expiration Date is required"),
             where_to_apply: Yup.string().required("Where to apply is required"),
@@ -37,12 +38,15 @@ const Coupon = () => {
         onSubmit: async (values, { resetForm }) => {
             const formatedValues = {
                 ...values,
-                startingDate: formattedDateTime(values.startingDate),
-                expirationDate: formattedDateTime(values.expirationDate)
+                start_date: formattedDateTime(values.start_date),
+                expire_date: formattedDateTime(values.expire_date)
             };
             console.log(formatedValues);
             let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.ADD}`, formatedValues);
-            console.log(response);
+            if (response.data.status) {
+                toast.success(response.data.message)
+                resetForm();
+            }
         }
     });
 
@@ -183,28 +187,28 @@ const Coupon = () => {
                                         {formik.touched.discount && formik.errors.discount && <div className="invalid-feedback">{formik.errors.discount}</div>}
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="startingDate" className="form-label">Start Date</label>
+                                        <label htmlFor="start_date" className="form-label">Start Date</label>
                                         <input
                                             type="date"
-                                            className={`form-control ${formik.touched.startingDate && formik.errors.startingDate ? 'is-invalid' : ''}`}
-                                            id="startingDate"
-                                            name="startingDate"
+                                            className={`form-control ${formik.touched.start_date && formik.errors.start_date ? 'is-invalid' : ''}`}
+                                            id="start_date"
+                                            name="start_date"
                                             onChange={formik.handleChange}
-                                            value={formik.values.startingDate}
+                                            value={formik.values.start_date}
                                         />
-                                        {formik.touched.startingDate && formik.errors.startingDate && <div className="invalid-feedback">{formik.errors.startingDate}</div>}
+                                        {formik.touched.start_date && formik.errors.start_date && <div className="invalid-feedback">{formik.errors.start_date}</div>}
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="expirationDate" className="form-label">Expiration Date</label>
+                                        <label htmlFor="expire_date" className="form-label">Expiration Date</label>
                                         <input
                                             type="date"
-                                            className={`form-control ${formik.touched.expirationDate && formik.errors.expirationDate ? 'is-invalid' : ''}`}
-                                            id="expirationDate"
-                                            name="expirationDate"
+                                            className={`form-control ${formik.touched.expire_date && formik.errors.expire_date ? 'is-invalid' : ''}`}
+                                            id="expire_date"
+                                            name="expire_date"
                                             onChange={formik.handleChange}
-                                            value={formik.values.expirationDate}
+                                            value={formik.values.expire_date}
                                         />
-                                        {formik.touched.expirationDate && formik.errors.expirationDate && <div className="invalid-feedback">{formik.errors.expirationDate}</div>}
+                                        {formik.touched.expire_date && formik.errors.expire_date && <div className="invalid-feedback">{formik.errors.expire_date}</div>}
                                     </div>
                                     <div className="mb-3">
                                         <label htmlFor="status" className="form-label">Status</label>
