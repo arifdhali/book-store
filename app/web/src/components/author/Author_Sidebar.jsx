@@ -79,8 +79,8 @@ const Sidebar = () => {
                     {/* Orders */}
                     <li className="nav-item mb-1">
                         <Link
-                            to={AppRoute.AUTHOR.COUPON}
-                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.COUPON ? 'active' : ''}`}
+                            to={AppRoute.AUTHOR.COUPON.BASE}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.COUPON.BASE ? 'active' : ''}`}
                         >
                             <div className='d-flex gap-3 align-items-center'>
                                 <FontAwesomeIcon icon={faHandHoldingDollar} />

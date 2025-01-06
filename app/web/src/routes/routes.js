@@ -22,14 +22,18 @@ const routes = {
             LIST: "/author/book/list",
             ADD: "/author/book/add",
             SINGLE: (BOOK_ID) => `/author/book/${BOOK_ID}`,
-            ANALYTICS: (id) => `/author/book/${id}`,            
+            ANALYTICS: (id) => `/author/book/${id}`,
         },
 
         ORDER: "/author/order",
         SINGLE_ORDER: (id) => `/author/order/${id}`,
         MY_SUBSCRIPTION: "/author/subscription",
         READER_FEEDBACK: "/author/feedback",
-        COUPON: "/author/coupon"
+        COUPON: {
+            BASE: "/author/coupon",
+            ADD: "/author/coupon/add",
+            SINGLE: (coupon) => `/author/coupon/${coupon}`
+        }
 
 
 

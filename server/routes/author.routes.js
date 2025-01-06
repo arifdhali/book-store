@@ -18,7 +18,7 @@ authorRoute.get("/book/:book_id", GetSingleBookController);
 authorRoute.patch("/book/:book_id", uploadBook.single("thumbnail"), EditBookController);
 authorRoute.delete("/book/:book_id", DeleteBookController)
 
-authorRoute.post("/coupon", AddCouponController);
+authorRoute.post("/coupon/add", AddCouponController);
 
 
 // auth
