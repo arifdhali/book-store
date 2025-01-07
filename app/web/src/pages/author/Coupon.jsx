@@ -12,6 +12,8 @@ import { toast } from 'react-toastify';
 const Coupon = () => {
     const { user_id } = useSelector((state) => state.authors.user);
     const [book, setBook] = useState([]);
+    const [Coupons, setCoupons] = useState([]);
+    const [CouponID, setCouponID] = useState();
     const formik = useFormik({
         initialValues: {
             book_id: "",
@@ -41,11 +43,15 @@ const Coupon = () => {
                 start_date: formattedDateTime(values.start_date),
                 expire_date: formattedDateTime(values.expire_date)
             };
-            console.log(formatedValues);
-            let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.ADD}`, formatedValues);
+            let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.ADD}`, formatedValues, {
+                params: {
+                    user_id
+                }
+            });
             if (response.data.status) {
                 toast.success(response.data.message)
                 resetForm();
+                getCoupons();
             }
         }
     });
@@ -61,14 +67,27 @@ const Coupon = () => {
     };
 
     const getCoupons = async () => {
-        let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON}`);
-        console.log(response);
+        let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.BASE}`, {
+            params: {
+                user_id
+            }
+        });
+        if (response.data.status) {
+            setCoupons(response.data.coupons)
+        }
     };
+    const DeleteCoupons = async () => {
+        let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.SINGLE(CouponID)}`)
+        if (response.data.status) {
+            toast.success(response.data.message)
+            getCoupons();
+        }
+    }
 
     useEffect(() => {
         getCoupons();
         GetBooks();
-    }, []);
+    }, [user_id]);
     return (
         <>
             <div className='p-4 bg-white rounded-2'>
@@ -84,32 +103,44 @@ const Coupon = () => {
                         <tr>
                             <th style={{ width: "40px" }}>No</th>
                             <th>Code</th>
-                            <th>Discount</th>
-                            <th>Expiration Date</th>
+                            <th className='text-center'>Discount</th>
+                            <th className='text-center'>Expiration Date</th>
                             <th>Where to Apply</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>312a</td>
-                            <td>10%</td>
-                            <td>22-03-2025</td>
-                            <td>Min order 1000</td>
-                            <td>Active</td>
-                            <td valign='middle'>
-                                <div className='item-actions d-flex gap-2'>
-                                    <span role='button' className='act edit' data-bs-toggle="modal" data-bs-target="#EditCouponModal">
-                                        <FontAwesomeIcon icon={faEdit} /> Edit
-                                    </span>
-                                    <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                        <FontAwesomeIcon icon={faTrashCan} /> Delete
-                                    </span>
-                                </div>
-                            </td>
-                        </tr>
+                        {
+                            Coupons.length > 0 ? (
+                                Coupons.map((coupon, index) => (
+                                    <tr key={coupon.id}>
+                                        <td>{index + 1}</td>
+                                        <td>{coupon?.code}</td>
+                                        <td align='center'>{coupon?.discount}%</td>
+                                        <td align='center'>{formattedDateTime(coupon?.expire_date)}</td>
+                                        <td>{coupon?.where_to_apply}</td>
+                                        <td className='text-capitalize'>{coupon?.status}</td>
+                                        <td valign='middle'>
+                                            <div className='item-actions d-flex gap-2'>
+                                                <span role='button' className='act edit' data-bs-toggle="modal" data-bs-target="#EditCouponModal">
+                                                    <FontAwesomeIcon icon={faEdit} /> Edit
+                                                </span>
+                                                <span onClick={() => setCouponID(coupon.id)} role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                    <FontAwesomeIcon icon={faTrashCan} /> Delete
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+
+                            ) : (
+                                <tr>
+                                    <td colSpan={7} align='center'>No coupons found</td>
+                                </tr>
+                            )
+                        }
+
                     </tbody>
                 </table>
 
@@ -263,8 +294,9 @@ const Coupon = () => {
                             <div className="modal-body">
                                 Are you sure you want to delete this coupon?
                             </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-danger">Delete</button>
+                            <div className="modal-footer justify-content-start">
+                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                <button type="button" className="btn btn-danger"  data-bs-dismiss="modal" aria-label="Close" onClick={DeleteCoupons}>Delete</button>
                             </div>
                         </div>
                     </div>

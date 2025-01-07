@@ -5,7 +5,7 @@ const { AuthorLogin, AuthorLogout, AuthorRegister } = require("../controllers/au
 const HomepageController = require("../controllers/author/Home.Controller");
 const uploadMulter = require("../utils/multer");
 const { AddBookController, BookListController, EditBookController, GetSingleBookController, DeleteBookController } = require("../controllers/author/Book.controller");
-const { AddCouponController } = require("../controllers/author/Coupon.controller");
+const { AddCouponController, GetAllCoupons, DeleteCouponsController } = require("../controllers/author/Coupon.controller");
 
 const uploadAuthor = uploadMulter("author");
 const uploadBook = uploadMulter("book");
@@ -19,6 +19,8 @@ authorRoute.patch("/book/:book_id", uploadBook.single("thumbnail"), EditBookCont
 authorRoute.delete("/book/:book_id", DeleteBookController)
 
 authorRoute.post("/coupon/add", AddCouponController);
+authorRoute.get("/coupon", GetAllCoupons);
+authorRoute.delete("/coupon/:couponID", DeleteCouponsController)
 
 
 // auth
