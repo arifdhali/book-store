@@ -17,10 +17,10 @@ const AddCouponController = async (req, res) => {
             expire_date,
             status,
         }
-        let result = await CouponsModels.addCoupon(data)
+        let result = await CouponsModels.addCoupon(data);
         return res.json(result);
     } catch (error) {
-        throw error
+        throw error        
     }
 }
 

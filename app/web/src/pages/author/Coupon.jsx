@@ -8,6 +8,7 @@ import axios from 'axios';
 import { formattedDateTime } from "../../utils/FormattedDateTime";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { DeleteItems } from '../../components';
 
 const Coupon = () => {
     const { user_id } = useSelector((state) => state.authors.user);
@@ -25,7 +26,9 @@ const Coupon = () => {
             status: ""
         },
         validationSchema: Yup.object({
-            book_id: Yup.string().required("Select the book name"),
+            book_id: Yup.number().required("Select the book name")
+                .typeError("Select a book")
+            ,
             code: Yup.string().required("Code is required"),
             discount: Yup.number().required("Discount is required"),
             start_date: Yup.date()
@@ -43,6 +46,7 @@ const Coupon = () => {
                 start_date: formattedDateTime(values.start_date),
                 expire_date: formattedDateTime(values.expire_date)
             };
+            console.log(formatedValues)
             let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.ADD}`, formatedValues, {
                 params: {
                     user_id
@@ -52,6 +56,8 @@ const Coupon = () => {
                 toast.success(response.data.message)
                 resetForm();
                 getCoupons();
+            } else {
+                toast.error(response.data.message)
             }
         }
     });
@@ -112,7 +118,7 @@ const Coupon = () => {
                     </thead>
                     <tbody>
                         {
-                            Coupons.length > 0 ? (
+                            Coupons.length > 1 ? (
                                 Coupons.map((coupon, index) => (
                                     <tr key={coupon.id}>
                                         <td>{index + 1}</td>
@@ -164,7 +170,7 @@ const Coupon = () => {
                                                 {
                                                     book.length > 0 ? (
                                                         <>
-                                                            <option defaultChecked>Choose Book</option>
+                                                            <option selected>Choose Book</option>
                                                             {book.map((item) => (
                                                                 <option key={item.id} value={item.id}>
                                                                     {item.name}
@@ -258,7 +264,7 @@ const Coupon = () => {
                                     </div>
                                     <div className="modal-footer border-top-0">
                                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Add Coupon</button>
+                                        <button type="submit" className="btn btn-primary">Add Coupon</button>
                                     </div>
                                 </form>
                             </div>
@@ -283,24 +289,13 @@ const Coupon = () => {
                     </div>
                 </div>
 
-                {/* Delete Coupon Modal */}
-                <div className="modal fade" id="deleteModal" tabIndex={-1} aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="deleteModalLabel">Delete Coupon</h5>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
-                                Are you sure you want to delete this coupon?
-                            </div>
-                            <div className="modal-footer justify-content-start">
-                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                                <button type="button" className="btn btn-danger"  data-bs-dismiss="modal" aria-label="Close" onClick={DeleteCoupons}>Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <DeleteItems
+                    // show={showDeleteModal}
+                    // handleClose={handleDeleteModalClose}
+                    // onDelete={deleteCoupon}
+                    // itemName="this coupon"
+                />
+
             </div>
         </>
     );

@@ -8,6 +8,8 @@ import Author_Header from "./author/Author_Header"
 import Author_Footer from "./author/Author_Footer"
 import Author_Sidebar from "./author/Author_Sidebar"
 
+import DeleteItems from "./DeleteItems"
+
 export {
     Admin_Header,
     Admin_Footer,
@@ -17,4 +19,6 @@ export {
     Author_Header,
     Author_Footer,
     Author_Sidebar,
+
+    DeleteItems
 }
