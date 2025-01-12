@@ -2,13 +2,14 @@ const Coupons = require("../../models/author/Coupon.model");
 const CouponsModels = new Coupons("coupons")
 const AddCouponController = async (req, res) => {
     try {
-        const { user_id } = req.query;
+        const { user_id,subscription_type } = req.query;
         const { book_id, code, where_to_apply, discount, start_date, expire_date, status } = req.body;
         if (!book_id || !user_id) {
             throw new Error("book id & author id is required to add coupons");
         }
         const data = {
             user_id,
+            subscription_type,
             book_id,
             code,
             where_to_apply,

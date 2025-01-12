@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import { DeleteItems } from '../../components';
 
 const Coupon = () => {
-    const { user_id } = useSelector((state) => state.authors.user);
+    const { user_id, subscription_type } = useSelector((state) => state.authors.user);
     const [book, setBook] = useState([]);
     const [Coupons, setCoupons] = useState([]);
     const [CouponID, setCouponID] = useState();
@@ -49,13 +49,14 @@ const Coupon = () => {
             console.log(formatedValues)
             let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.ADD}`, formatedValues, {
                 params: {
-                    user_id
+                    user_id,
+                    subscription_type,
                 }
             });
             if (response.data.status) {
                 toast.success(response.data.message)
                 resetForm();
-                getCoupons();
+                getCoupons();                
             } else {
                 toast.error(response.data.message)
             }
@@ -264,7 +265,7 @@ const Coupon = () => {
                                     </div>
                                     <div className="modal-footer border-top-0">
                                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" className="btn btn-primary">Add Coupon</button>
+                                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Add Coupon</button>
                                     </div>
                                 </form>
                             </div>
@@ -290,10 +291,10 @@ const Coupon = () => {
                 </div>
 
                 <DeleteItems
-                    // show={showDeleteModal}
-                    // handleClose={handleDeleteModalClose}
-                    // onDelete={deleteCoupon}
-                    // itemName="this coupon"
+                // show={showDeleteModal}
+                // handleClose={handleDeleteModalClose}
+                // onDelete={deleteCoupon}
+                // itemName="this coupon"
                 />
 
             </div>

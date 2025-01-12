@@ -18,6 +18,25 @@ class Coupns extends BaseModal {
                 expire_date: couponInfo.expire_date,
 
             }
+            // check the count of code based on the subscription
+            let checkCountSql = `SELECT C.author_id,COUNT(C.author_id) as coupons_count, S.coupons_quantity as max_coupons
+                                FROM coupons C            
+                                JOIN subscription S
+                                ON C.author_id = S.author_id
+                                WHERE C.author_id = ? AND S.subscription_type = ?
+                                GROUP BY C.author_id,S.coupons_quantity         
+                                `
+            let subscriptionType = couponInfo.subscription_type;
+            let limitQuery = await this.preparingQuery(checkCountSql, [couponInfo.user_id, subscriptionType]);
+            if (limitQuery[0]) {
+                const { coupons_count, max_coupons } = limitQuery[0]
+                if (coupons_count >= max_coupons) {
+                    return {
+                        status: false,
+                        message: "You have reached the maximum limit to add a coupons"
+                    };
+                }
+            }
 
             const columns = Object.keys(dbColumn).join(",");
             const placeholders = Object.keys(dbColumn).map(() => "?").join(", ");
@@ -51,10 +70,10 @@ class Coupns extends BaseModal {
                     coupons,
                     mesage: "Coupon get success",
                 }
-            } 
+            }
         } catch (error) {
             throw error;
-        }        
+        }
     }
 
     async deleteCoupons(id) {
