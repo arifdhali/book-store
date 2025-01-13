@@ -56,7 +56,7 @@ const Coupon = () => {
             if (response.data.status) {
                 toast.success(response.data.message)
                 resetForm();
-                getCoupons();                
+                getCoupons();
             } else {
                 toast.error(response.data.message)
             }
@@ -291,10 +291,6 @@ const Coupon = () => {
                 </div>
 
                 <DeleteItems
-                // show={showDeleteModal}
-                // handleClose={handleDeleteModalClose}
-                // onDelete={deleteCoupon}
-                // itemName="this coupon"
                 />
 
             </div>

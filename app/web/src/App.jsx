@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AdminLayout, AuthLayout, AuthorLayout } from './layouts';
-import { AdminHome, Users, Subscription, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd } from './pages/admin';
+import { AdminHome, Users, Subscription, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd, Orders } from './pages/admin';
 import { Author_Login, Author_Forgotpass, BookList, AddBook, Coupon, OrderList, SingleOrderView, MySubscription, ReaderFeedback, BookAnalytics, Author_Register, EditBook } from './pages/author';
 import AppRoute from "./routes/routes";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -47,6 +47,7 @@ const App = () => {
             <Route path={AppRoute.ADMIN.AUTHORS.SUBSCRIPTIONS} element={<Subscription />} />
             <Route path={AppRoute.ADMIN.AUTHORS.VIEW(':id')} element={<EditAuthor />} />
             <Route path={AppRoute.ADMIN.USERS} element={<Users />} />
+            <Route path={AppRoute.ADMIN.ORDERS.BASE} element={<Orders />} />
           </Route>
 
           {/* Author routes */}
@@ -54,7 +55,7 @@ const App = () => {
             <Route index element={<AuthorHome />} />
             <Route path={AppRoute.AUTHOR.BOOK.LIST} element={<BookList />} />
             <Route path={AppRoute.AUTHOR.BOOK.ADD} element={<AddBook />} />
-            <Route path={AppRoute.AUTHOR.BOOK.SINGLE(":BOOK_ID")} element={<EditBook />} />            
+            <Route path={AppRoute.AUTHOR.BOOK.SINGLE(":BOOK_ID")} element={<EditBook />} />
             <Route path={AppRoute.AUTHOR.COUPON.BASE} element={<Coupon />} />
             <Route path={AppRoute.AUTHOR.BOOK.ANALYTICS(":id")} element={<BookAnalytics />} />
             <Route path={AppRoute.AUTHOR.ORDER} element={<OrderList />} />

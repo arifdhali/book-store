@@ -6,6 +6,9 @@ const routes = {
             LIST: "/admin/category",
             ADD: "/admin/category/add"
         },
+        ORDERS: {
+            BASE: "/admin/orders"
+        },
         AUTHORS: {
             BASE: '/admin/authors',
             LIST: '/admin/authors/list',

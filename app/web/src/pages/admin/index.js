@@ -9,6 +9,7 @@ const AddAuthor = lazy(() => import("./authors/Add"));
 const EditAuthor = lazy(() => import("./authors/Edit"));
 const Category = lazy(() => import("./category/Category"));
 const CategoryAdd = lazy(() => import("./category/Add"))
+const Orders = lazy(() => import("./OrdersList"))
 
 export {
     AdminHome,
@@ -20,5 +21,6 @@ export {
     AddAuthor,
     EditAuthor,
     Category,
-    CategoryAdd
+    CategoryAdd,
+    Orders
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faList, faRightFromBracket, faUserGraduate, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faList, faRightFromBracket, faUserGraduate, faUsers, faWarehouse } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import useUrlRemover from '../../hooks/useUrlRemover';
 import AppRoute from "../../routes/routes";
@@ -101,10 +101,13 @@ const Sidebar = () => {
                     </li>
                     <li className="nav-item mb-1">
                         <Link
-                            to={'subscriptions'}
-                            className={`nav-link ${useUrlRemover(locationActive) === '/admin/subscriptions' ? 'active' : ''}`}
+                            to={AppRoute.ADMIN.ORDERS.BASE}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.ORDERS.BASE ? 'active' : ''}`}
                         >
-                            Subscriptions
+                            <div className='d-flex gap-3 align-items-center'>
+                                <FontAwesomeIcon icon={faWarehouse} />
+                                Orders
+                            </div>
                         </Link>
                     </li>
                 </ul>
