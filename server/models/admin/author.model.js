@@ -7,24 +7,32 @@ class AuthorModels extends BaseModal {
             const insertSql = "INSERT INTO author(name, email,profile_img,bio,password) VALUES (?,?,?,?,?)";
             const authorResult = await this.preparingQuery(insertSql, data);
             const authorID = authorResult.insertId;
-            let insertSubscriptionSql = `INSERT INTO subscription (author_id,subscription_type,book_quantity) VALUES(?,?,?)`;
-            let allowdBookCount = 0;
+            let insertSubscriptionSql = `INSERT INTO subscription (author_id,subscription_type,book_quantity,coupons_quantity,order_margin) VALUES(?,?,?,?,?)`;
+
+            let bookQuantity = 0;
+            let couponsQuantity = 0;
+            let orderMargin = 0;
+
             switch (subscription_type) {
                 case 'free':
-                    allowdBookCount = 10;
+                    bookQuantity = 10;
+                    couponsQuantity = 10;
+                    orderMargin = "30%";
                     break;
                 case 'standard':
-                    allowdBookCount = 30;
+                    bookQuantity = 30;
+                    couponsQuantity = 20;
+                    orderMargin = "20%";
                     break;
                 case 'premium':
-                    allowdBookCount = 10000;
+                    bookQuantity = 10000;
+                    couponsQuantity = 50;
+                    orderMargin = 0;
                     break;
                 default:
-                    allowdBookCount = 0;
                     throw new Error("Invalid subscription type. Must be 'free', 'standard', or 'premium'.");
-
             }
-            await this.preparingQuery(insertSubscriptionSql, [authorID, subscription_type, allowdBookCount]);
+            await this.preparingQuery(insertSubscriptionSql, [authorID, subscription_type, bookQuantity, couponsQuantity, orderMargin]);
             return {
                 status: true,
                 message: "Admin created successfully"
@@ -49,7 +57,7 @@ class AuthorModels extends BaseModal {
         try {
             const getSql = `SELECT id, name, email, profile_img, bio, status 
             FROM author `;
-            return await this.preparingQuery(getSql,[]);
+            return await this.preparingQuery(getSql, []);
         } catch (error) {
             console.error("Error in when get all Author  " + error);
             return { status: false, message: error };

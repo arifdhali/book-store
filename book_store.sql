@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 13, 2025 at 05:16 PM
+-- Generation Time: Jan 13, 2025 at 05:30 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `author` (
   `password_reset_expires` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone_no` (`phone_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `author`
@@ -82,7 +82,9 @@ INSERT INTO `author` (`id`, `name`, `email`, `profile_img`, `bio`, `dob`, `addre
 (2, 'David Bass', 'arif-b@yopmail.com', 'profile_img-WhatsApp Image 2024-11-30 at 21.28.13_ae133996.jpg', 'standard', NULL, NULL, NULL, NULL, '$2b$10$hLwEFcFG3/Hr5uBEO1WWkOHodIj6cN2wC6pnCvcbcH4gW3gIeaE9S', '2024-12-18 23:12:48', 'active', '2025-01-12 17:08:45', NULL, NULL),
 (12, 'Blaine Fowler', 'vysahomopy@mailinator.com', 'profile_img-8852.jpg', 'Magna pariatur Even', NULL, NULL, NULL, NULL, '$2b$10$NqTd1z8l.GImsV7agOB/AuTyDiAU0MlbXGYIB.gQbUyTBfaX38z6u', '2024-12-31 23:09:12', 'active', '2024-12-31 17:39:12', NULL, NULL),
 (13, 'Elizabeth Baker', 'gabyxed@mailinator.com', 'profile_img-8852.jpg', 'Excepturi optio rei', NULL, NULL, NULL, NULL, '$2b$10$CDCo6mp/Sedcn2g3n25zGeD2SWmKhDvAePINoqPffyAyqNgyzsyQq', '2024-12-31 23:09:23', 'active', '2024-12-31 17:39:23', NULL, NULL),
-(14, 'Barbara Fernandez', 'tocadi@mailinator.com', 'profile_img-8852.jpg', 'Quos nostrud minus e', NULL, NULL, NULL, NULL, '$2b$10$jHavGskUh9894QPEG5dfG.fO4n1jO0mGQQ5KQtu3kNtv6bBhHWEWm', '2024-12-31 23:09:32', 'active', '2024-12-31 17:39:32', NULL, NULL);
+(15, 'Mumtaj', 'mamtaj@yopmail.com', '1736789302173-profile_img-todo.png', 'test', NULL, NULL, NULL, NULL, '$2b$10$/VKiNu.FvueurFWK720HJeaISGC7fEK/6mOObg3PVHXBs488AQpMS', '2025-01-13 22:58:22', 'active', '2025-01-13 17:28:22', NULL, NULL),
+(16, 'Standard Users', 'standardusers@yopmail.com', '1736789376548-profile_img-todo.png', 'standard', NULL, NULL, NULL, NULL, '$2b$10$fZHl3wwiCIMmhdw/EPvIu.FrwzKktJU5y2RZpDftM7h7jo2xBi1MS', '2025-01-13 22:59:36', 'active', '2025-01-13 17:29:36', NULL, NULL),
+(17, 'Heidi Doyle', 'gony@yopmail.com', '1736789420690-profile_img-todo.png', 'Soluta dolor cupidat', NULL, NULL, NULL, NULL, '$2b$10$PGf92Od4ToVH4xWAjo0JVuvhMeQPyoRvIIhxReTD7izksmAj7TEhW', '2025-01-13 23:00:20', 'active', '2025-01-13 17:30:20', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -265,22 +267,24 @@ CREATE TABLE IF NOT EXISTS `subscription` (
   `subscription_type` enum('free','standard','premium') NOT NULL DEFAULT 'free',
   `book_quantity` int DEFAULT NULL COMMENT 'Free-10, standard-30',
   `coupons_quantity` int NOT NULL,
-  `margin` mediumint DEFAULT NULL,
+  `order_margin` mediumint DEFAULT NULL,
   `start_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `end_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_author` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `subscription`
 --
 
-INSERT INTO `subscription` (`id`, `author_id`, `subscription_type`, `book_quantity`, `coupons_quantity`, `margin`, `start_date`, `end_date`) VALUES
+INSERT INTO `subscription` (`id`, `author_id`, `subscription_type`, `book_quantity`, `coupons_quantity`, `order_margin`, `start_date`, `end_date`) VALUES
 (2, 2, 'free', 10, 10, 30, '2024-12-18 23:12:48', '2024-12-18 23:12:48'),
 (10, 12, 'free', 10, 0, NULL, '2024-12-31 23:09:12', '2024-12-31 23:09:12'),
 (11, 13, 'standard', 30, 0, NULL, '2024-12-31 23:09:23', '2024-12-31 23:09:23'),
-(12, 14, 'premium', 10000, 0, NULL, '2024-12-31 23:09:32', '2024-12-31 23:09:32');
+(13, 15, 'premium', 10000, 50, 0, '2025-01-13 22:58:22', '2025-01-13 22:58:22'),
+(14, 16, 'standard', 30, 20, 20, '2025-01-13 22:59:36', '2025-01-13 22:59:36'),
+(15, 17, 'free', 10, 10, 30, '2025-01-13 23:00:20', '2025-01-13 23:00:20');
 
 -- --------------------------------------------------------
 
