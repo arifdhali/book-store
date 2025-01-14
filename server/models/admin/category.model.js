@@ -42,7 +42,7 @@ class CategoryModels extends BaseModal {
             await this.preparingQuery(addSql, value);
             return {
                 status: true,
-                message: "Admin created successfully"
+                message: "Category created successfully"
             }
         } catch (error) {
             console.error("Error in Admin Category modal " + error);
@@ -60,6 +60,22 @@ class CategoryModels extends BaseModal {
             return { status: false, message: error };
         }
 
+    }
+    async delteCategory(id) {
+        try {
+            const deleteSql = `DELETE FROM book_category WHERE id = ?`;
+            let result = await this.preparingQuery(deleteSql, [id])
+            if (result.affectedRows >= 1) {
+                return {
+                    status: true,
+                    message: "Category delete successfully"
+                }
+            }
+
+        } catch (error) {
+            console.log('Delete category modal', error)
+            throw error;
+        }
     }
 
 }

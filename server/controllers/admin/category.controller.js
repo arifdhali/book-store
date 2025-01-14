@@ -30,7 +30,7 @@ const AddCategoryController = async (req, res) => {
 
 const AllCategoryController = async (req, res) => {
 
-    let result = await CatgoryModel.getCategories();    
+    let result = await CatgoryModel.getCategories();
     return res.json({
         result
     })
@@ -38,8 +38,20 @@ const AllCategoryController = async (req, res) => {
 
 
 }
-
+const DeleteCategoryController = async (req, res) => {
+    try {
+        const { cat_ID } = req.params;
+        if (!cat_ID) {
+            throw new Error("Category id is required");
+        }
+        let result = await CatgoryModel.delteCategory(cat_ID)
+        return res.json(result)
+    } catch (error) {
+        return error;
+    }
+}
 module.exports = {
     AddCategoryController,
-    AllCategoryController
+    AllCategoryController,
+    DeleteCategoryController
 }

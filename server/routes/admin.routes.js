@@ -4,7 +4,7 @@ const { AdminLogin, AdminLogout } = require("../controllers/auth/admin.controlle
 const validAdminVerify = require("../middleware/verify.auth");
 const { AddAuthorController, GetAllAuthorsController, GetSpecificAuthor, DeleteAuthor, UpdateAuthorsController } = require("../controllers/admin/author.controller");
 const uploadMulter = require("../utils/multer");
-const { AddCategoryController, AllCategoryController } = require("../controllers/admin/category.controller");
+const { AddCategoryController, AllCategoryController,DeleteCategoryController } = require("../controllers/admin/category.controller");
 
 
 
@@ -29,6 +29,7 @@ adminRoute.delete('/authors/:authorid', DeleteAuthor);
 // add category
 adminRoute.get("/category", AllCategoryController);
 adminRoute.post("/category/add", AddCategoryController);
+adminRoute.delete("/category/:cat_ID",DeleteCategoryController)
 
 
 // auth

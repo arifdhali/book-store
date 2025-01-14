@@ -12,7 +12,7 @@ class BookModels extends BaseModal {
                 SELECT 
                     B.author_id,
                     COUNT(B.id) AS book_count,
-                    S.book_quantity as max_book_quantity
+                    S.book_limit as max_book_quantity
                 FROM 
                     book B
                 JOIN 
@@ -22,7 +22,7 @@ class BookModels extends BaseModal {
                 WHERE 
                     B.author_id = ? AND S.subscription_type = ?
                 GROUP BY 
-                    B.author_id, S.book_quantity
+                    B.author_id, S.book_limit
             `;
             let limitQuery = await this.preparingQuery(subscriptionLimit, [user_id, subscription_types]);
 

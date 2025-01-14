@@ -1,3 +1,4 @@
+import path from "path"
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dotenv from 'dotenv';
@@ -11,5 +12,10 @@ export default defineConfig({
     host: process.env.HOST || 'localhost',
     port: process.env.PORT || 3000
   },
-  
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, "./src")
+    }
+  }
+
 });

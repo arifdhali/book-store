@@ -19,12 +19,12 @@ class Coupns extends BaseModal {
 
             }
             // check the count of code based on the subscription
-            let checkCountSql = `SELECT C.author_id,COUNT(C.author_id) as coupons_count, S.coupons_quantity as max_coupons
+            let checkCountSql = `SELECT C.author_id,COUNT(C.author_id) as coupons_count, S.coupons_limit as max_coupons
                                 FROM coupons C            
                                 JOIN subscription S
                                 ON C.author_id = S.author_id
                                 WHERE C.author_id = ? AND S.subscription_type = ?
-                                GROUP BY C.author_id,S.coupons_quantity         
+                                GROUP BY C.author_id,S.coupons_limit         
                                 `
             let subscriptionType = couponInfo.subscription_type;
             let limitQuery = await this.preparingQuery(checkCountSql, [couponInfo.user_id, subscriptionType]);

@@ -7,32 +7,39 @@ class AuthorModels extends BaseModal {
             const insertSql = "INSERT INTO author(name, email,profile_img,bio,password) VALUES (?,?,?,?,?)";
             const authorResult = await this.preparingQuery(insertSql, data);
             const authorID = authorResult.insertId;
-            let insertSubscriptionSql = `INSERT INTO subscription (author_id,subscription_type,book_quantity,coupons_quantity,order_margin) VALUES(?,?,?,?,?)`;
+            let insertSubscriptionSql = `INSERT INTO subscription (author_id,subscription_type,book_quantity,book_limit,coupons_limit,order_margin) VALUES(?,?,?,?,?,?)`;
 
-            let bookQuantity = 0;
-            let couponsQuantity = 0;
-            let orderMargin = 0;
-
+            const subscriptionFeatures = {}
             switch (subscription_type) {
                 case 'free':
-                    bookQuantity = 10;
-                    couponsQuantity = 10;
-                    orderMargin = "30%";
+                    Object.assign(subscriptionFeatures, {
+                        bookQuantity: 10,
+                        book_limit: 10,
+                        coupons_limit: 10,
+                        orderMargin: "30%"
+                    })
                     break;
                 case 'standard':
-                    bookQuantity = 30;
-                    couponsQuantity = 20;
-                    orderMargin = "20%";
+                    Object.assign(subscriptionFeatures, {
+                        bookQuantity: 40,
+                        book_limit: 30,
+                        coupons_limit: 20,
+                        orderMargin: "20%"
+                    })
                     break;
                 case 'premium':
-                    bookQuantity = 10000;
-                    couponsQuantity = 50;
-                    orderMargin = 0;
+                    Object.assign(subscriptionFeatures, {
+                        bookQuantity: null,
+                        book_limit: null,
+                        coupons_limit: null,
+                        orderMargin: null,
+                    })
                     break;
                 default:
                     throw new Error("Invalid subscription type. Must be 'free', 'standard', or 'premium'.");
             }
-            await this.preparingQuery(insertSubscriptionSql, [authorID, subscription_type, bookQuantity, couponsQuantity, orderMargin]);
+            const { bookQuantity, book_limit, coupons_limit, orderMargin } = subscriptionFeatures;
+            await this.preparingQuery(insertSubscriptionSql, [authorID, subscription_type, bookQuantity, book_limit, coupons_limit, orderMargin]);
             return {
                 status: true,
                 message: "Admin created successfully"
