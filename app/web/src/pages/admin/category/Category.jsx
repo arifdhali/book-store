@@ -11,6 +11,15 @@ import ConfirmModal from "@/utils/ConfirmModal";
 
 const Category = () => {
     const [Catgories, setCatgories] = useState([]);
+    const [ModalInfo, setModalInfo] = useState({
+        type: "",
+        api_url: "",
+        id: "",
+        page_target: {
+
+        },
+    })
+
 
     const getCategories = () => {
         axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.CATEGORY.LIST}`)
@@ -24,7 +33,7 @@ const Category = () => {
     useEffect(() => {
         getCategories()
     }, []);
-    console.log(Catgories);
+
     return (
         <>
 
@@ -68,7 +77,12 @@ const Category = () => {
                                                     <FontAwesomeIcon icon={faEdit} />
                                                 </Link>
 
-                                                <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                    onClick={() => setModalInfo({
+                                                        type: 'delete',
+                                                        api_url: AppRoute.ADMIN.CATEGORY.SINGLE(item.id),
+                                                    })}
+                                                >
                                                     <FontAwesomeIcon icon={faTrashCan} />
                                                 </span>
                                             </div>
@@ -88,7 +102,7 @@ const Category = () => {
                     </tbody>
                 </table>
 
-                <ConfirmModal />
+                <ConfirmModal modal={ModalInfo} onSuccess={getCategories} />
 
             </div>
         </>

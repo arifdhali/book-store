@@ -1,7 +1,24 @@
+import axios from 'axios'
 import React from 'react'
+import { toast } from 'react-toastify';
 
-const ConfirmModal = () => {
-    // const { modalType, itemID } = props.modal;
+const ConfirmModal = ({ modal, onSuccess }) => {
+    const { api_url, type } = modal;
+    const handelDelete = async () => {
+        try {
+            await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${api_url}`)
+                .then((res) => {
+                    if (res.data.status) {
+                        toast.success(res.data?.message)
+                        if (onSuccess) onSuccess();
+                    }
+                })
+        } catch (error) {
+            console.log(error);
+            toast.success(res.error?.data.message)
+        }
+
+    }
     return (
         <div
             className="modal fade"
@@ -34,7 +51,7 @@ const ConfirmModal = () => {
                         >
                             Cancel
                         </button>
-                        <button type="button" className="btn btn-primary">
+                        <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handelDelete}>
                             Ok
                         </button>
                     </div>

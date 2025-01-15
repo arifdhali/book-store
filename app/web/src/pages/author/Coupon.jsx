@@ -8,7 +8,6 @@ import axios from 'axios';
 import { formattedDateTime } from "../../utils/FormattedDateTime";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { DeleteItems } from '../../components';
 
 const Coupon = () => {
     const { user_id, subscription_type } = useSelector((state) => state.authors.user);
@@ -289,9 +288,6 @@ const Coupon = () => {
                         </div>
                     </div>
                 </div>
-
-                <DeleteItems
-                />
 
             </div>
         </>

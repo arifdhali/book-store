@@ -4,7 +4,8 @@ const routes = {
         BASE: "/admin",
         CATEGORY: {
             LIST: "/admin/category",
-            ADD: "/admin/category/add"
+            ADD: "/admin/category/add",
+            SINGLE: (id) => `/admin/category/${id}`
         },
         ORDERS: {
             BASE: "/admin/orders"

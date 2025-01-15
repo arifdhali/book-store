@@ -95,7 +95,7 @@ INSERT INTO `author` (`id`, `name`, `email`, `profile_img`, `bio`, `dob`, `addre
 DROP TABLE IF EXISTS `author_orders`;
 CREATE TABLE IF NOT EXISTS `author_orders` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `order_id` varchar(200) NOT NULL,
+  `order_id` varchar(191) NOT NULL,
   `user_id` int DEFAULT NULL,
   `book_id` int DEFAULT NULL,
   `quantity` int DEFAULT NULL,
