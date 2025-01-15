@@ -9,18 +9,20 @@ class CategoryModels extends BaseModal {
 
             const getSql = `
                 SELECT 
-                c.id, 
-                c.name, 
-                c.description,
-                COUNT(bck.book_id) AS total_book
+                bc.id, 
+                bc.name, 
+                bc.description,
+                COUNT(B.id) AS total_book
             FROM 
-                book_category c
+            book_category bc 
             LEFT JOIN 
-                book_category_relation bck 
+            book B
             ON 
-                c.id = bck.category_id
+                B.category_id = bc.id
             GROUP BY 
-                c.id, c.name, c.description
+                bc.id, 
+                bc.name, 
+                bc.description
           `;
             return await this.preparingQuery(getSql);
 
@@ -63,19 +65,19 @@ class CategoryModels extends BaseModal {
     }
     async checkCategoryIsUsedOrNot(id) {
         try {
-            let checkSql = `SELECT DISTINCT
-                            B.author_id, A.name as Author_name, 
-                            B.name as Book_name, B.id as Book_id
-                            FROM book_category_relation BCR 
-                            INNER JOIN book B ON B.id = BCR.book_id
-                            INNER JOIN author A ON A.id = B.author_id
-                            WHERE BCR.category_id = ?`;
+            let checkSql = `SELECT 
+                            B.author_id,BC.id as category_Id, A.name as author_name, 
+                            B.name as book_name, B.id as book_id
+                            FROM book_category BC
+                            JOIN book B ON B.category_id = BC.id
+                            JOIN author A ON B.author_id = A.id
+                            WHERE BC.id = ?`;
             let result = await this.preparingQuery(checkSql, [id]);
             if (result.length > 0) {
-                const { Author_name } = result[0];
+                const { author_name } = result[0];
                 return {
                     status: true,
-                    message: `${Author_name} is use this category`
+                    message: `${author_name} is use this category`
                 }
             }
         } catch (error) {
@@ -85,7 +87,7 @@ class CategoryModels extends BaseModal {
     async delteCategory(id) {
         try {
             // before deleting check if category is used or not !
-            let categoryUsedORnot = await this.checkCategoryIsUsedOrNot(id);
+            let categoryUsedORnot = await this.checkCategoryIsUsedOrNot(id);            
             if (categoryUsedORnot?.status) {
                 return {
                     status: false,

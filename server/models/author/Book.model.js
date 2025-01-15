@@ -37,7 +37,7 @@ class BookModels extends BaseModal {
                 }
             }
             // Proceed with adding the book if the limit is not exceeded
-            const RELATION_TABLE = 'book_category_relation';
+            const RELATION_TABLE = 'book_category';
             const insertQuery = `
                 INSERT INTO ${this.tableName} 
                 (author_id, category_id, name, price, quantity, thumbnail, status, publication_date)
@@ -46,21 +46,10 @@ class BookModels extends BaseModal {
             const insertResult = await this.preparingQuery(insertQuery, [user_id, category_id, title, price, quantity, bookThumbnail, status, date]);
 
             if (insertResult.affectedRows >= 1) {
-                const book_id = insertResult.insertId;
-                const insertRelationQuery = `INSERT INTO ${RELATION_TABLE} (book_id, category_id) VALUES (?, ?)`;
-                const relationResult = await this.preparingQuery(insertRelationQuery, [book_id, category_id]);
-
-                if (relationResult.affectedRows >= 1) {
-                    return {
-                        status: true,
-                        message: "Book added successfully."
-                    };
-                } else {
-                    return {
-                        status: false,
-                        message: "Failed to establish book-category relation."
-                    };
-                }
+                return {
+                    status: true,
+                    message: "Book added successfully."
+                };
             } else {
                 return {
                     status: false,
@@ -187,34 +176,43 @@ class BookModels extends BaseModal {
     async deleteBookModels(data) {
         try {
             const { book_id, userID } = data;
+            // Fetch the book thumbnail
             let thumbnailSql = `SELECT thumbnail FROM ${this.tableName} WHERE author_id = ? AND id = ?`;
-
             let thumbnailResult = await this.preparingQuery(thumbnailSql, [userID, book_id]);
+
             if (!thumbnailResult.length) {
                 return {
                     status: false,
                     message: "Book thumbnail not found"
                 };
             }
-            //FileServices.deleteFile            
+
             let deleteQuery = `DELETE FROM ${this.tableName} WHERE author_id = ? AND id = ?`;
             let result = await this.preparingQuery(deleteQuery, [userID, book_id]);
             if (result.affectedRows >= 1) {
-                let { thumbnail } = thumbnailResult[0]
+                let { thumbnail } = thumbnailResult[0];
                 let thumDeleteResult;
+
                 if (thumbnail) {
                     thumDeleteResult = await FileServices.deleteFile(thumbnail, "book");
                 }
+
                 return {
                     status: true,
-                    message: "Book delete successfully",                    
-                }
+                    message: "Book deleted successfully",
+                };
+            } else {
+                return {
+                    status: false,
+                    message: "Failed to delete book",
+                };
             }
         } catch (error) {
             console.error("Error in Book delete:", error);
             throw error;
         }
     }
+
 
 }
 module.exports = BookModels;
