@@ -47,7 +47,7 @@ const DeleteCategoryController = async (req, res) => {
         let result = await CatgoryModel.delteCategory(cat_ID)
         return res.json(result)
     } catch (error) {
-        return error;
+        return res.json(error);
     }
 }
 module.exports = {

@@ -61,8 +61,37 @@ class CategoryModels extends BaseModal {
         }
 
     }
+    async checkCategoryIsUsedOrNot(id) {
+        try {
+            let checkSql = `SELECT DISTINCT
+                            B.author_id, A.name as Author_name, 
+                            B.name as Book_name, B.id as Book_id
+                            FROM book_category_relation BCR 
+                            INNER JOIN book B ON B.id = BCR.book_id
+                            INNER JOIN author A ON A.id = B.author_id
+                            WHERE BCR.category_id = ?`;
+            let result = await this.preparingQuery(checkSql, [id]);
+            if (result.length > 0) {
+                const { Author_name } = result[0];
+                return {
+                    status: true,
+                    message: `${Author_name} is use this category`
+                }
+            }
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
     async delteCategory(id) {
         try {
+            // before deleting check if category is used or not !
+            let categoryUsedORnot = await this.checkCategoryIsUsedOrNot(id);
+            if (categoryUsedORnot?.status) {
+                return {
+                    status: false,
+                    message: categoryUsedORnot?.message
+                }
+            }
             const deleteSql = `DELETE FROM book_category WHERE id = ?`;
             let result = await this.preparingQuery(deleteSql, [id])
             if (result.affectedRows >= 1) {

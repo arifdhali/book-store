@@ -11,6 +11,8 @@ const ConfirmModal = ({ modal, onSuccess }) => {
                     if (res.data.status) {
                         toast.success(res.data?.message)
                         if (onSuccess) onSuccess();
+                    }else{
+                        toast.error(res.data?.message)
                     }
                 })
         } catch (error) {
