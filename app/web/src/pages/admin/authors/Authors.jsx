@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import AppRoute from "../../../routes/routes"
+import AppRoute from "@/routes/routes"
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faBell, faTrashCan, faIcons, faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
+import ConfirmModal from "@/utils/ConfirmModal"
 
 const Authors = () => {
   const [Author, setAuthor] = useState();
-  const [DeleteAuthorID, setDeleteAuthorId] = useState(null);
+  const [ModalInfo, setModalInfo] = useState({
+    type: "",
+    api_url: "",
+    id: "",
+    page_target: {
+
+    },
+  })
   const getAuthors = () => {
     axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.LIST}`)
       .then((value) => setAuthor(value.data.result));
@@ -25,7 +33,7 @@ const Authors = () => {
   useEffect(() => {
     getAuthors();
   }, [])
-  
+
   return (
     <div className='p-4 bg-white rounded-2'>
       <>
@@ -69,7 +77,10 @@ const Authors = () => {
                           <FontAwesomeIcon icon={faEdit} />
                         </Link>
 
-                        <span role='button' onClick={() => setDeleteAuthorId(author.id)} className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        <span role='button' onClick={() => setModalInfo({
+                          type: 'delete',
+                          api_url: AppRoute.ADMIN.AUTHORS.VIEW(author?.id)
+                        })} className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                           <FontAwesomeIcon icon={faTrashCan} />
                         </span>
                       </div>
@@ -80,58 +91,10 @@ const Authors = () => {
                 <tr><td className='py-5 no-records' align='center' colSpan={'7'}>No records found</td></tr>
               )
             }
-
-
           </tbody>
         </table>
-
-        <div
-          className="modal fade"
-          id="staticBackdrop"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabIndex={-1}
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog  modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="staticBackdropLabel">
-                  Delete
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="modal-body">Are you sure ?</div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button type="button" className="btn btn-primary"
-                  onClick={() => {
-                    handelDelete(DeleteAuthorID);
-                    setDeleteAuthorId(null);
-                  }}
-                  data-bs-dismiss="modal"
-                >
-                  Ok
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
       </>
+      <ConfirmModal modal={ModalInfo} onSuccess={getAuthors} />
 
     </div>
   )

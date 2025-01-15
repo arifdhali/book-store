@@ -4,17 +4,20 @@ import { toast } from 'react-toastify';
 
 const ConfirmModal = ({ modal, onSuccess }) => {
     const { api_url, type } = modal;
+    console.log(modal);
     const handelDelete = async () => {
         try {
-            await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${api_url}`)
-                .then((res) => {
-                    if (res.data.status) {
-                        toast.success(res.data?.message)
-                        if (onSuccess) onSuccess();
-                    }else{
-                        toast.error(res.data?.message)
-                    }
-                })
+            if (type == 'delete') {
+                await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${api_url}`)
+                    .then((res) => {
+                        if (res.data.status) {
+                            toast.success(res.data?.message)
+                            if (onSuccess) onSuccess();
+                        } else {
+                            toast.error(res.data?.message)
+                        }
+                    })
+            }
         } catch (error) {
             console.log(error);
             toast.success(res.error?.data.message)

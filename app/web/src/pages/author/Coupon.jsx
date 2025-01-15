@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faFileEdit, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import * as Yup from "yup";
-import AppRoutes from "../../routes/routes";
+import AppRoutes from "@/routes/routes";
 import { useFormik } from 'formik';
 import axios from 'axios';
-import { formattedDateTime } from "../../utils/FormattedDateTime";
+import { formattedDateTime } from "@/utils/FormattedDateTime";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -13,7 +13,7 @@ const Coupon = () => {
     const { user_id, subscription_type } = useSelector((state) => state.authors.user);
     const [book, setBook] = useState([]);
     const [Coupons, setCoupons] = useState([]);
-    const [CouponID, setCouponID] = useState();
+
     const formik = useFormik({
         initialValues: {
             book_id: "",
@@ -45,7 +45,6 @@ const Coupon = () => {
                 start_date: formattedDateTime(values.start_date),
                 expire_date: formattedDateTime(values.expire_date)
             };
-            console.log(formatedValues)
             let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.ADD}`, formatedValues, {
                 params: {
                     user_id,
@@ -82,13 +81,6 @@ const Coupon = () => {
             setCoupons(response.data.coupons)
         }
     };
-    const DeleteCoupons = async () => {
-        let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.SINGLE(CouponID)}`)
-        if (response.data.status) {
-            toast.success(response.data.message)
-            getCoupons();
-        }
-    }
 
     useEffect(() => {
         getCoupons();
@@ -118,7 +110,7 @@ const Coupon = () => {
                     </thead>
                     <tbody>
                         {
-                            Coupons.length > 1 ? (
+                            Coupons.length >= 1 ? (
                                 Coupons.map((coupon, index) => (
                                     <tr key={coupon.id}>
                                         <td>{index + 1}</td>
@@ -132,7 +124,7 @@ const Coupon = () => {
                                                 <span role='button' className='act edit' data-bs-toggle="modal" data-bs-target="#EditCouponModal">
                                                     <FontAwesomeIcon icon={faEdit} /> Edit
                                                 </span>
-                                                <span onClick={() => setCouponID(coupon.id)} role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                     <FontAwesomeIcon icon={faTrashCan} /> Delete
                                                 </span>
                                             </div>

@@ -37,14 +37,13 @@ class BookModels extends BaseModal {
                 }
             }
             // Proceed with adding the book if the limit is not exceeded
-            const RELATION_TABLE = 'book_category';
             const insertQuery = `
                 INSERT INTO ${this.tableName} 
                 (author_id, category_id, name, price, quantity, thumbnail, status, publication_date)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `;
             const insertResult = await this.preparingQuery(insertQuery, [user_id, category_id, title, price, quantity, bookThumbnail, status, date]);
-
+            console.log(insertResult);
             if (insertResult.affectedRows >= 1) {
                 return {
                     status: true,

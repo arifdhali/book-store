@@ -14,13 +14,14 @@ class AuthorAuthModels extends BaseModal {
         WHERE A.email = ? `;
         try {
             const [user] = await this.preparingQuery(sql, [email]);
-            const { status } = user;
             if (!user) {
                 return {
                     message: "User not found",
                     status: false
                 };
-            } else if (status !== 'active') {
+            }
+            const { status } = user;
+            if (status !== 'active') {
                 return {
                     message: `Your account is ${status}, please contact to the Admin`,
                     status: false

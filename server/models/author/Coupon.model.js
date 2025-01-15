@@ -50,6 +50,12 @@ class Coupns extends BaseModal {
                 }
             }
         } catch (error) {
+            if (error.code === 'ER_DUP_ENTRY') {
+                return {
+                    status: false,
+                    message: "A coupon with this code already exists. Please use a unique code.",
+                };
+            }
             return {
                 status: false,
                 message: error.message,
@@ -58,12 +64,12 @@ class Coupns extends BaseModal {
         }
     }
 
-    async getCoupons([authorID]) {
+    async getCoupons(authorID) {
         try {
             let getSql = `SELECT C.id,C.code,C.discount,C.where_to_apply,C.status,C.expire_date
             FROM ${this.tableName} C                                            
             WHERE author_id = ? `;
-            let coupons = await this.preparingQuery(getSql, authorID)
+            let coupons = await this.preparingQuery(getSql, [authorID])
             if (coupons.length > 0) {
                 return {
                     status: true,

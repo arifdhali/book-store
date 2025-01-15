@@ -122,7 +122,7 @@ const Add = () => {
             onChange={formik.handleChange}
             value={formik.values.category_id}
           >
-            <option value={""} selected>Select Category</option>
+            <option value={""}>Select Category</option>
             {
               BookCategory.map((item) => (
                 <option key={item.id} value={item.id}>{item.name}</option>

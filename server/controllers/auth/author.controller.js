@@ -50,9 +50,7 @@ const AuthorLogin = async (req, res) => {
         )
     }
     return res.status(401).json(
-        {
-            result,
-        }
+        result,
     )
 }
 
