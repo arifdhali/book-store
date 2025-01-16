@@ -40,8 +40,7 @@ const Login = () => {
         navigate(AppRoutes.ADMIN.BASE);
         toast.success(response.data.result.message)
       }
-    } catch (error) {
-      console.error('Error during login request:', error);
+    } catch (error) {      
       const { message } = error.response.data.result;
       toast.error(message)
     }

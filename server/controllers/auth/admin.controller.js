@@ -13,7 +13,7 @@ const AdminLogin = async (req, res) => {
 
 
     if (error) {
-        return res.status(400).json({
+        return res.json({
             message: error.details[0].message,
             status,
         })
@@ -49,7 +49,7 @@ const AdminLogin = async (req, res) => {
             }
         )
     }
-    return res.status(401).json(
+    return res.json(
         {
             result,
         }
