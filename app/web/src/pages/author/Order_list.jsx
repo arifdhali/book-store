@@ -18,8 +18,8 @@ const OrderList = () => {
                         <th>Order ID</th>
                         <th>Customer Name</th>
                         <th>Book Title</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
+                        <th className='text-center'>Quantity</th>
+                        <th className='text-center'>Total Price</th>
                         <th>Order Date</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -31,8 +31,8 @@ const OrderList = () => {
                         <td>ORD12345</td>
                         <td>John Doe</td>
                         <td>Some Book Title</td>
-                        <td>2</td>
-                        <td>$39.98</td>
+                        <td align='center'>2</td>
+                        <td align='center'>$39.98</td>
                         <td>2024-11-08</td>
                         <td>Completed</td>
                         <td>
