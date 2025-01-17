@@ -34,15 +34,16 @@ const Login = () => {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.AUTHOR.LOGIN}`, values, {
         withCredentials: true,
       });
-      console.log(response);
-      const { status,message } = response.data.result;
-      if (status) {
-        toast.success(message)
+      
+      if (response.data.result) {
+        const { message } = response.data.result
+        toast.success(message);
         navigate(AppRoutes.AUTHOR.BASE);
+      } else {
+        throw response.data;
       }
     } catch (error) {
-      const { message } = error.response.data;
-      toast.error(message)
+      toast.error(error.message)
     }
   }
 

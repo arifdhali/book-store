@@ -14,10 +14,11 @@ const AuthorLogin = async (req, res) => {
 
 
     if (error) {
-        return res.json({
+        let result = {
             message: error.details[0].message,
             status,
-        })
+        }
+        return res.json(result)
     }
 
     // sending to the Login models
@@ -43,14 +44,14 @@ const AuthorLogin = async (req, res) => {
             }
         );
         return res.status(200).json(
-            
+            {
                 token,
                 result,
-            
+            }
         )
     }
     return res.json(
-        result,
+        result
     )
 }
 
