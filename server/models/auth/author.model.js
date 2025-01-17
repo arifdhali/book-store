@@ -7,7 +7,7 @@ class AuthorAuthModels extends BaseModal {
     async LoginModels(data) {
         const { email, password } = data;
         let sql = `
-        SELECT A.id, A.profile_img, A.password, A.status, S.subscription_type
+        SELECT A.id, A.profile_img, A.password, A.status, S.subscription_type,S.book_quantity,S.order_margin
         FROM author A
         JOIN subscription S
         ON A.id = S.author_id
@@ -33,7 +33,9 @@ class AuthorAuthModels extends BaseModal {
                 user_profile: user.profile_img,
                 user_status: user.status,
                 subscription_type: user.subscription_type,
-            }
+                book_quantity: user.book_quantity,
+                // order_margin: user.order_margin
+            }            
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 return {

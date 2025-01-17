@@ -235,10 +235,7 @@ const EditBook = () => {
           )}
         </div>
 
-        <div className="d-flex justify-content-end gap-2">
-          <button type="button" className="btn btn-secondary">
-            Cancel
-          </button>
+        <div className="d-flex  mt-4">
           <button type="submit" className="btn btn-primary">
             Save Changes
           </button>

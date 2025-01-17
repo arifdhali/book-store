@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faBook, faChartLine, faComments, faDollarSign, faHandHoldingDollar, faList, faRightFromBracket, faTag, faUserGraduate, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faBook, faChartLine, faComments, faDollarSign, faHandHoldingDollar, faList, faRightFromBracket, faTag, faTicket, faUserGraduate, faUsers, faWarehouse } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import useUrlRemover from '../../hooks/useUrlRemover';
 import AppRoute from "../../routes/routes";
@@ -83,7 +83,7 @@ const Sidebar = () => {
                             className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.COUPON.BASE ? 'active' : ''}`}
                         >
                             <div className='d-flex gap-3 align-items-center'>
-                                <FontAwesomeIcon icon={faHandHoldingDollar} />
+                                <FontAwesomeIcon icon={faTicket} />
                                 Coupons
                             </div>
                         </Link>
@@ -95,7 +95,7 @@ const Sidebar = () => {
                             className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.ORDER ? 'active' : ''}`}
                         >
                             <div className='d-flex gap-3 align-items-center'>
-                                <FontAwesomeIcon icon={faDollarSign} />
+                                <FontAwesomeIcon icon={faWarehouse} />
                                 Orders
                             </div>
                         </Link>
