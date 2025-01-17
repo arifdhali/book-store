@@ -43,7 +43,6 @@ class BookModels extends BaseModal {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `;
             const insertResult = await this.preparingQuery(insertQuery, [user_id, category_id, title, price, quantity, bookThumbnail, status, date]);
-            console.log(insertResult);
             if (insertResult.affectedRows >= 1) {
                 return {
                     status: true,

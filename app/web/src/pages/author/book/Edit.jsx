@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { toast } from "react-toastify"
 const EditBook = () => {
   const navigate = useNavigate();
-  const { user_id } = useSelector((state) => state.authors.user);
+  const { user_id, book_quantity } = useSelector((state) => state.authors.user);
   const { BOOK_ID } = useParams();
   const [previewBookImage, setPreviewBookImage] = useState(null);
   const [initialValues, setInitialValues] = useState({
@@ -20,6 +20,7 @@ const EditBook = () => {
     thumbnail: null,
     status: 'draft',
   });
+  console.log(book_quantity)
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -27,7 +28,11 @@ const EditBook = () => {
       title: Yup.string().required("Title is required"),
       category_id: Yup.string().required("Please select a category"),
       date: Yup.date().required("Publication date is required"),
-      quantity: Yup.number().required("Quantity is required").min(1, "Quantity must be at least 1"),
+      quantity: Yup.number()
+        .required("Quantity is required")
+        .min(1, "Quantity must be at least 1")
+        .max(book_quantity, `Maximum you can add ${book_quantity} Quantity`)
+        .typeError("Quantity must be a number"),
       price: Yup.number().required("Price is required"),
       status: Yup.string().required("Please select a status"),
       thumbnail: Yup.mixed()

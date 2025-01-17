@@ -7,12 +7,13 @@ class AuthorModels extends BaseModal {
             const insertSql = "INSERT INTO author(name, email,profile_img,bio,password) VALUES (?,?,?,?,?)";
             const authorResult = await this.preparingQuery(insertSql, data);
             const authorID = authorResult.insertId;
-            let insertSubscriptionSql = `INSERT INTO subscription (author_id,subscription_type,book_quantity,book_limit,coupons_limit,order_margin) VALUES(?,?,?,?,?,?)`;
+            let insertSubscriptionSql = `INSERT INTO subscription (author_id,subscription_type,subscription_price,book_quantity,book_limit,coupons_limit,order_margin) VALUES(?,?,?,?,?,?,?)`;
 
             const subscriptionFeatures = {}
             switch (subscription_type) {
                 case 'free':
                     Object.assign(subscriptionFeatures, {
+                        subscription_price: 0,
                         bookQuantity: 10,
                         book_limit: 10,
                         coupons_limit: 10,
@@ -21,6 +22,7 @@ class AuthorModels extends BaseModal {
                     break;
                 case 'standard':
                     Object.assign(subscriptionFeatures, {
+                        subscription_price: 399,
                         bookQuantity: 40,
                         book_limit: 30,
                         coupons_limit: 20,
@@ -29,6 +31,7 @@ class AuthorModels extends BaseModal {
                     break;
                 case 'premium':
                     Object.assign(subscriptionFeatures, {
+                        subscription_price: 699,
                         bookQuantity: null,
                         book_limit: null,
                         coupons_limit: null,
@@ -38,8 +41,8 @@ class AuthorModels extends BaseModal {
                 default:
                     throw new Error("Invalid subscription type. Must be 'free', 'standard', or 'premium'.");
             }
-            const { bookQuantity, book_limit, coupons_limit, orderMargin } = subscriptionFeatures;
-            await this.preparingQuery(insertSubscriptionSql, [authorID, subscription_type, bookQuantity, book_limit, coupons_limit, orderMargin]);
+            const { bookQuantity, subscription_price, book_limit, coupons_limit, orderMargin } = subscriptionFeatures;
+            await this.preparingQuery(insertSubscriptionSql, [authorID, subscription_type, subscription_price, bookQuantity, book_limit, coupons_limit, orderMargin]);
             return {
                 status: true,
                 message: "Admin created successfully"

@@ -23,7 +23,7 @@ authorRoute.post("/coupon/add", AddCouponController);
 authorRoute.get("/coupon", GetAllCoupons);
 authorRoute.delete("/coupon/:couponID", DeleteCouponsController);
 
-authorRoute.get("/subscriptions/:userID", GetSubscription)
+authorRoute.get("/subscription", GetSubscription)
 
 
 // auth

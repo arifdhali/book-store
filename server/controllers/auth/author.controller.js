@@ -80,7 +80,6 @@ const AuthorRegister = async (req, res) => {
     const { name, email, bio, dob, address, phone_no, social_link, plain_password } = req.body;
     const password = await bcrypt.hash(plain_password, 10);
     const result = await AuthorAuthModels.RegisterModel({ name, email, profile_img, bio, dob, address, phone_no, social_link, password });
-    console.log(result);
 
 
 }

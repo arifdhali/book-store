@@ -28,8 +28,15 @@ const Edit = () => {
             profile_img: Yup.mixed().nullable(),
             status: Yup.string().required('Status is required'),
             inactive_date: Yup.date()
-                .required("Inactive Date is required")
-                .min(new Date(new Date().setHours(0, 0, 0, 0)), "Date should be present or in the future"),
+                .nullable()
+                .when('status', {
+                    is: 'inactive',
+                    then: (schema) =>
+                        schema
+                            .required('Inactive Date is required')
+                            .min(new Date(), 'Date should be present or in the future'),
+                    otherwise: (schema) => schema.nullable(),
+                }),
         }),
         onSubmit: (values) => {
             // Compare values with initial values
@@ -114,7 +121,6 @@ const Edit = () => {
     useEffect(() => {
         getSpecificData();
     }, []);
-    console.log(formik.errors.inactive_date)
     return (
         <div className="p-4 bg-white rounded-2 w-50">
             <form id="author-form" autoComplete="off" onSubmit={formik.handleSubmit}>
@@ -206,16 +212,17 @@ const Edit = () => {
                     ) : null}
                 </div>
                 {formik.values.status == "inactive" && (
-                    <div className="mb-3">
+                    <div className="form-group mb-3">
                         <label htmlFor="date" className="form-label">Inactive Date</label>
                         <input
                             type="date"
-                            className={`form-control ${formik.errors?.inactive_date && formik.touched?.inactive_date ? "is-invalid" : ""}`}
-                            id="date"
+                            className={`form-control ${formik.errors?.inactive_date && formik.touched?.inactive_date ? 'is-invalid' : ''}`}
+                            id="inactive_date"
                             name="inactive_date"
-                            onChange={formik.handleChange}
-                            value={formik.values.inactive_date}
-                            min={new Date().toISOString().split("T")[0]}
+                            onChange={(e) => formik.setFieldValue('inactive_date', e.target.value)}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.inactive_date || ''}
+                            min={new Date().toISOString().split('T')[0]}
                         />
                         {formik.errors?.inactive_date && formik.touched?.inactive_date ? (
                             <div className="invalid-feedback">{formik.errors?.inactive_date}</div>
