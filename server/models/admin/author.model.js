@@ -1,4 +1,4 @@
-const authorRoute = require("../../routes/author.routes");
+const FileServices = require("../../services/FileServices");
 const BaseModal = require("../Base.model");
 class AuthorModels extends BaseModal {
 
@@ -108,11 +108,26 @@ class AuthorModels extends BaseModal {
 
     }
 
-    async deleteAuthor(data) {
+    async deleteAuthor(id) {
         try {
+            //  get the thumbnail
+            let thumbnailQuery = `SELECT id as User_id,profile_img FROM author WHERE id = ?`;
+            let thumbnailResult = await this.preparingQuery(thumbnailQuery, [id])
+            if (!thumbnailResult.length) {
+                return {
+                    status: false,
+                    message: "Author thumbnail not found"
+                };
+            }
+
             const delteSql = 'DELETE FROM author WHERE id = ?';
-            let result = await this.preparingQuery(delteSql, [data]);
+            let result = await this.preparingQuery(delteSql, [id]);
             if (result.affectedRows >= 1) {
+                let { profile_img } = thumbnailResult[0];
+                let profileDeleteResult;
+                if (profile_img) {
+                    profileDeleteResult = await FileServices.deleteFile(profile_img, "author")
+                }
                 return {
                     status: true,
                     message: "Author delete successfully"
