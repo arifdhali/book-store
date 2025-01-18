@@ -6,7 +6,8 @@ import AppRotues from "@/routes/routes"
 import axios from 'axios';
 
 const MySubscription = () => {
-    const { user_id } = useSelector((state) => state.authors.user);
+    const { user_id, subscription_type } = useSelector((state) => state.authors.user);
+    console.log(subscription_type)
     const [subscription, setSubscription] = useState();
     const GetSubscription = async () => {
         let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRotues.AUTHOR.MY_SUBSCRIPTION}`, {
@@ -50,10 +51,10 @@ const MySubscription = () => {
                             <ul className="list-unstyled">
                                 <li><FontAwesomeIcon icon={faCheck} /> Sell Up to <strong>{subscription && subscription?.book_limit == null || subscription?.book_limit == "" ? "Unlimited" : subscription?.book_limit}</strong> Books</li>
                                 <li><FontAwesomeIcon icon={faCheck} /> Basic <strong> Analytics</strong></li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Add  <strong>{subscription && subscription?.coupons_limit}</strong> Coupons </li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Per Book:  <strong>{subscription && subscription?.book_quantity}</strong> Quantity</li>
-                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: <strong> {subscription && subscription?.order_margin}%</strong> margin</li>
-                                <li><FontAwesomeIcon icon={faClose} /> Advanced Analytics</li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Add  <strong>{subscription && subscription?.coupons_limit == null || subscription?.coupons_limit == "" ? "Unlimited" : subscription?.coupons_limit}</strong> Coupons </li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Per Book:  <strong>{subscription && subscription?.book_quantity == null || subscription?.book_quantity == '' ? "Unlimited" : subscription?.book_quantity}</strong> Quantity</li>
+                                <li><FontAwesomeIcon icon={faCheck} /> Per Book: <strong> {subscription && subscription?.order_margin == null || subscription?.order_margin == '' ? 0 : subscription?.order_margin}%</strong> margin</li>
+                                <li><FontAwesomeIcon icon={subscription_type == 'premium' ? faCheck : faClose} /> Advanced Analytics</li>
                             </ul>
                         </div>
                         <div className="p-3 text-center  d-flex justify-content-between gap-2">

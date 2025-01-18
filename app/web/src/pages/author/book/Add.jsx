@@ -13,7 +13,7 @@ const Add = () => {
   const author_cookie = jwtDecode(Cookies.get("AUTHOR_TOKEN"));
   const navigate = useNavigate();
 
-  let { user_id, subscription_type,book_quantity } = author_cookie.user;
+  let { user_id, subscription_type, book_quantity } = author_cookie.user;
   const formik = useFormik({
     initialValues: {
       user_id: user_id,
@@ -34,7 +34,7 @@ const Add = () => {
       quantity: Yup.number()
         .required("Quantity is required")
         .min(1, "Quantity must be at least 1")
-        .max(book_quantity, `Maximum you can add ${book_quantity} Quantity`)
+        .max(book_quantity , `Maximum you can add ${book_quantity} Quantity`)
         .typeError("Quantity must be a number"),
       price: Yup.number().required("Price is required")
         .typeError("Price must be a number"),
