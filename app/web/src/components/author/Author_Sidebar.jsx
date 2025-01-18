@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBook, faChartLine, faComments, faDollarSign, faHandHoldingDollar, faHome, faList, faRightFromBracket, faTag, faTicket, faUserGraduate, faUsers, faWarehouse } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
-import useUrlRemover from '../../hooks/useUrlRemover';
-import AppRoute from "../../routes/routes";
-import Logo from "../../assets/image/store_logo.png"
+import useUrlRemover from '@/hooks/useUrlRemover';
+import AppRoute from "@/routes/routes";
+import Logo from "@/assets/image/store_logo.png"
 
 const Sidebar = () => {
     let location = useLocation();
