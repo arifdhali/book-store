@@ -7,6 +7,7 @@ const uploadMulter = require("../utils/multer");
 const { AddBookController, BookListController, EditBookController, GetSingleBookController, DeleteBookController } = require("../controllers/author/Book.controller");
 const { AddCouponController, GetAllCoupons, DeleteCouponsController } = require("../controllers/author/Coupon.controller");
 const { GetSubscription } = require("../controllers/author/Subscription.controller");
+const { GetOrderContoller } = require("../controllers/author/Order.controller");
 
 const uploadAuthor = uploadMulter("author");
 const uploadBook = uploadMulter("book");
@@ -23,7 +24,9 @@ authorRoute.post("/coupon/add", AddCouponController);
 authorRoute.get("/coupon", GetAllCoupons);
 authorRoute.delete("/coupon/:couponID", DeleteCouponsController);
 
-authorRoute.get("/subscription", GetSubscription)
+authorRoute.get("/subscription", GetSubscription);
+
+authorRoute.get("/order",GetOrderContoller);
 
 
 // auth

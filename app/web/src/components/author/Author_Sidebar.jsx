@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faBook, faChartLine, faComments, faDollarSign, faHandHoldingDollar, faList, faRightFromBracket, faTag, faTicket, faUserGraduate, faUsers, faWarehouse } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faBook, faChartLine, faComments, faDollarSign, faHandHoldingDollar, faHome, faList, faRightFromBracket, faTag, faTicket, faUserGraduate, faUsers, faWarehouse } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import useUrlRemover from '../../hooks/useUrlRemover';
 import AppRoute from "../../routes/routes";
@@ -34,7 +34,7 @@ const Sidebar = () => {
                             className={`nav-link ${useUrlRemover(locationActive) === AppRoute.AUTHOR.BASE ? 'active' : ''}`}
                         >
                             <div className='d-flex gap-3 align-items-center'>
-                                <FontAwesomeIcon icon={faChartLine} />
+                                <FontAwesomeIcon icon={faHome} />
                                 Dashboard
                             </div>
                         </Link>

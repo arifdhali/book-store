@@ -15,8 +15,6 @@ const MySubscription = () => {
             }
         })
         setSubscription(response.data.subscription_details[0])
-
-
     }
     useEffect(() => {
         GetSubscription();
@@ -30,7 +28,7 @@ const MySubscription = () => {
                     <div className="shadow rounded-2 border border-2 border-info active-plan basic-plan">
                         <div className="p-3  bg-info text-white d-flex justify-content-between">
                             <div>
-                                <h3>Current</h3>
+                                <h2 className='mb-1'>Current</h2>
                                 <p>
                                     Expire in: {subscription && new Date(subscription?.end_date).toLocaleString('en-US', {
                                         year: 'numeric',
@@ -43,7 +41,7 @@ const MySubscription = () => {
                                 </p>
                             </div>
                             <div>
-                                <h2>{subscription && subscription?.subscription_type.charAt(0).toUpperCase() + subscription?.subscription_type.slice(1, subscription?.subscription_type.length)}</h2>
+                                <h2 className='mb-1'>{subscription && subscription?.subscription_type.charAt(0).toUpperCase() + subscription?.subscription_type.slice(1, subscription?.subscription_type.length)}</h2>
                                 <p className="mb-0"><strong>${subscription && subscription?.subscription_price}</strong>/month</p>
                             </div>
                         </div>
@@ -59,10 +57,10 @@ const MySubscription = () => {
                             </ul>
                         </div>
                         <div className="p-3 text-center  d-flex justify-content-between gap-2">
-                            <div className="rounded-1 d-flex align-items-center px-3 bg-secondary text-white w-100 py-3" >
+                            <div className="rounded-1 d-flex align-items-center  bg-secondary text-white w-100 p-2" >
                                 Current Plan
                             </div>
-                            <div className="rounded-1 d-flex align-items-center px-3 bg-success text-white w-100 justify-content-between" >
+                            <div className="rounded-1 d-flex align-items-center p-2 bg-success text-white w-100 justify-content-between" >
                                 Recurring
                                 <div className='bg-white py-2 px-3 rounded-1 text-center' role='button'>
                                     <FontAwesomeIcon className='m-0 text-info' icon={faRepeat} />
@@ -76,7 +74,7 @@ const MySubscription = () => {
                 {/* Standard Plan */}
                 <div className="col-md-6">
                     <div className="shadow rounded-2 border  standard-plan">
-                        <div className="p-3 text-center bg-secondary text-white">
+                        <div className="p-3 text-center bg-secondary text-white rounded-2 rounded-bottom-0">
                             <h3>Free Plan</h3>
                             <p className="mb-0"><strong>$15</strong>/month</p>
                         </div>
@@ -102,7 +100,7 @@ const MySubscription = () => {
                 {/* Premium Plan */}
                 <div className="col-md-6">
                     <div className="shadow rounded-2 border  premium-plan">
-                        <div className="p-3 text-center bg-primary text-white">
+                        <div className="p-3 text-center bg-primary text-white rounded-2 rounded-bottom-0">
                             <h3>Premium Plan</h3>
                             <p className="mb-0"><strong>$699</strong>/month</p>
                         </div>

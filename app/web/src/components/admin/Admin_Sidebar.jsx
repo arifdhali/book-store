@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faList, faRightFromBracket, faUserGraduate, faUsers, faWarehouse } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faBook, faHome, faList, faMoneyBill, faMoneyBill1Wave, faMoneyBillWaveAlt, faRightFromBracket, faUserGraduate, faUsers, faWarehouse } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
-import useUrlRemover from '../../hooks/useUrlRemover';
-import AppRoute from "../../routes/routes";
-import Logo from "../../assets/image/store_logo.png"
+import useUrlRemover from '@/hooks/useUrlRemover';
+import AppRoute from "@/routes/routes";
+import Logo from "@/assets/image/store_logo.png"
 
 const Sidebar = () => {
     let location = useLocation();
@@ -34,7 +34,7 @@ const Sidebar = () => {
                             className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.BASE ? 'active' : ''}`}
                         >
                             <div className='d-flex gap-3 align-items-center'>
-                                <FontAwesomeIcon icon={faList} />
+                                <FontAwesomeIcon icon={faHome} />
                                 Dashboard
                             </div>
                         </Link>
@@ -75,7 +75,17 @@ const Sidebar = () => {
 
                         </div>
                     </li>
-                    {/* Other Items */}
+                    <li className="nav-item mb-1">
+                        <Link
+                            to={AppRoute.ADMIN.BOOKS.ALL_BOOKS}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.BOOKS.ALL_BOOKS ? 'active' : ''}`}
+                        >
+                            <div className='d-flex gap-3 align-items-center'>
+                                <FontAwesomeIcon icon={faBook} />
+                                All Books
+                            </div>
+                        </Link>
+                    </li>
                     <li className="nav-item mb-1">
                         <Link
                             to={AppRoute.ADMIN.CATEGORY.LIST}
@@ -87,7 +97,6 @@ const Sidebar = () => {
                             </div>
                         </Link>
                     </li>
-                    {/* Other Items */}
                     <li className="nav-item mb-1">
                         <Link
                             to={AppRoute.ADMIN.USERS}
@@ -107,6 +116,17 @@ const Sidebar = () => {
                             <div className='d-flex gap-3 align-items-center'>
                                 <FontAwesomeIcon icon={faWarehouse} />
                                 Orders
+                            </div>
+                        </Link>
+                    </li>
+                    <li className="nav-item mb-1">
+                        <Link
+                            to={AppRoute.ADMIN.REVENU.BASE}
+                            className={`nav-link ${useUrlRemover(locationActive) === AppRoute.ADMIN.REVENU.BASE ? 'active' : ''}`}
+                        >
+                            <div className='d-flex gap-3 align-items-center'>
+                                <FontAwesomeIcon icon={faMoneyBillWaveAlt} />
+                                Revenu
                             </div>
                         </Link>
                     </li>

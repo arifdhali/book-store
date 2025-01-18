@@ -7,6 +7,12 @@ const routes = {
             ADD: "/admin/category/add",
             SINGLE: (id) => `/admin/category/${id}`
         },
+        BOOKS: {
+            ALL_BOOKS: "/admin/all-books"
+        },
+        REVENU: {
+            BASE: "/admin/revenu"
+        },
         ORDERS: {
             BASE: "/admin/orders"
         },

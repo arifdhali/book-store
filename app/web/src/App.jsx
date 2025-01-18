@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AdminLayout, AuthLayout, AuthorLayout } from './layouts';
-import { AdminHome, Users, Subscription, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd, Orders } from './pages/admin';
+import { AdminHome, Users, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd, Orders, ALL_BOOKS } from './pages/admin';
 import { Author_Login, Author_Forgotpass, BookList, AddBook, Coupon, OrderList, SingleOrderView, MySubscription, ReaderFeedback, BookAnalytics, Author_Register, EditBook } from './pages/author';
 import AppRoute from "./routes/routes";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -39,12 +39,13 @@ const App = () => {
           {/* Admin routes */}
           <Route path={AppRoute.ADMIN.BASE} element={<ProtectedRoutes roleOfUser='admin'><AdminLayout /></ProtectedRoutes>}>
             <Route index element={<AdminHome />} />
+            <Route path={AppRoute.ADMIN.BOOKS.ALL_BOOKS} element={<ALL_BOOKS />} />
             <Route path={AppRoute.ADMIN.CATEGORY.LIST} element={<Category />} />
             <Route path={AppRoute.ADMIN.CATEGORY.ADD} element={<CategoryAdd />} />
             <Route path={AppRoute.ADMIN.AUTHORS.BASE} element={<Authors />} />
             <Route path={AppRoute.ADMIN.AUTHORS.LIST} element={<Authors />} />
             <Route path={AppRoute.ADMIN.AUTHORS.ADD} element={<AddAuthor />} />
-            <Route path={AppRoute.ADMIN.AUTHORS.SUBSCRIPTIONS} element={<Subscription />} />
+            {/* <Route path={AppRoute.ADMIN.AUTHORS.SUBSCRIPTIONS} element={<Subscription />} /> */}
             <Route path={AppRoute.ADMIN.AUTHORS.VIEW(':id')} element={<EditAuthor />} />
             <Route path={AppRoute.ADMIN.USERS} element={<Users />} />
             <Route path={AppRoute.ADMIN.ORDERS.BASE} element={<Orders />} />
