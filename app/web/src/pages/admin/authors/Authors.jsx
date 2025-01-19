@@ -16,20 +16,16 @@ const Authors = () => {
 
     },
   })
-  const getAuthors = () => {
-    axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.LIST}`)
-      .then((value) => setAuthor(value.data.result));
-  }
+  const getAuthors = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.LIST}`);
+      setAuthor(response.data.result);
+    } catch (error) {
+      console.error("Failed to fetch authors:", error);
+    }
+  };
 
-  // delete
-  const handelDelete = (id) => {
-    axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(id)}`)
-      .then((response) => {
-        if (response.data.result.status) {
-          getAuthors();
-        }
-      })
-  }
+
   useEffect(() => {
     getAuthors();
   }, [])

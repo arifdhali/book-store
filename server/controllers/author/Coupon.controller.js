@@ -50,7 +50,6 @@ const GetAllCoupons = async (req, res) => {
 
 const DeleteCouponsController = async (req, res) => {
     try {
-
         const { couponID } = req.params;
         if (!couponID) {
             throw new Error("Coupon id is required to delete");

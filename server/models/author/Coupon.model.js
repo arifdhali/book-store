@@ -101,7 +101,7 @@ class Coupns extends BaseModal {
         try {
             let delteSql = `DELETE from ${this.tableName} WHERE id = ?`;
             let res = await this.preparingQuery(delteSql, [id])
-            if (Array.isArray(res) && res.affectedRows > 0) {
+            if (res.affectedRows > 0) {
                 return {
                     status: true,
                     message: "Coupon delete successfully"

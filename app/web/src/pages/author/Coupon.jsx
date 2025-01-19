@@ -8,11 +8,20 @@ import axios from 'axios';
 import { formattedDateTime } from "@/utils/FormattedDateTime";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import ConfirmModal from '@/utils/ConfirmModal';
 
 const Coupon = () => {
     const { user_id, subscription_type } = useSelector((state) => state.authors.user);
     const [book, setBook] = useState([]);
     const [Coupons, setCoupons] = useState([]);
+    const [ModalInfo, setModalInfo] = useState({
+        type: "",
+        api_url: "",
+        id: "",
+        page_target: {
+
+        },
+    })
 
     const formik = useFormik({
         initialValues: {
@@ -72,13 +81,18 @@ const Coupon = () => {
     };
 
     const getCoupons = async () => {
-        let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.BASE}`, {
-            params: {
-                user_id
+        try {
+            let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.BASE}`, {
+                params: {
+                    user_id
+                }
+            });
+            if (response.data.status) {
+                console.log(response.data.coupons);
+                setCoupons(response.data.coupons)
             }
-        });
-        if (response.data.status) {
-            setCoupons(response.data.coupons)
+        } catch (error) {
+            console.log(error)
         }
     };
 
@@ -110,7 +124,7 @@ const Coupon = () => {
                     </thead>
                     <tbody>
                         {
-                            Coupons.length >= 1 ? (
+                            Coupons.length > 0 ? (
                                 Coupons.map((coupon, index) => (
                                     <tr key={coupon.id}>
                                         <td>{index + 1}</td>
@@ -124,7 +138,10 @@ const Coupon = () => {
                                                 <span role='button' className='act edit' data-bs-toggle="modal" data-bs-target="#EditCouponModal">
                                                     <FontAwesomeIcon icon={faEdit} /> Edit
                                                 </span>
-                                                <span role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <span role='button' onClick={() => setModalInfo({
+                                                    type: 'delete',
+                                                    api_url: AppRoutes.AUTHOR.COUPON.SINGLE(coupon.id)
+                                                })} className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                                     <FontAwesomeIcon icon={faTrashCan} /> Delete
                                                 </span>
                                             </div>
@@ -280,6 +297,8 @@ const Coupon = () => {
                         </div>
                     </div>
                 </div>
+
+                <ConfirmModal modal={ModalInfo} onSuccess={getCoupons} />
 
             </div>
         </>

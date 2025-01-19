@@ -1,29 +1,27 @@
-import axios from 'axios'
-import React from 'react'
+import axios from 'axios';
+import React from 'react';
 import { toast } from 'react-toastify';
 
 const ConfirmModal = ({ modal, onSuccess }) => {
     const { api_url, type } = modal;
-    console.log(modal);
+
     const handelDelete = async () => {
         try {
-            if (type == 'delete') {
-                await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${api_url}`)
-                    .then((res) => {
-                        if (res.data.status) {
-                            toast.success(res.data?.message)
-                            if (onSuccess) onSuccess();
-                        } else {
-                            toast.error(res.data?.message)
-                        }
-                    })
+            if (type === 'delete') {
+                const res = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${api_url}`);
+                if (res.data.status) {
+                    toast.success(res.data?.message);
+                    if (onSuccess) await onSuccess(); // Call and await the async function
+                } else {
+                    toast.error(res.data?.message);
+                }
             }
         } catch (error) {
-            console.log(error);
-            toast.success(res.error?.data.message)
+            console.error(error);
+            toast.error(error.response?.data?.message || "An error occurred");
         }
+    };
 
-    }
     return (
         <div
             className="modal fade"
@@ -34,7 +32,7 @@ const ConfirmModal = ({ modal, onSuccess }) => {
             aria-labelledby="staticBackdropLabel"
             aria-hidden="true"
         >
-            <div className="modal-dialog  modal-dialog-centered">
+            <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h1 className="modal-title fs-5" id="staticBackdropLabel">
@@ -47,7 +45,7 @@ const ConfirmModal = ({ modal, onSuccess }) => {
                             aria-label="Close"
                         />
                     </div>
-                    <div className="modal-body">Are you sure ?</div>
+                    <div className="modal-body">Are you sure?</div>
                     <div className="modal-footer">
                         <button
                             type="button"
@@ -56,14 +54,19 @@ const ConfirmModal = ({ modal, onSuccess }) => {
                         >
                             Cancel
                         </button>
-                        <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handelDelete}>
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            data-bs-dismiss="modal"
+                            onClick={handelDelete}
+                        >
                             Ok
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ConfirmModal
+export default ConfirmModal;
