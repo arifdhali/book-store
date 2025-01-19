@@ -58,12 +58,14 @@ class BookModels extends BaseModal {
             console.error('Error in AddBook method:', error.message || error.sqlMessage);
             return {
                 status: false,
-                message: "An error occurred while adding the book to the database."
+                message: "An error occurred while adding the book to the database.",
+                error: error.message,
             };
         }
     }
     async GetAllBooks(userid) {
-        const getQuery = `
+        try {
+            const getQuery = `
             SELECT 
                B.id,
                 B.name, 
@@ -82,16 +84,26 @@ class BookModels extends BaseModal {
             WHERE 
                 B.author_id = ?`;
 
-        try {
             const books = await this.preparingQuery(getQuery, [userid]);
-            return {
-                status: true,
-                message: "Book fetch successfull",
-                books
+            if (Array.isArray(books) && books.length > 0) {
+                return {
+                    status: true,
+                    message: "Successfully retrieved books information.",
+                    books
+                }
+            } else {
+                return {
+                    status: false,
+                    message: "No books found with the provided ID.",
+                };
             }
-        } catch (err) {
-            console.error("Error fetching books: ", err);
-            throw err;
+        } catch (error) {
+            console.error("Error fetching books: ", error.message);
+            return {
+                status: false,
+                message: "An error occurred while fetching books information.",
+                error: error.message,
+            };
         }
     }
     async GetSingleBook(id) {
@@ -126,9 +138,13 @@ class BookModels extends BaseModal {
                     message: "No Books found based on the book id and author id",
                 }
             }
-        } catch (err) {
-            console.error("Error fetching single books: ", err);
-            throw err;
+        } catch (error) {
+            console.error("Error fetching single books: ", error.message);
+            return {
+                status: false,
+                message: "An error occurred while fetching single books information.",
+                error: error.message,
+            };
         }
 
 
@@ -167,7 +183,11 @@ class BookModels extends BaseModal {
             }
         } catch (error) {
             console.error("Error in EditBook:", error);
-            throw error;
+            return {
+                status: false,
+                message: "An error occurred while upddate books information.",
+                error: error.message,
+            };
         }
     }
 
@@ -207,7 +227,11 @@ class BookModels extends BaseModal {
             }
         } catch (error) {
             console.error("Error in Book delete:", error);
-            throw error;
+            return {
+                status: false,
+                message: "An error occurred while delete book information.",
+                error: error.message,
+            };
         }
     }
 

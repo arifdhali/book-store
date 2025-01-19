@@ -11,6 +11,7 @@ import OrderList from "./Order_list";
 import SingleOrderView from "./Order_view";
 import MySubscription from "./Mysubscription";
 import ReaderFeedback from "./Reader_feedback";
+import Settings from "./Settings";
 
 export {
     Author_Login,
@@ -24,5 +25,6 @@ export {
     OrderList,
     SingleOrderView,
     MySubscription,
-    ReaderFeedback
+    ReaderFeedback,
+    Settings
 }

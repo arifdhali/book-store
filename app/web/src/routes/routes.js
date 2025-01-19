@@ -43,7 +43,8 @@ const routes = {
             BASE: "/author/coupon",
             ADD: "/author/coupon/add",
             SINGLE: (coupon) => `/author/coupon/${coupon}`
-        }
+        },
+        SETTINGS: "/author/settings"
 
 
 

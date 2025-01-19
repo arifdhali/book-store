@@ -48,19 +48,25 @@ class Coupns extends BaseModal {
                     status: true,
                     message: "Coupon added successfully",
                 }
+            } else {
+                return {
+                    status: false,
+                    message: "No coupons found with the provided ID.",
+                };
             }
         } catch (error) {
             if (error.code === 'ER_DUP_ENTRY') {
                 return {
                     status: false,
                     message: "A coupon with this code already exists. Please use a unique code.",
+                    error: error.message
                 };
             }
             return {
                 status: false,
-                message: error.message,
+                message: "An error occurred while adding the coupons to the database.",
+                error: error.message,
             }
-
         }
     }
 
@@ -70,15 +76,24 @@ class Coupns extends BaseModal {
             FROM ${this.tableName} C                                            
             WHERE author_id = ? `;
             let coupons = await this.preparingQuery(getSql, [authorID])
-            if (coupons.length > 0) {
+            if (Array.isArray(coupons) && coupons.length > 0) {
                 return {
                     status: true,
                     coupons,
                     mesage: "Coupon get success",
                 }
+            } else {
+                return {
+                    status: false,
+                    message: "No coupons found with the provided ID.",
+                };
             }
         } catch (error) {
-            throw error;
+            return {
+                status: false,
+                message: "An error occurred while fetching coupons.",
+                error: error.message,
+            }
         }
     }
 
@@ -86,14 +101,23 @@ class Coupns extends BaseModal {
         try {
             let delteSql = `DELETE from ${this.tableName} WHERE id = ?`;
             let res = await this.preparingQuery(delteSql, [id])
-            if (res.affectedRows > 0) {
+            if (Array.isArray(res) && res.affectedRows > 0) {
                 return {
                     status: true,
                     message: "Coupon delete successfully"
                 }
+            } else {
+                return {
+                    status: false,
+                    message: "No coupons found with the provided ID.",
+                };
             }
         } catch (error) {
-            throw error;
+            return {
+                status: false,
+                message: "An error occurred while deleting coupons.",
+                error: error.message,
+            }
         }
 
     }

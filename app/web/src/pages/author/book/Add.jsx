@@ -34,7 +34,10 @@ const Add = () => {
       quantity: Yup.number()
         .required("Quantity is required")
         .min(1, "Quantity must be at least 1")
-        .max(book_quantity , `Maximum you can add ${book_quantity} Quantity`)
+        .when([], {
+          is: () => book_quantity != null,
+          then: schema => schema.max(book_quantity, `Maximum you can add ${book_quantity} Quantity`)
+        })
         .typeError("Quantity must be a number"),
       price: Yup.number().required("Price is required")
         .typeError("Price must be a number"),

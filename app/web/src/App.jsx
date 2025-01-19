@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AdminLayout, AuthLayout, AuthorLayout } from './layouts';
 import { AdminHome, Users, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd, Orders, ALL_BOOKS } from './pages/admin';
-import { Author_Login, Author_Forgotpass, BookList, AddBook, Coupon, OrderList, SingleOrderView, MySubscription, ReaderFeedback, BookAnalytics, Author_Register, EditBook } from './pages/author';
+import { Author_Login, Author_Forgotpass, BookList, AddBook, Coupon, OrderList, SingleOrderView, MySubscription, ReaderFeedback, BookAnalytics, Author_Register, EditBook, Settings } from './pages/author';
 import AppRoute from "./routes/routes";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -63,6 +63,7 @@ const App = () => {
             <Route path={AppRoute.AUTHOR.SINGLE_ORDER(":id")} element={<SingleOrderView />} />
             <Route path={AppRoute.AUTHOR.MY_SUBSCRIPTION} element={<MySubscription />} />
             <Route path={AppRoute.AUTHOR.READER_FEEDBACK} element={<ReaderFeedback />} />
+            <Route path={AppRoute.AUTHOR.SETTINGS} element={<Settings />} />
           </Route>
 
           {/* Catch-all route */}

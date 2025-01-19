@@ -29,7 +29,10 @@ const MySubscription = () => {
                     <div className="shadow rounded-2 border border-2 border-info active-plan basic-plan">
                         <div className="p-3  bg-info text-white d-flex justify-content-between">
                             <div>
-                                <h2 className='mb-1'>Current</h2>
+                                <h2 className='mb-1'>{subscription && subscription?.subscription_type.charAt(0).toUpperCase() + subscription?.subscription_type.slice(1, subscription?.subscription_type.length)}</h2>
+                                <p className="mb-0"><strong>${subscription && subscription?.subscription_price}</strong>/month</p>
+                            </div>
+                            <div>
                                 <p>
                                     Expire in: {subscription && new Date(subscription?.end_date).toLocaleString('en-US', {
                                         year: 'numeric',
@@ -40,10 +43,6 @@ const MySubscription = () => {
                                         second: '2-digit',
                                     })}
                                 </p>
-                            </div>
-                            <div>
-                                <h2 className='mb-1'>{subscription && subscription?.subscription_type.charAt(0).toUpperCase() + subscription?.subscription_type.slice(1, subscription?.subscription_type.length)}</h2>
-                                <p className="mb-0"><strong>${subscription && subscription?.subscription_price}</strong>/month</p>
                             </div>
                         </div>
                         <div className="p-4">
@@ -61,12 +60,7 @@ const MySubscription = () => {
                             <div className="rounded-1 d-flex align-items-center  bg-secondary text-white w-100 p-2" >
                                 Current Plan
                             </div>
-                            <div className="rounded-1 d-flex align-items-center p-2 bg-success text-white w-100 justify-content-between" >
-                                Recurring
-                                <div className='bg-white py-2 px-3 rounded-1 text-center' role='button'>
-                                    <FontAwesomeIcon className='m-0 text-info' icon={faRepeat} />
-                                </div>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>

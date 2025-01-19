@@ -9,8 +9,6 @@ class Orders extends BaseModal {
     async getAllOrdersByUser(id) {
 
         try {
-
-
             let selectSql = `SELECT
                         AOR.order_id, U.username as username, B.name as book_title, AO.quantity as order_quantity, AO.total_price, AO.order_date, AO.status
                         FROM author_orders_relations AOR
@@ -23,7 +21,7 @@ class Orders extends BaseModal {
                         WHERE AOR.author_id = ?`;
 
             let result = await this.preparingQuery(selectSql, [id])
-            if (result.length > 0) {
+            if (Array.isArray(result) && result.length > 0) {
                 let orders = result;
                 return {
                     status: true,
@@ -31,10 +29,18 @@ class Orders extends BaseModal {
                     orders
                 }
             } else {
-                throw new Error("Error while geting the Order information");
+                return {
+                    status: false,
+                    message: "No orders found with the provided ID.",
+                };
             }
         } catch (error) {
-            throw error;
+            console.error("Error in getAllOrdersByUser:", error.message);
+            return {
+                status: false,
+                message: "An error occurred while fetching orders information.",
+                error: error.message,
+            };
         }
 
     }

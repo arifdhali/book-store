@@ -4,10 +4,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faBell, faBackward } from '@fortawesome/free-solid-svg-icons';
 import AppRoute from "@/routes/routes";
+import { useSelector } from 'react-redux';
 
 
 
 const Header = ({ user }) => {
+    const { user_name } = useSelector((state) => state?.authors?.user)
     const [backUrl, setBackUrl] = useState({
         prev_url: "",
         current_url: "",
@@ -19,9 +21,6 @@ const Header = ({ user }) => {
             current_url: locations.pathname,
         }));
     }, [locations]);
-
-
-
 
     return (
         <div className='header bg-white px-4 py-2  border-bottom  d-flex align-items-center justify-content-between gap-3 position-sticky top-0 start-0 z-3'>
@@ -35,6 +34,7 @@ const Header = ({ user }) => {
                         </div>
                     ) : (
                         <>
+                            <p>Welcome back, <strong>{user_name}</strong> </p>
                         </>
                     )
                 }
@@ -85,7 +85,7 @@ const Header = ({ user }) => {
                     </span>
                     <ul className="dropdown-menu">
                         <li>
-                            <Link className="dropdown-item" to={'/admin/settings'}>
+                            <Link className="dropdown-item" to={AppRoute.AUTHOR.SETTINGS}>
                                 Settings
                             </Link>
                         </li>

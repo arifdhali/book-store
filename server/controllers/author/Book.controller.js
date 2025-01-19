@@ -34,10 +34,11 @@ const AddBookController = async (req, res) => {
             return res.json(result);
         }
     } catch (error) {
-        console.error("Error in AddBookController:", error.message || error.sqlMessage);
+        console.error("Error in AddBookController:", error.message);
         return res.status(500).json({
             status: false,
-            message: "Internal server error",
+            message: "An unexpected error occurred",
+            error: error.message,
         });
     }
 };
