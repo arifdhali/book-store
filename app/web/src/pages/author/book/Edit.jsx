@@ -100,7 +100,7 @@ const EditBook = () => {
         }
       });
 
-      const book = response.data?.result?.book?.[0];
+      const book = response.data?.result?.book[0];
       const values = {
         title: book?.name || '',
         category_id: book?.category_id || '',

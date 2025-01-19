@@ -1,9 +1,8 @@
 const SettingModel = require("../../models/author/Settings.model");
-
+const Setting = new SettingModel("author");
 
 const SettingController = async (req, res) => {
     try {
-        console.log(req.query);
         const { userID } = req.query;
         if (!userID) {
             return res.status(400).json({
@@ -11,7 +10,7 @@ const SettingController = async (req, res) => {
                 message: "User ID is required",
             });
         }
-        const result = await SettingModel.GetInformationOfUsers(userID);
+        const result = await Setting.GetInformationOfUsers(userID)
         return res.status(200).json(result);
     } catch (error) {
         console.error("Error in SettingController:", error.message);

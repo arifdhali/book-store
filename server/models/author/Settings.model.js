@@ -3,7 +3,7 @@ const BaseModal = require("../Base.model");
 class Settings extends BaseModal {
     constructor(tableName) {
         super(),
-            this.tablename = tableName
+            this.tableName = tableName
 
     }
 
@@ -44,4 +44,4 @@ class Settings extends BaseModal {
     }
 }
 
-module.exports = new Settings();
+module.exports = Settings;
