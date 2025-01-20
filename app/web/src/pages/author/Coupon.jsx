@@ -81,6 +81,7 @@ const Coupon = () => {
     };
 
     const getCoupons = async () => {
+        console.log('get coupons')
         try {
             let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.BASE}`, {
                 params: {

@@ -21,7 +21,10 @@ const AddCouponController = async (req, res) => {
         let result = await CouponsModels.addCoupon(data);
         return res.json(result);
     } catch (error) {
-        throw error
+        return res.status(500).json({
+            status: false,
+            message: error.message || "Internal server error",
+        });
     }
 }
 
@@ -43,7 +46,10 @@ const GetAllCoupons = async (req, res) => {
             )
         }
     } catch (error) {
-        throw error;
+        return res.status(500).json({
+            status: false,
+            message: error.message || "Internal server error",
+        });
     }
 
 }
@@ -57,7 +63,10 @@ const DeleteCouponsController = async (req, res) => {
         let result = await CouponsModels.deleteCoupons(couponID);
         return res.json(result)
     } catch (error) {
-        throw error;
+        return res.status(500).json({
+            status: false,
+            message: error.message || "Internal server error",
+        });
     }
 }
 

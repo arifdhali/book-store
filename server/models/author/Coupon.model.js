@@ -30,7 +30,7 @@ class Coupns extends BaseModal {
             let limitQuery = await this.preparingQuery(checkCountSql, [couponInfo.user_id, subscriptionType]);
             if (limitQuery[0]) {
                 const { coupons_count, max_coupons } = limitQuery[0]
-                if (coupons_count >= max_coupons) {
+                if (max_coupons !== null && coupons_count >= max_coupons) {
                     return {
                         status: false,
                         message: "You have reached the maximum limit to add a coupons"
@@ -76,11 +76,11 @@ class Coupns extends BaseModal {
             FROM ${this.tableName} C                                            
             WHERE author_id = ? `;
             let coupons = await this.preparingQuery(getSql, [authorID])
-            if (Array.isArray(coupons) && coupons.length > 0) {
+            if (Array.isArray(coupons) && coupons.length >= 0) {
                 return {
                     status: true,
-                    coupons,
-                    mesage: "Coupon get success",
+                    mesage: "Successfully retrieved Copupons information.",
+                    coupons
                 }
             } else {
                 return {
@@ -101,7 +101,7 @@ class Coupns extends BaseModal {
         try {
             let delteSql = `DELETE from ${this.tableName} WHERE id = ?`;
             let res = await this.preparingQuery(delteSql, [id])
-            if (res.affectedRows > 0) {
+            if (res.affectedRows >= 0) {
                 return {
                     status: true,
                     message: "Coupon delete successfully"
