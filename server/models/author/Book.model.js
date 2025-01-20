@@ -25,11 +25,10 @@ class BookModels extends BaseModal {
                     B.author_id, S.book_limit
             `;
             let limitQuery = await this.preparingQuery(subscriptionLimit, [user_id, subscription_types]);
-
             // Check if limit is exceeded or at the limit
             if (limitQuery[0]) {
                 const { book_count, max_book_quantity } = limitQuery[0];
-                if (book_count >= max_book_quantity) {
+                if (max_book_quantity != null && book_count >= max_book_quantity) {
                     return {
                         status: false,
                         message: "You have reached the maximum limit to add a book"
@@ -85,7 +84,7 @@ class BookModels extends BaseModal {
                 B.author_id = ?`;
 
             const books = await this.preparingQuery(getQuery, [userid]);
-            if (Array.isArray(books) && books.length > 0) {
+            if (Array.isArray(books) && books.length >= 0) {
                 return {
                     status: true,
                     message: "Successfully retrieved books information.",
@@ -197,7 +196,6 @@ class BookModels extends BaseModal {
             // Fetch the book thumbnail
             let thumbnailSql = `SELECT thumbnail FROM ${this.tableName} WHERE author_id = ? AND id = ?`;
             let thumbnailResult = await this.preparingQuery(thumbnailSql, [userID, book_id]);
-
             if (!thumbnailResult.length) {
                 return {
                     status: false,

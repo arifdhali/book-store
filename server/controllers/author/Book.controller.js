@@ -131,7 +131,6 @@ const DeleteBookController = async (req, res) => {
     const { book_id } = req.params
     const { userID } = req.query
     let result = await BookModel.deleteBookModels({ book_id, userID })
-    console.log(result)
     return res.json(result)
 
 }

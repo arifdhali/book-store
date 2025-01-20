@@ -5,36 +5,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faEdit, faChartLine, faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import axios from 'axios'
-import { toast } from 'react-toastify';
+import ConfirmModal from '@/utils/ConfirmModal';
+
 const BookList = () => {
     const [book, setBook] = useState([]);
-    const [bookID, setBookID] = useState(null);
     const { user_id, subscription_type } = useSelector((state) => state.authors.user)
+    const [ModalInfo, setModalInfo] = useState({
+        type: "",
+        api_url: "",
+        id: "",
+        page_target: {
+
+        },
+    })
     const GetBooks = async () => {
-        
         try {
             await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTHOR.BOOK.LIST}`, {
                 params: { user_id }
             }).then((value) => setBook(value.data.books))
         } catch (err) {
             console.log(err)
-        }
-    }
-    const handleDeleteBook = async () => {
-        try {
-
-            let respnse = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTHOR.BOOK.SINGLE(bookID)}`, {
-                params: {
-                    userID: user_id,
-                }
-            })
-            if (respnse.data.status) {
-                toast.success(respnse.data.message);
-                GetBooks();
-                
-            }
-        } catch (error) {
-            console.log('error', error)
         }
     }
     useEffect(() => {
@@ -90,10 +80,14 @@ const BookList = () => {
                                                         </Link>
                                                     )
                                                 }
-                                                <Link className='act edit' to={AppRoute.AUTHOR.BOOK.SINGLE(book.id)}>
+                                                <Link className='act edit' to={AppRoute.AUTHOR.BOOK.SINGLE(book?.id)}>
                                                     <FontAwesomeIcon icon={faEdit} /> Edit
                                                 </Link>
-                                                <span onClick={() => setBookID(book.id)} role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <span onClick={() => setModalInfo({
+                                                    type: 'delete',
+                                                    api_url: AppRoute.AUTHOR.BOOK.SINGLE(book?.id),
+                                                    user_id: user_id,
+                                                })} role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                                     <FontAwesomeIcon icon={faTrashCan} /> Delete
                                                 </span>
                                             </div>
@@ -110,43 +104,7 @@ const BookList = () => {
 
                     </tbody>
                 </table>
-
-                <div
-                    className="modal fade"
-                    id="deleteModal"
-                    data-bs-backdrop="static"
-                    data-bs-keyboard="false"
-                    tabIndex={-1}
-                    aria-labelledby="deleteModalLabel"
-                    aria-hidden="true"
-                >
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="deleteModalLabel">Delete Book</h5>
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                />
-                            </div>
-                            <div className="modal-body">Are you sure you want to delete this book?</div>
-                            <div className="modal-footer">
-                                <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    data-bs-dismiss="modal"
-                                >
-                                    Cancel
-                                </button>
-                                <button data-bs-dismiss='modal' onClick={handleDeleteBook} type="button" className="btn btn-danger">
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <ConfirmModal modal={ModalInfo} onSuccess={GetBooks} />
             </>
         </div>
     );
