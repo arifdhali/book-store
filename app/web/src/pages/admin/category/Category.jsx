@@ -24,6 +24,7 @@ const Category = () => {
     const getCategories = () => {
         axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.CATEGORY.LIST}`)
             .then((response) => {
+                console.log(response);
                 setCatgories(response.data?.result)
             }).catch((error) => {
                 console.log(error)

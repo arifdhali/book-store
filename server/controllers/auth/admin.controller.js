@@ -29,7 +29,9 @@ const AdminLogin = async (req, res) => {
     if (result.status) {
         const token = jwt.sign(
             {
-                role: "admin"
+                user: {
+                    role: "admin"
+                }
             },
             process.env.SECRET_KEY || 'secret',
             { expiresIn: '2d' }
@@ -60,7 +62,7 @@ const AdminLogout = (req, res) => {
     res.clearCookie('ADMIN_TOKEN', {
         httpOnly: true,
         // secure: process.env.NODE_ENV === 'production', // Send cookie only over HTTPS in production
-        sameSite: 'strict', 
+        sameSite: 'strict',
     });
     return res.status(200).json({
         message: "Logout successful",
