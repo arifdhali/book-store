@@ -30,8 +30,10 @@ const AuthorLogin = async (req, res) => {
     if (result.status) {
         const token = jwt.sign(
             {
-                role: "author",
-                user: result.userinfo
+                user: {
+                    role: "author",
+                    data: result.userinfo
+                }
             },
             process.env.SECRET_KEY || 'secret',
             { expiresIn: '2d' }
