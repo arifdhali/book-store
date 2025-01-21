@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
-const validAuthVerify = (req, res, next) => {
-
-    const token = req.headers['authorization'];
+const AuthenticateJWTtoken = (req, res, next) => {
+    const token = req.cookies.ADMIN_TOKEN;
     if (!token) {
         return res.status(403).json({
             status: false,
@@ -10,7 +9,7 @@ const validAuthVerify = (req, res, next) => {
     }
 
     try {
-        const decode = jwt.verify(token, process.env.SECRET_KEY);        
+        const decode = jwt.verify(token, process.env.SECRET_KEY);
         req.user = decode.user;
         next();
 
@@ -31,4 +30,4 @@ const validAuthVerify = (req, res, next) => {
 
 
 }
-module.exports = validAuthVerify;
+module.exports = AuthenticateJWTtoken;

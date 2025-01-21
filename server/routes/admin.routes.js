@@ -1,7 +1,6 @@
 const express = require("express");
 const adminRoute = express.Router();
 const { AdminLogin, AdminLogout } = require("../controllers/auth/admin.controller");
-const validAdminVerify = require("../middleware/verify.auth");
 const { AddAuthorController, GetAllAuthorsController, GetSpecificAuthor, DeleteAuthor, UpdateAuthorsController } = require("../controllers/admin/author.controller");
 const uploadMulter = require("../utils/multer");
 const { AddCategoryController, AllCategoryController, DeleteCategoryController } = require("../controllers/admin/category.controller");
@@ -9,7 +8,13 @@ const { GetAllBooksController } = require("../controllers/admin/book.controller"
 
 
 
-adminRoute.get("/", validAdminVerify, (req, res) => {
+
+// auth
+adminRoute.post("/login", AdminLogin);
+adminRoute.post("/logout", AdminLogout);
+adminRoute.use(AuthenticateJWTtoken)
+
+adminRoute.get("/", (req, res) => {
     res.send("Working");
 })
 
@@ -28,7 +33,7 @@ adminRoute.delete('/authors/:authorid', DeleteAuthor);
 
 
 // add category
-adminRoute.get("/category", AllCategoryController);
+adminRoute.get("/category", AuthorizedRole(['admins']), AllCategoryController);
 adminRoute.post("/category/add", AddCategoryController);
 adminRoute.delete("/category/:cat_ID", DeleteCategoryController)
 
@@ -36,8 +41,5 @@ adminRoute.delete("/category/:cat_ID", DeleteCategoryController)
 adminRoute.get("/all-books", GetAllBooksController);
 
 
-// auth
-adminRoute.post("/login", AdminLogin);
-adminRoute.post("/logout", AdminLogout);
 
 module.exports = adminRoute;
