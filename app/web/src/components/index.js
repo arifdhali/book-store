@@ -9,6 +9,10 @@ import Author_Footer from "./author/Author_Footer"
 import Author_Sidebar from "./author/Author_Sidebar"
 
 
+
+// main page
+import Main_Header from "./Header";
+
 export {
     Admin_Header,
     Admin_Footer,
@@ -18,4 +22,6 @@ export {
     Author_Header,
     Author_Footer,
     Author_Sidebar,
+    // main
+    Main_Header
 }

@@ -14,6 +14,7 @@ import ProtectedRoutes from './routes/protected.routes';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+// import "@/style/style.css"
 
 const App = () => {
   return (
@@ -45,7 +46,6 @@ const App = () => {
             <Route path={AppRoute.ADMIN.AUTHORS.BASE} element={<Authors />} />
             <Route path={AppRoute.ADMIN.AUTHORS.LIST} element={<Authors />} />
             <Route path={AppRoute.ADMIN.AUTHORS.ADD} element={<AddAuthor />} />
-            {/* <Route path={AppRoute.ADMIN.AUTHORS.SUBSCRIPTIONS} element={<Subscription />} /> */}
             <Route path={AppRoute.ADMIN.AUTHORS.VIEW(':id')} element={<EditAuthor />} />
             <Route path={AppRoute.ADMIN.USERS} element={<Users />} />
             <Route path={AppRoute.ADMIN.ORDERS.BASE} element={<Orders />} />

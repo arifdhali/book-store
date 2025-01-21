@@ -21,11 +21,12 @@ class Orders extends BaseModal {
                         WHERE AOR.author_id = ?`;
 
             let result = await this.preparingQuery(selectSql, [id])
-            if (Array.isArray(result) && result.length > 0) {
+            console.log(id)
+            if (Array.isArray(result) && result.length >= 0) {
                 let orders = result;
                 return {
                     status: true,
-                    message: "Order fetch success",
+                    message: "Successfully retrieved Orders information.",
                     orders
                 }
             } else {

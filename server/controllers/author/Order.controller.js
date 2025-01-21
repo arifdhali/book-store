@@ -19,6 +19,12 @@ const GetOrderContoller = async (req, res) => {
 
 
 }
+
+
+const DeleteOrdersController = async () => {
+
+}
+
 module.exports = {
     GetOrderContoller
 }
