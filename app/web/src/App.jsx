@@ -14,7 +14,6 @@ import ProtectedRoutes from './routes/protected.routes';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-// import "@/style/style.css"
 
 const App = () => {
   return (

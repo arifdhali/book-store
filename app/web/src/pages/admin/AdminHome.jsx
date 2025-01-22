@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import CountUp from "react-countup";
 import AppRoutes from "@/routes/routes"
+import "@/style/dashboard.css"
 
 const AdminHome = () => {
 
