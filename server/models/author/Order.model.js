@@ -21,7 +21,6 @@ class Orders extends BaseModal {
                         WHERE AOR.author_id = ?`;
 
             let result = await this.preparingQuery(selectSql, [id])
-            console.log(id)
             if (Array.isArray(result) && result.length >= 0) {
                 let orders = result;
                 return {

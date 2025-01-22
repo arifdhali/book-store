@@ -16,15 +16,13 @@ const ProtectedRoutes = ({ children, roleOfUser }) => {
             return <Navigate to={`/${roleOfUser}/login`} />;
         }
         const decode = jwtDecode(authorToken);
-        dispatch(AboutAtuhorSlice(decode.user));
+        dispatch(AboutAtuhorSlice(decode.user.data));        
     }
     if (roleOfUser == 'admin') {
         if (!adminToken) {
             return <Navigate to={`/${roleOfUser}/login`} />;
         }
     }
-
-
     return children;
 
 }

@@ -1,13 +1,12 @@
 const express = require("express");
 const route = express.Router();
 const AdminRouters = require("./admin.routes");
-const AuthorRouters = require("./author.routes");
-const validAuthorVerify = require('../middleware/verify.auth');
+const authorRoute = require("./author.routes");
 
 // admin
 route.use("/admin", AdminRouters);
 // author
-route.use("/author",  AuthorRouters);
+route.use("/author",  authorRoute);
 
 
 module.exports = route;

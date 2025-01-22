@@ -1,7 +1,9 @@
 import { faBook, faCartShopping, faTowerCell, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect } from 'react'
 import CountUp from "react-countup";
+import AppRoutes from "@/routes/routes"
 
 const AdminHome = () => {
 
@@ -10,7 +12,17 @@ const AdminHome = () => {
     return value >= 1000 ? `${(value / 1000).toFixed(1)}K` : value;
   }
 
-  
+  const getHome = async () => {
+    let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.ADMIN.BASE}`);
+    console.log(response);
+  }
+  useEffect(() => {
+    getHome();
+
+  }, [
+
+  ])
+
   return (
     <>
       <div className="row ">

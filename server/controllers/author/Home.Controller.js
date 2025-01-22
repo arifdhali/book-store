@@ -5,7 +5,6 @@ const HomepageController = (req, res) => {
         user_info: req.user
 
     })
-    HomeModel.Dashboard();
 
 }
 

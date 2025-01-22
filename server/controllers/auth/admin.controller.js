@@ -31,7 +31,7 @@ const AdminLogin = async (req, res) => {
             {
                 user: {
                     role: "admin"
-                }
+                }                
             },
             process.env.SECRET_KEY || 'secret',
             { expiresIn: '2d' }

@@ -1,6 +1,5 @@
 const express = require("express");
 const author_protected_routes = express.Router();
-const validAuthorVerify = require("../middleware/verify.auth");
 const HomepageController = require("../controllers/author/Home.Controller");
 const uploadMulter = require("../utils/multer");
 const { AddBookController, BookListController, EditBookController, GetSingleBookController, DeleteBookController } = require("../controllers/author/Book.controller");
@@ -12,7 +11,7 @@ const { SettingController } = require("../controllers/author/Settings.controller
 const uploadBook = uploadMulter("book");
 
 
-author_protected_routes.get("/", validAuthorVerify, HomepageController)
+author_protected_routes.get("/", HomepageController)
 author_protected_routes.post("/book/add", uploadBook.single("thumbnail"), AddBookController);
 author_protected_routes.get("/book/list", BookListController);
 author_protected_routes.get("/book/:book_id", GetSingleBookController);
