@@ -117,7 +117,7 @@ class BookModels extends BaseModal {
                                   B.status,
                                   B.publication_date,
                                   C.id as category_id,
-                                  C.name AS category_name
+                                  C.name AS category_name                                  
                               FROM 
                                   book B
                               LEFT JOIN 
