@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom'
 import { Admin_Footer, Admin_Header, Admin_Sidebar } from '../components'
 
 const AdminLayout = () => {
-
   return (
     <>
       <Admin_Sidebar />

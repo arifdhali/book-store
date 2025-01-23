@@ -9,8 +9,6 @@ const ProtectedRoutes = ({ children, roleOfUser }) => {
     const adminToken = Cookies.get("ADMIN_TOKEN");
     const authorToken = Cookies.get("AUTHOR_TOKEN");
     const dispatch = useDispatch();
-
-
     if (roleOfUser == 'author') {
         if (!authorToken) {
             return <Navigate to={`/${roleOfUser}/login`} />;
