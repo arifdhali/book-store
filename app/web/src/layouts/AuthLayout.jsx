@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom';
-import "../style/Author.css";
+
 const AuthLayout = () => {
   return (
     <section className='auth-page w-100 h-100'>

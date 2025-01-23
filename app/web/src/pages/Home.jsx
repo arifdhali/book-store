@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import AppUrl from "../routes/routes";
 import { Main_Header } from '@/components';
-import "@/style/style.css";
 const Home = () => {
     return (
         <>
