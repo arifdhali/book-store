@@ -28,7 +28,6 @@ const Login = () => {
       sendToDatabse(values)
     }
   });
-  axios.defaults.withCredentials = true;
   const sendToDatabse = async (values) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.AUTHOR.LOGIN}`, values);      

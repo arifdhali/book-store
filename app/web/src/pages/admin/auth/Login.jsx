@@ -31,7 +31,7 @@ const Login = () => {
       sendToDatabase(values)
     }
   });
-  axios.defaults.withCredentials = true;
+  
   const sendToDatabase = async (values) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.ADMIN.LOGIN}`, values);

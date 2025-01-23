@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const AdminAuthenticateJWTtoken = (req, res, next) => {
+const AdminAuthenticateJWTtoken = (req, res, next) => {    
     const token = req.cookies.ADMIN_TOKEN;
     if (!token) {
         return res.status(403).json({

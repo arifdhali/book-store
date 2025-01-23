@@ -15,6 +15,7 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
+axios.defaults.withCredentials = true;
 const App = () => {
   return (
     <Router>
