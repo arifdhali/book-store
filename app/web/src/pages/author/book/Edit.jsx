@@ -19,9 +19,8 @@ const EditBook = () => {
     price: '',
     thumbnail: null,
     status: 'draft',
+    max_quantity: "",
   });
-  console.log(book_quantity)
-
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: Yup.object({
@@ -29,9 +28,11 @@ const EditBook = () => {
       category_id: Yup.string().required("Please select a category"),
       date: Yup.date().required("Publication date is required"),
       quantity: Yup.number()
-        .required("Quantity is required")
         .min(1, "Quantity must be at least 1")
-        .max(book_quantity, `Maximum you can add ${book_quantity} Quantity`)
+        .when([], {
+          is: () => initialValues.max_quantity !== null,
+          then: (schema) => schema.max(initialValues.max_quantity, `Maximum you can ${initialValues.max_quantity} add Quantity`)
+        })
         .typeError("Quantity must be a number"),
       price: Yup.number().required("Price is required"),
       status: Yup.string().required("Please select a status"),
@@ -112,6 +113,7 @@ const EditBook = () => {
         price: book?.price || '',
         status: book?.status || '',
         thumbnail: book?.thumbnail || null,
+        max_quantity: book.book_quantity
       };
       setInitialValues(values);
 

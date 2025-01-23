@@ -117,13 +117,16 @@ class BookModels extends BaseModal {
                                   B.status,
                                   B.publication_date,
                                   C.id as category_id,
-                                  C.name AS category_name                                  
+                                  C.name AS category_name,
+                                  S.book_quantity                                
                               FROM 
                                   book B
                               LEFT JOIN 
                                   book_category C ON B.category_id = C.id
+                              INNER JOIN 
+                                 subscription S ON B.author_id = S.author_id
                               WHERE 
-                                  B.id = ? AND author_id = ? `
+                                  B.id = ? AND B.author_id = ? `
             let book = await this.preparingQuery(selectBook, [book_id, author]);
             if (book.length > 0) {
                 return {
