@@ -22,7 +22,7 @@
 body {
   margin: 0;
   font-family: "Poppins", serif;
-  font-size: var(--body_font_size);
+  // font-size: var(--body_font_size);
 }
 
 
@@ -387,7 +387,13 @@ input:active {
 .dashboard-content {
   width: calc(100% - 270px);
   left: 270px;
-  background-color: #eef2f6
+
+  background-color: #eef2f6;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 input {

@@ -32,7 +32,7 @@ const routes = {
             LIST: "/author/book/list",
             ADD: "/author/book/add",
             SINGLE: (BOOK_ID) => `/author/book/${BOOK_ID}`,
-            ANALYTICS: (id) => `/author/book/${id}`,
+            ANALYTICS: (id) => `/author/book/${id}/analytics`,
         },
 
         ORDER: "/author/order",

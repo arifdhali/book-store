@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const AuthorAuthenticateJWTtoken = (req, res, next) => {
     const token = req.cookies.AUTHOR_TOKEN;
+    console.log(req.cookies)    
     if (!token) {
         return res.status(403).json({
             status: false,
@@ -12,7 +13,7 @@ const AuthorAuthenticateJWTtoken = (req, res, next) => {
         if (token) {
             decoded = jwt.verify(token, process.env.SECRET_KEY);
             req.user = decoded.user;
-            req.role = 'author';
+            req.role = 'author';                        
         }
         next();
     } catch (err) {

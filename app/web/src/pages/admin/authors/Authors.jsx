@@ -34,7 +34,11 @@ const Authors = () => {
     <div className='p-4 bg-white rounded-2'>
       <>
         <div className='d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom'>
-          <h4 className='section-title m-0'>Author List</h4>
+          <div className='d-flex gap-4 align-items-center'>
+            <h4 className='section-title m-0'>Author List</h4>
+
+            <button className='btn btn-primary'>Select all</button>
+          </div>
           <div>
             <Link to={`${AppRoute.ADMIN.AUTHORS.ADD}`} className="btn btn-primary align-content-center">Add Author</Link>
           </div>
@@ -43,7 +47,6 @@ const Authors = () => {
         <table className="table">
           <thead>
             <tr>
-              <th style={{ width: "40px" }}>no</th>
               <th>profile</th>
               <th>name</th>
               <th>email</th>
@@ -57,9 +60,13 @@ const Authors = () => {
               Author && Author.length > 0 ? (
                 Author.map((author, index) => (
                   <tr key={author.id}>
-                    <td valign='top'>{index + 1}</td>
                     <td valign='top'>
-                      <img className='user-img' src={`${import.meta.env.VITE_SERVER_MAIN_URL}author/${author?.profile_img}`} alt={author?.name} />
+                      <div className='d-flex align-items-start gap-2'>
+                        <div className="form-check m-0 " >
+                          <input className="form-check-input " type="checkbox" role='button' value="" id={`flexCheckIndeterminate_${index}`} />
+                        </div>
+                        <img className='user-img' src={`${import.meta.env.VITE_SERVER_MAIN_URL}author/${author?.profile_img}`} alt={author?.name} />
+                      </div>
                     </td>
                     <td valign='top'>{author?.name}</td>
                     <td valign='top'>{author?.email}</td>

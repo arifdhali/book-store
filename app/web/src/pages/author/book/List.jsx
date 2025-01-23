@@ -75,7 +75,7 @@ const BookList = () => {
                                                 {
                                                     subscription_type == 'premium' && (
 
-                                                        <Link className='act analytics' to={`${AppRoute.AUTHOR.BOOK.ANALYTICS(user_id)}`}>
+                                                        <Link className='act analytics' to={`${AppRoute.AUTHOR.BOOK.ANALYTICS(book.id)}`}>
                                                             <FontAwesomeIcon icon={faChartLine} /> Analytics
                                                         </Link>
                                                     )

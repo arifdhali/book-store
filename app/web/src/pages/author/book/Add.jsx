@@ -85,10 +85,9 @@ const Add = () => {
   const getAllCategory = async () => {
     try {
 
-      await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.ADMIN.CATEGORY.LIST}`)
-        .then((value) => {
-          setBookCategory(value?.data?.result);
-        })
+      let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.ADMIN.CATEGORY.LIST}`)
+      console.log(response)
+      setBookCategory(value?.data?.result);
     } catch (error) {
       console.log(error);
     }
