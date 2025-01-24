@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import Home from './pages/Home';
 import ErrorPage from "./404";
-import Loader from './components/Loader';
+import { Loader } from "@/components/Loader";
 import AuthorHome from './pages/author/AuthorHome';
 import ProtectedRoutes from './routes/protected.routes';
 import axios from 'axios';

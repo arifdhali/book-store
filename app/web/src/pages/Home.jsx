@@ -160,14 +160,14 @@ const Home = () => {
                                     <p className='text-gray'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, cumque! Beatae vero recusandae est enim quo nostrum autem ex vitae.</p>
                                 </div>
 
-                                <div className='d-flex gap-5 mt-4'>
+                                <div className='d-flex gap-5 my-5'>
                                     <div className='text-center'>
                                         <h2 className='heading'>70</h2>
-                                        <p className='text-gray'>Total Authors</p>
+                                        <p className='text-gray'>Recently Published</p>
                                     </div>
                                     <div className='text-center'>
                                         <h2 className='heading'>70</h2>
-                                        <p className='text-gray'>Total Authors</p>
+                                        <p className='text-gray'>Active Coupons</p>
                                     </div>
                                     <div className='text-center'>
                                         <h2 className='heading'>70</h2>
@@ -175,7 +175,7 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className='mt-4'>
-                                    <button className='btn btn-outline-primary'>Shop Now</button>
+                                    <button className='btn btn-primary'>Shop Now</button>
                                 </div>
                             </div>
                         </div>
