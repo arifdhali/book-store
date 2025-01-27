@@ -8,6 +8,8 @@ import ConfirmModal from "@/utils/ConfirmModal"
 
 const Authors = () => {
   const [Author, setAuthor] = useState();
+  const [MakeSelectAll, setMakeSelectAll] = useState(false);
+  const [DeleteItems, setDeleteItems] = useState([]);
   const [ModalInfo, setModalInfo] = useState({
     type: "",
     api_url: "",
@@ -24,11 +26,37 @@ const Authors = () => {
       console.error("Failed to fetch authors:", error);
     }
   };
-
-
+  const HandelingChecked = (e) => {
+    let { checked, id } = e.target;
+    let checkedID = id.split("_")[1];
+    setDeleteItems((prev) => {
+      if (checked) {
+        if (!DeleteItems.includes(checkedID)) {
+          return [...prev, checkedID];
+        }
+        return [...prev, checkedID];
+      } else {
+        return prev.filter((item) => item !== checkedID)
+      }
+      // return prev;
+    })
+  }
+  const HandleDeleteItems = async () => {
+    // let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(DeleteItems)}`, {
+    //   params: {
+    //     DeleteItems
+    //   }
+    // })
+  }
   useEffect(() => {
+    if (MakeSelectAll) {
+      let allIds = Author.map((author) => author.id)
+      setDeleteItems(allIds);
+    } else {
+      setDeleteItems([]);
+    }
     getAuthors();
-  }, [])
+  }, [MakeSelectAll])
 
   return (
     <div className='p-4 bg-white rounded-2'>
@@ -36,8 +64,10 @@ const Authors = () => {
         <div className='d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom'>
           <div className='d-flex gap-4 align-items-center'>
             <h4 className='section-title m-0'>Author List</h4>
-
-            <button className='btn btn-primary'>Select all</button>
+            <div>
+              <button className='btn btn-primary' onClick={() => setMakeSelectAll(!MakeSelectAll)}>{Author?.length == DeleteItems.length ? "Unselect" : "" || MakeSelectAll ? `Unselect` : `Select All (${DeleteItems.length > 0 ? DeleteItems.length : 0})`}</button>
+              {DeleteItems.length > 0 && <button className='btn btn-danger ms-2' onClick={HandleDeleteItems}>Delete {<FontAwesomeIcon className='ms-2' icon={faTrashCan} />}</button>}
+            </div>
           </div>
           <div>
             <Link to={`${AppRoute.ADMIN.AUTHORS.ADD}`} className="btn btn-primary align-content-center">Add Author</Link>
@@ -63,7 +93,7 @@ const Authors = () => {
                     <td valign='top'>
                       <div className='d-flex align-items-start gap-2'>
                         <div className="form-check m-0 " >
-                          <input className="form-check-input " type="checkbox" role='button' value="" id={`flexCheckIndeterminate_${index}`} />
+                          <input className="form-check-input" type="checkbox" role='button' onChange={HandelingChecked} checked={DeleteItems.includes(author.id.toString()) || MakeSelectAll} id={`flexCheckIndeterminate_${author.id}`} />
                         </div>
                         <img className='user-img' src={`${import.meta.env.VITE_SERVER_MAIN_URL}author/${author?.profile_img}`} alt={author?.name} />
                       </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCreative, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -9,17 +9,25 @@ import { Main_Header } from '@/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowAltCircleDown, faCartFlatbed, faCartPlus, faChevronCircleDown, faChevronDown, faEye } from '@fortawesome/free-solid-svg-icons';
 const Home = () => {
-
+    const scrollBtm = useRef();
+    const handelScroll = () => {
+        // let scrollHeight = document.documentElement.scrollHeight / 2;
+        // window.scrollTo({
+        //     top: scrollHeight,
+        //     behavior: "smooth"
+        // })
+    }
     useGSAP(() => {
-        gsap.from(".word", {
-            y: 10,
-            opacity: 0,
-            stagger: {
-                each: .2,
-                ease: "none",
-            },
-        })
+        // gsap.from(".word", {
+        //     y: 10,
+        //     opacity: 0,
+        //     stagger: {
+        //         each: .2,
+        //         ease: "none",
+        //     },    
+        // })
     })
+
 
     return (
         <>
@@ -76,8 +84,8 @@ const Home = () => {
 
                                 >
                                     {
-                                        [0, 0, 0, 0].map((slide) => (
-                                            <SwiperSlide>
+                                        [0, 0, 0, 0].map((slide,index) => (
+                                            <SwiperSlide key={index}>
                                                 <div className='slider-items'>
                                                     <img className='img-fluid' src="https://images.pexels.com/photos/30309178/pexels-photo-30309178/free-photo-of-vibrant-parrot-perched-on-a-balcony-railing.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
                                                 </div>
@@ -93,7 +101,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className='down-arrow text-center position-absolute translate-middle-x rounded-5 d-flex align-items-center justify-content-center' role='button'>
+                <div onClick={handelScroll} ref={scrollBtm} className='down-arrow text-center position-absolute translate-middle-x rounded-5 d-flex align-items-center justify-content-center' role='button'>
                     <FontAwesomeIcon icon={faChevronDown} />
                 </div>
             </section>
@@ -110,9 +118,9 @@ const Home = () => {
                         </h2>
                     </div>
                     <div className='row pt-3 mt-5'>
-                        {
-                            [0, 0, 0, 0].map((book) => (
-                                <div className="col-md-3">
+                        {                            
+                            [0, 0, 0, 0].map((book,index) => (
+                                <div className="col-md-3" key={index}>
                                     <div className="card">
                                         <div className='m-1 position-relative card-imgs rounded-1'>
                                             <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsb2ZmaWNlMV9jdXRlXzNkX2lsbHVzdHJhdGlvbl9vZl9hX3N0YWNrX29mX2Jvb2tzX2lzb2xhdF81MjhhNmU5Ni0zZjllLTRlOGQtYmEyNy1lZGU3OWU0NTg0YTAucG5n.png" className="rounded-1 card-img-top img-fluid" alt="" />
@@ -135,10 +143,8 @@ const Home = () => {
                                         </div>
                                     </div>
                                 </div>
-
                             ))
                         }
-
                     </div>
                 </div>
             </section >
@@ -148,8 +154,8 @@ const Home = () => {
                     <div className="row">
                         <div className="col-md-5">
                             <div className='d-flex flex-wrap gap-5'>
-                                {[0, 0, 0, 0].map((img) => (
-                                    <img className='book-img rounded-1 img-fluid ' src="https://grimoakpress.com/cdn/shop/files/cover-notw-fc.jpg?v=1706902909" alt="" />
+                                {[0, 0, 0, 0].map((img,index) => (
+                                    <img key={index} className='book-img rounded-1 img-fluid ' src="https://grimoakpress.com/cdn/shop/files/cover-notw-fc.jpg?v=1706902909" alt="" />
                                 ))}
                             </div>
                         </div>

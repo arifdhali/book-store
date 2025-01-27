@@ -51,7 +51,7 @@ class AuthorModels extends BaseModal {
                         status: true,
                         message: "Admin created successfully"
                     }
-                }                
+                }
             }
         } catch (error) {
             console.error("Error in Admin Author modal " + error);
@@ -118,10 +118,10 @@ class AuthorModels extends BaseModal {
     }
 
     async deleteAuthor(id) {
-        try {
+        try {            
             //  get the thumbnail
             let thumbnailQuery = `SELECT id as User_id,profile_img FROM author WHERE id = ?`;
-            let thumbnailResult = await this.preparingQuery(thumbnailQuery, [id])
+            let thumbnailResult = await this.preparingQuery(thumbnailQuery, id)
             if (!thumbnailResult.length) {
                 return {
                     status: false,
@@ -130,7 +130,7 @@ class AuthorModels extends BaseModal {
             }
 
             const delteSql = 'DELETE FROM author WHERE id = ?';
-            let result = await this.preparingQuery(delteSql, [id]);
+            let result = await this.preparingQuery(delteSql, id);
             if (result.affectedRows >= 1) {
                 let { profile_img } = thumbnailResult[0];
                 let profileDeleteResult;
@@ -149,6 +149,14 @@ class AuthorModels extends BaseModal {
 
 
     }
+    async deleteAuthorMultiple(ids) {
+
+        console.log(ids)
+
+    }
+
+
+
     async insertIdToSubscriptionAuthorRelations(authorID, subsctionID) {
         try {
             let tableName = `subscription_author_relation`;
