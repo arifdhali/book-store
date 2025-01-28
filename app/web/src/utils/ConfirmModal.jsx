@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 
 const ConfirmModal = ({ modal, onSuccess }) => {
     const { api_url, type, user_id } = modal;
-    console.log(modal)
     const handelDelete = async () => {
         try {
             if (type === 'delete') {

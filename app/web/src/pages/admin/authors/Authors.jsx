@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppRoute from "@/routes/routes"
-import axios from "axios";
+import axios, { all } from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faBell, faTrashCan, faIcons, faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
 import ConfirmModal from "@/utils/ConfirmModal"
@@ -31,32 +31,40 @@ const Authors = () => {
     let checkedID = id.split("_")[1];
     setDeleteItems((prev) => {
       if (checked) {
-        if (!DeleteItems.includes(checkedID)) {
-          return [...prev, checkedID];
-        }
         return [...prev, checkedID];
       } else {
         return prev.filter((item) => item !== checkedID)
       }
-      // return prev;
     })
   }
-  const HandleDeleteItems = async () => {
-    // let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(DeleteItems)}`, {
-    //   params: {
-    //     DeleteItems
-    //   }
-    // })
-  }
-  useEffect(() => {
-    if (MakeSelectAll) {
-      let allIds = Author.map((author) => author.id)
-      setDeleteItems(allIds);
+  const HandelingAllSelect = (e) => {
+    if (DeleteItems.length == Author.length) {
+      setDeleteItems([])
+      setMakeSelectAll(false)
     } else {
-      setDeleteItems([]);
+      let allID = Author.map((author) => author.id.toString())
+      setDeleteItems(allID)
+      setMakeSelectAll(true)
+    }
+  }
+  const HandleDeleteItems = async () => {
+    let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(DeleteItems)}`, {
+      params: {
+        DeleteItems
+      }
+    })
+    console.log(response)
+  }
+
+
+  useEffect(() => {
+    if (DeleteItems.length == Author?.length) {
+      setMakeSelectAll(true)
+    } else {
+      setMakeSelectAll(false)
     }
     getAuthors();
-  }, [MakeSelectAll])
+  }, [DeleteItems.length])
 
   return (
     <div className='p-4 bg-white rounded-2'>
@@ -65,7 +73,11 @@ const Authors = () => {
           <div className='d-flex gap-4 align-items-center'>
             <h4 className='section-title m-0'>Author List</h4>
             <div>
-              <button className='btn btn-primary' onClick={() => setMakeSelectAll(!MakeSelectAll)}>{Author?.length == DeleteItems.length ? "Unselect" : "" || MakeSelectAll ? `Unselect` : `Select All (${DeleteItems.length > 0 ? DeleteItems.length : 0})`}</button>
+              <button
+                onClick={HandelingAllSelect}
+                className='btn btn-primary'              >
+                {`Select All (${DeleteItems.length > 0 ? DeleteItems.length : 0})`}
+              </button>
               {DeleteItems.length > 0 && <button className='btn btn-danger ms-2' onClick={HandleDeleteItems}>Delete {<FontAwesomeIcon className='ms-2' icon={faTrashCan} />}</button>}
             </div>
           </div>
