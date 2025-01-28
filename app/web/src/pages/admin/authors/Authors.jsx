@@ -29,7 +29,7 @@ const Authors = () => {
   };
   const HandelingChecked = (e) => {
     let { checked, id } = e.target;
-    let checkedID = id.split("_")[1];
+    let checkedID = Number(id.split("_")[1]);
     setDeleteItems((prev) => {
       if (checked) {
         return [...prev, checkedID];
@@ -73,7 +73,7 @@ const Authors = () => {
       setMakeSelectAll(false)
     }
     getAuthors();
-  }, [DeleteItems.length])
+  }, [DeleteItems])
 
   return (
     <div className='p-4 bg-white rounded-2'>
@@ -114,7 +114,7 @@ const Authors = () => {
                     <td valign='top'>
                       <div className='d-flex align-items-start gap-2'>
                         <div className="form-check m-0 " >
-                          <input className="form-check-input" type="checkbox" role='button' onChange={HandelingChecked} checked={DeleteItems.includes(author.id.toString()) || MakeSelectAll} id={`flexCheckIndeterminate_${author.id}`} />
+                          <input className="form-check-input" type="checkbox" role='button' onChange={HandelingChecked} checked={DeleteItems.includes(author.id) || MakeSelectAll} id={`flexCheckIndeterminate_${author.id}`} />
                         </div>
                         <img className='user-img' src={`${import.meta.env.VITE_SERVER_MAIN_URL}author/${author?.profile_img}`} alt={author?.name} />
                       </div>
