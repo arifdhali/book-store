@@ -48,8 +48,8 @@ const Authors = () => {
     }
   }
   const HandleDeleteItems = async () => {
-    let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(DeleteItems)}`, {
-      params: {
+    let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW()}`, {
+      data: {
         DeleteItems
       }
     })

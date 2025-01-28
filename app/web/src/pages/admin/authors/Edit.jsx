@@ -205,7 +205,7 @@ const Edit = () => {
                         <option value="" disabled>Select Status</option>
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
-                        <option value="blocked">Blocked</option>
+                        <option value="block">Blocked</option>
                     </select>
                     {formik.errors.status && formik.touched.status ? (
                         <div className="invalid-feedback">{formik.errors.status}</div>
