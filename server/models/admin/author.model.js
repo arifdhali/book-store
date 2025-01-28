@@ -119,50 +119,43 @@ class AuthorModels extends BaseModal {
 
     async deleteAuthor(id) {
         try {
-            if (id.length > 1) {
-                await this.deleteAuthorMultiple(id)
-            } else {
-                await this.deleteAuthorSingle(id)
+            let thumbnailQuery = `SELECT id as User_id,profile_img FROM author WHERE id IN (?)`;
+            let thumbnailResult = await this.preparingQuery(thumbnailQuery, [id])
+            if (!thumbnailResult.length) {
+                return {
+                    status: false,
+                    message: "Author thumbnail not found"
+                };
+            }
+
+
+
+            const delteSql = 'DELETE FROM author WHERE id IN(?)';
+            let result = await this.preparingQuery(delteSql, [id]);
+            if (result.affectedRows >= 1) {
+                for (let item of thumbnailResult) {
+                    if (item.profile_img) {
+                        try {
+                            let profileDeleteResult = await FileServices.deleteFile(item.profile_img, "author");
+                            console.log('Error on file delete', profileDeleteResult);
+                        } catch (fileError) {
+                            console.error(`Failed to delete file: ${item.profile_img}`, fileError);
+
+                        }
+                    }
+                }
+                return {
+                    status: true,
+                    message: "Author delete successfully"
+                }
             }
         } catch (error) {
-            console.error("Error in when  delte Author  " + error);
+            console.error("Error in when  delete Author  " + error);
             return { status: false, message: error };
         }
 
 
     }
-    async deleteAuthorSingle(id) {
-        //  get the thumbnail
-        let thumbnailQuery = `SELECT id as User_id,profile_img FROM author WHERE id = ?`;
-        let thumbnailResult = await this.preparingQuery(thumbnailQuery, id)
-        if (!thumbnailResult.length) {
-            return {
-                status: false,
-                message: "Author thumbnail not found"
-            };
-        }
-
-        const delteSql = 'DELETE FROM author WHERE id = ?';
-        let result = await this.preparingQuery(delteSql, id);
-        if (result.affectedRows >= 1) {
-            let { profile_img } = thumbnailResult[0];
-            let profileDeleteResult;
-            if (profile_img) {
-                profileDeleteResult = await FileServices.deleteFile(profile_img, "author")
-            }
-            return {
-                status: true,
-                message: "Author delete successfully"
-            }
-        }
-    }
-    async deleteAuthorMultiple(ids) {
-
-        console.log(ids)
-
-    }
-
-
 
     async insertIdToSubscriptionAuthorRelations(authorID, subsctionID) {
         try {

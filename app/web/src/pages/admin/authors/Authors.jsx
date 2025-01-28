@@ -5,6 +5,7 @@ import axios, { all } from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faBell, faTrashCan, faIcons, faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
 import ConfirmModal from "@/utils/ConfirmModal"
+import { toast } from 'react-toastify';
 
 const Authors = () => {
   const [Author, setAuthor] = useState();
@@ -42,18 +43,26 @@ const Authors = () => {
       setDeleteItems([])
       setMakeSelectAll(false)
     } else {
-      let allID = Author.map((author) => author.id.toString())
+      let allID = Author.map((author) => author.id)
       setDeleteItems(allID)
       setMakeSelectAll(true)
     }
   }
   const HandleDeleteItems = async () => {
-    let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW()}`, {
-      data: {
-        DeleteItems
-      }
-    })
-    console.log(response)
+    try {
+
+      let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW()}`, {
+        data: {
+          DeleteItems
+        }
+      })
+      toast.success(response.data.message)
+      getAuthors();
+      setDeleteItems([])
+    }catch(error){
+      toast.error(response.data.message)
+    }
+    
   }
 
 
@@ -75,7 +84,7 @@ const Authors = () => {
             <div>
               <button
                 onClick={HandelingAllSelect}
-                className='btn btn-primary'              >
+                className='btn btn-primary'>
                 {`Select All (${DeleteItems.length > 0 ? DeleteItems.length : 0})`}
               </button>
               {DeleteItems.length > 0 && <button className='btn btn-danger ms-2' onClick={HandleDeleteItems}>Delete {<FontAwesomeIcon className='ms-2' icon={faTrashCan} />}</button>}

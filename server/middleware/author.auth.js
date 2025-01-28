@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const AuthorAuthenticateJWTtoken = (req, res, next) => {
     const token = req.cookies.AUTHOR_TOKEN;
-    console.log(req.cookies)    
     if (!token) {
         return res.status(403).json({
             status: false,

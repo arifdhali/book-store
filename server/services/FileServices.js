@@ -8,7 +8,7 @@ class FileServices {
             let setFileName = path.join("public", "uploads", folderName, fileName);
             if (!fs.existsSync(setFileName)) {
                 return {
-                    file_message: `File does not exists in ${folderName}`,
+                    message: `File does not exists in ${folderName}`,
                 }
             }
             await unlink(setFileName);

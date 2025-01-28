@@ -79,16 +79,10 @@ const GetSpecificAuthor = async (req, res) => {
 
 //  DELETE AUTHOR
 const DeleteAuthor = async (req, res) => {
-    const { DeleteItems } = req.body;
-    if (DeleteItems) {
-        let result = await AuthorModel.deleteAuthor(DeleteItems);
-        return res.status(200).json(
-            result
-        )
-    }
     // for single user
     const { authorid } = req.params;
-    let result = await AuthorModel.deleteAuthor(authorid);
+    const { DeleteItems } = req.body;
+    let result = await AuthorModel.deleteAuthor(DeleteItems || authorid);
     return res.status(200).json(
         result
     )
