@@ -51,7 +51,7 @@ const Authors = () => {
   const HandleDeleteItems = async () => {
     try {
 
-      let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW()}`, {
+      let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(null)}`, {
         data: {
           DeleteItems
         }

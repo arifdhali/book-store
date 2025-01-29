@@ -128,8 +128,6 @@ class AuthorModels extends BaseModal {
                 };
             }
 
-
-
             const delteSql = 'DELETE FROM author WHERE id IN(?)';
             let result = await this.preparingQuery(delteSql, [id]);
             if (result.affectedRows >= 1) {
