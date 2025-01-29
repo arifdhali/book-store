@@ -1,0 +1,395 @@
+Check if a User Exists Before Inserting DONE 
+Get a List of All Customers DONE => SELECT * FROM users WHERE role = 'customer' ORDER BY created_at DESC
+Find Users Who Have Never Placed an Order => SELECT * FROM users WHERE id NOT in(SELECT user_id FROM orders) ORDER BY created_at DESC;
+Get Books Within a Price Range  => SELECT * FROM books WHERE price BETWEEN 10 AND 200 ORDER BY price DESC
+Find Books That Have Never Been Purchased => SELECT * FROM books where id not in (select book_id from order_items) order by created_at ASC
+List Books with Their Total Sales Count => SELECT b.id, b.title, COUNT(o.id) AS total_sold  FROM books b LEFT JOIN order_items o ON b.id = o.book_id GROUP BY b.id,b.title ORDER BY total_sold DESC; 
+Get Orders That Were Placed in the Last 7 Days => SELECT * FROM `orders` WHERE created_at >= now() - INTERVAL 7 day ORDER BY created_at DESC LIMIT 5
+Get Total Revenue for Each Book => SELECT B.id,B.title,SUM(O.price) as total_price FROM books B LEFT JOIN order_items O ON B.id = O.book_id GROUP BY B.id ORDER BY total_price DESC 
+Get a User's Last 5 Orders => SELECT * FROM orders WHERE user_id = 1 ORDER BY created_at DESC LIMIT 5
+Update Order Status Only If It's Not Already 'Shipped'  UPDATE  orders SET status = 'shipped' where user_id = 3 and status != 'shipped' 
+Find Books with an Average Rating of 4 or HigherSELECT B.id ,B.title,R.rating FROM books B JOIN reviews R on B.id = R.book_id WHERE R.rating >= 4 GROUP BY B.id ORDER BY R.rating DESC 
+Find Users Who Have Left More Than 5 Reviews
+Automatically Mark Books as "Out of Stock" When Stock Reaches Zero
+Find Books That Are Running Low (Stock < 10)
+Restock a Book (Add 50 More Copies)
+Find Active Coupons
+Get All Orders Where a Coupon Was Used
+Delete Expired Coupons
+Place an Order and Reduce Stock Using a Transaction
+Find Users Who Have More Than One Address Saved
+Find Orders That Are Currently Being Shipped
+Get Total Revenue per Month for the Current Year
+Find the Most Purchased Book of All Time
+Get User Order History with Book Details
+Find Customers Who Have Spent More Than $500
+Get the Latest Registered Users (Top 5)
+Find Users Who Have Placed Orders in the Last 30 Days
+Get Users Who Haven't Logged in for 6 Months
+Find Books Without Any Reviews
+List Books That Belong to Multiple Categories
+Find Books with the Longest Title
+Get Orders That Include More Than 3 Books
+Find Orders That Used a Coupon
+Find Orders with the Highest Total Price
+Get Books with Reviews Using EXISTS (Faster than JOIN)
+Use INDEX for Faster Queries (Add This to Your Table)
+Get the Month with the Most Sales
+Find the User Who Has Spent the Most
+Find Users Who Have Bought More Than 5 Books
+Find Users Who Live in a Specific City
+Get Orders Shipped to a Specific Zip Code
+Ensure Order & Stock Update Happen Together (Atomic Transaction)
+Prevent Duplicate Orders
+
+
+
+
+
+
+
+
+==================================
+==================================
+
+1️⃣ Advanced User Management
+Check if a User Exists Before Inserting
+
+INSERT INTO users (name, email, password, role)
+SELECT * FROM (SELECT 'John Doe', 'john@example.com', 'hashed_password', 'customer') AS tmp
+WHERE NOT EXISTS (
+    SELECT email FROM users WHERE email = 'john@example.com'
+) LIMIT 1;
+
+Get a List of All Customers
+
+SELECT * FROM users WHERE role = 'customer' ORDER BY created_at DESC;
+
+Find Users Who Have Never Placed an Order
+
+SELECT * FROM users 
+WHERE id NOT IN (SELECT DISTINCT user_id FROM orders);
+
+2️⃣ Book Management (More Complex Queries)
+Get Books Within a Price Range
+
+SELECT * FROM books WHERE price BETWEEN 10 AND 50 ORDER BY price ASC;
+
+Find Books That Have Never Been Purchased
+
+SELECT * FROM books 
+WHERE id NOT IN (SELECT DISTINCT book_id FROM orders);
+
+List Books with Their Total Sales Count
+
+SELECT b.id, b.title, COUNT(o.id) AS total_sold 
+FROM books b 
+LEFT JOIN orders o ON b.id = o.book_id 
+GROUP BY b.id 
+ORDER BY total_sold DESC;
+
+3️⃣ Advanced Order Management
+Get Orders That Were Placed in the Last 7 Days
+
+SELECT * FROM orders 
+WHERE created_at >= NOW() - INTERVAL 7 DAY;
+
+Get Total Revenue for Each Book
+
+SELECT b.id, b.title, SUM(o.total_price) AS total_revenue
+FROM books b 
+JOIN orders o ON b.id = o.book_id
+GROUP BY b.id
+ORDER BY total_revenue DESC;
+
+Get a User's Last 5 Orders
+
+SELECT * FROM orders 
+WHERE user_id = 1 
+ORDER BY created_at DESC 
+LIMIT 5;
+
+Update Order Status Only If It's Not Already 'Shipped'
+
+UPDATE orders 
+SET status = 'shipped' 
+WHERE id = 101 AND status != 'shipped';
+
+4️⃣ Reviews & Ratings
+Find Books with an Average Rating of 4 or Higher
+
+SELECT b.id, b.title, AVG(r.rating) AS avg_rating
+FROM books b
+JOIN reviews r ON b.id = r.book_id
+GROUP BY b.id
+HAVING avg_rating >= 4
+ORDER BY avg_rating DESC;
+
+Find Users Who Have Left More Than 5 Reviews
+
+SELECT user_id, COUNT(*) AS review_count 
+FROM reviews 
+GROUP BY user_id 
+HAVING review_count > 5;
+
+5️⃣ Inventory & Stock Management
+Automatically Mark Books as "Out of Stock" When Stock Reaches Zero
+
+UPDATE books 
+SET stock_status = 'out_of_stock' 
+WHERE stock = 0;
+
+Find Books That Are Running Low (Stock < 10)
+
+SELECT * FROM books WHERE stock < 10 ORDER BY stock ASC;
+
+Restock a Book (Add 50 More Copies)
+
+UPDATE books 
+SET stock = stock + 50 
+WHERE id = 15;
+
+6️⃣ Discounts & Coupons
+Find Active Coupons
+
+SELECT * FROM coupons WHERE expiration_date > NOW();
+
+Get All Orders Where a Coupon Was Used
+
+SELECT * FROM orders WHERE coupon_id IS NOT NULL;
+
+Delete Expired Coupons
+
+DELETE FROM coupons WHERE expiration_date < NOW();
+
+7️⃣ Transaction Management (Ensuring Data Integrity)
+Place an Order and Reduce Stock Using a Transaction
+
+START TRANSACTION;
+
+INSERT INTO orders (user_id, book_id, quantity, total_price, status)
+VALUES (1, 10, 2, 31.98, 'pending');
+
+UPDATE books 
+SET stock = stock - 2 
+WHERE id = 10 AND stock >= 2;
+
+COMMIT;
+
+(Ensures that the stock update only happens if the order is successfully placed.)
+8️⃣ Shipping & Address Management
+Find Users Who Have More Than One Address Saved
+
+SELECT user_id, COUNT(*) AS address_count 
+FROM addresses 
+GROUP BY user_id 
+HAVING address_count > 1;
+
+Find Orders That Are Currently Being Shipped
+
+SELECT * FROM orders WHERE status = 'shipped';
+
+9️⃣ Admin Reports & Analytics
+Get Total Revenue per Month for the Current Year
+
+SELECT MONTH(created_at) AS month, SUM(total_price) AS total_revenue
+FROM orders
+WHERE YEAR(created_at) = YEAR(CURRENT_DATE())
+GROUP BY MONTH(created_at)
+ORDER BY month ASC;
+
+Find the Most Purchased Book of All Time
+
+SELECT b.title, COUNT(o.id) AS total_orders
+FROM books b
+JOIN orders o ON b.id = o.book_id
+GROUP BY b.id
+ORDER BY total_orders DESC
+LIMIT 1;
+
+🔟 Complex Joins & Subqueries
+Get User Order History with Book Details
+
+SELECT u.name, b.title, o.quantity, o.total_price, o.status, o.created_at
+FROM orders o
+JOIN users u ON o.user_id = u.id
+JOIN books b ON o.book_id = b.id
+ORDER BY o.created_at DESC;
+
+Find Customers Who Have Spent More Than $500
+
+SELECT u.id, u.name, SUM(o.total_price) AS total_spent
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.id
+HAVING total_spent > 500;
+
+That should give you a ton of powerful MySQL queries for your bookstore project! 🚀 Let me know if you need anything more specific.
+You said:
+more
+ChatGPT said:
+ChatGPT
+
+You got it! Here are even more advanced MySQL queries covering complex use cases like recursive queries, JSON data handling, full-text search, and performance optimizations. 🚀
+1️⃣ Advanced User Management
+Get the Latest Registered Users (Top 5)
+
+SELECT * FROM users ORDER BY created_at DESC LIMIT 5;
+
+Find Users Who Have Placed Orders in the Last 30 Days
+
+SELECT DISTINCT u.* FROM users u
+JOIN orders o ON u.id = o.user_id
+WHERE o.created_at >= NOW() - INTERVAL 30 DAY;
+
+Get Users Who Haven't Logged in for 6 Months
+
+SELECT * FROM users WHERE last_login <= NOW() - INTERVAL 6 MONTH;
+
+2️⃣ Advanced Book Queries
+Find Books Without Any Reviews
+
+SELECT * FROM books 
+WHERE id NOT IN (SELECT DISTINCT book_id FROM reviews);
+
+List Books That Belong to Multiple Categories
+
+SELECT book_id, COUNT(category_id) AS category_count 
+FROM book_categories 
+GROUP BY book_id 
+HAVING category_count > 1;
+
+Find Books with the Longest Title
+
+SELECT * FROM books ORDER BY LENGTH(title) DESC LIMIT 1;
+
+3️⃣ Advanced Order Queries
+Get Orders That Include More Than 3 Books
+
+SELECT order_id, COUNT(book_id) AS total_books
+FROM order_items 
+GROUP BY order_id 
+HAVING total_books > 3;
+
+Find Orders That Used a Coupon
+
+SELECT * FROM orders WHERE coupon_id IS NOT NULL;
+
+Find Orders with the Highest Total Price
+
+SELECT * FROM orders ORDER BY total_price DESC LIMIT 1;
+
+4️⃣ Performance Optimized Queries
+Get Books with Reviews Using EXISTS (Faster than JOIN)
+
+SELECT * FROM books b
+WHERE EXISTS (
+    SELECT 1 FROM reviews r WHERE r.book_id = b.id
+);
+
+Use INDEX for Faster Queries (Add This to Your Table)
+
+ALTER TABLE books ADD INDEX idx_title (title);
+
+Then, search efficiently:
+
+SELECT * FROM books WHERE title LIKE 'Harry Potter%';
+
+Optimize Pagination with OFFSET
+
+SELECT * FROM books ORDER BY created_at DESC LIMIT 10 OFFSET 50;
+
+5️⃣ Full-Text Search (For Searching Books & Reviews)
+Enable Full-Text Search on Books
+
+ALTER TABLE books ADD FULLTEXT(title, description);
+
+Search for Books Related to "Mystery"
+
+SELECT * FROM books WHERE MATCH(title, description) AGAINST ('mystery');
+
+Search for Books with Exact Phrase Matching
+
+SELECT * FROM books WHERE MATCH(title, description) AGAINST ('+Sherlock +Holmes' IN BOOLEAN MODE);
+
+6️⃣ JSON Data Handling (For Storing Metadata)
+Store Additional Data in JSON Format
+
+ALTER TABLE books ADD COLUMN metadata JSON;
+
+Insert a Book with JSON Metadata
+
+INSERT INTO books (title, author, metadata) 
+VALUES ('Book Title', 'Author Name', '{"publisher": "Penguin", "pages": 320, "language": "English"}');
+
+Query JSON Data (Find Books in English)
+
+SELECT * FROM books WHERE JSON_EXTRACT(metadata, '$.language') = 'English';
+
+7️⃣ Recursive Queries (Category Tree)
+Get All Subcategories of a Given Category
+
+WITH RECURSIVE category_tree AS (
+    SELECT id, parent_id, name FROM categories WHERE id = 1
+    UNION ALL
+    SELECT c.id, c.parent_id, c.name
+    FROM categories c
+    JOIN category_tree ct ON c.parent_id = ct.id
+)
+SELECT * FROM category_tree;
+
+8️⃣ Analytics & Reports
+Get the Month with the Most Sales
+
+SELECT MONTH(created_at) AS month, SUM(total_price) AS total_revenue
+FROM orders
+GROUP BY month
+ORDER BY total_revenue DESC
+LIMIT 1;
+
+Find the User Who Has Spent the Most
+
+SELECT u.id, u.name, SUM(o.total_price) AS total_spent
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.id
+ORDER BY total_spent DESC
+LIMIT 1;
+
+Find Users Who Have Bought More Than 5 Books
+
+SELECT user_id, COUNT(*) AS book_count
+FROM orders 
+GROUP BY user_id 
+HAVING book_count > 5;
+
+9️⃣ Geo-Based Queries (For Address & Shipping)
+Find Users Who Live in a Specific City
+
+SELECT * FROM addresses WHERE city = 'New York';
+
+Get Orders Shipped to a Specific Zip Code
+
+SELECT * FROM orders o 
+JOIN addresses a ON o.address_id = a.id
+WHERE a.zip_code = '10001';
+
+🔟 Security & Transactions
+Ensure Order & Stock Update Happen Together (Atomic Transaction)
+
+START TRANSACTION;
+
+INSERT INTO orders (user_id, book_id, quantity, total_price, status)
+VALUES (1, 10, 2, 31.98, 'pending');
+
+UPDATE books SET stock = stock - 2 WHERE id = 10 AND stock >= 2;
+
+COMMIT;
+
+Prevent Duplicate Orders
+
+INSERT INTO orders (user_id, book_id, quantity, total_price, status)
+SELECT 1, 10, 2, 31.98, 'pending'
+WHERE NOT EXISTS (
+    SELECT 1 FROM orders WHERE user_id = 1 AND book_id = 10
+);
