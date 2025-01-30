@@ -1,3 +1,4 @@
+// Name to Photo generator for npm
 TEMPLATE HERE============>  
 https://templates.iqonic.design/booksto-dist/html/index.html
 

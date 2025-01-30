@@ -1,6 +1,7 @@
 const BaseModal = require("../Base.model");
 const bcrypt = require('bcrypt');
-const AuthorModels = require("../admin/author.model")
+const AuthorModels = require("../admin/author.model");
+const subscriptionModel = require("../subscription.model");
 
 
 class AuthorAuthModels extends BaseModal {
@@ -60,7 +61,7 @@ class AuthorAuthModels extends BaseModal {
     }
 
     async RegisterModel(data) {
-        const { first_name, last_name, email, hasedPassword } = data;        
+        const { first_name, last_name, email, hasedPassword } = data;
         try {
             let dbColum = {
                 name: first_name,
@@ -76,13 +77,14 @@ class AuthorAuthModels extends BaseModal {
             } else {
                 const insersql = `INSERT INTO author(${columnName}) VALUES(${placeHolder})`
                 let response = await this.preparingQuery(insersql, columnValues)
-                if (response.affectedRows >= 1) {
+                const authorID = response.insertId;
+                let subscription = await subscriptionModel.setSubsciptionsPack(authorID, 'free');
+                if (subscription.status) {
                     return {
                         message: "Your account has been successfully created.",
                         status: true
                     }
                 }
-
             }
         } catch (error) {
             console.error("Error in Author Auth Register: " + error);

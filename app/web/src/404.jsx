@@ -11,9 +11,9 @@ const NotFound = () => (
   <div className="container p-0">
     <div className="row vh-100 justify-content-center">
       <div className="col-sm-12 text-center align-self-center">
-        <div className="error position-relative">
+        <div className="position-relative">
           <img src={errorImage} alt="404 Error" className="img-fluid error-img" />
-          <h2 className="mt-5  fw-normal fs-1">Oops! This Page is Not Found.</h2>
+          <h2 className="mt-5  fw-medium fs-1" style={{color:"#353333"}}>Oops! This Page is Not Found.</h2>
           <p className="fs-5 text-body-tertiary mb-2" >The requested page does not exist.</p>
           <Link to="/" className="btn btn-primary mt-4">
             <div className="d-flex align-items-center gap-2">
