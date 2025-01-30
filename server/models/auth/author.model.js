@@ -60,8 +60,7 @@ class AuthorAuthModels extends BaseModal {
     }
 
     async RegisterModel(data) {
-        const { first_name, last_name, email, hasedPassword } = data;
-        let sql = "SELECT id, email FROM author WHERE email = ?";
+        const { first_name, last_name, email, hasedPassword } = data;        
         try {
             let dbColum = {
                 name: first_name,

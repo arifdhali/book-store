@@ -70,7 +70,7 @@ const DeleteAuthor = async (req, res) => {
     // for single user
     const { authorid } = req.params;
     const { DeleteItems } = req.body;
-    if (!authorid || !DeleteItems) {
+    if (!authorid && !DeleteItems) {
         throw new Error("Deletion id is required")
     }
     let result = await AuthorModel.deleteAuthor(DeleteItems || authorid);
