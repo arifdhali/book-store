@@ -77,7 +77,7 @@ const Users = () => {
                   </tr>
                 ))
               ) : (
-                <tr><td className='py-5 no-records' align='center' colSpan={'7'}>No records found</td></tr>
+                <tr><td className='no-records' align='center' colSpan={'7'}>No records found</td></tr>
               )
             }
 

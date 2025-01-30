@@ -93,7 +93,7 @@ const Category = () => {
                                 ))) : (
                                 <>
                                     <tr>
-                                        <td className="py-5 no-records" align="center" colSpan="5">No records found</td>
+                                        <td className="no-records" align="center" colSpan="5">No records found</td>
                                     </tr>
                                 </>
                             )

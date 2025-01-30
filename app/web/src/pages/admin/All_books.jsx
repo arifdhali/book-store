@@ -86,7 +86,7 @@ const All_Books = () => {
 
                         ) : (
                             <tr>
-                                <td colSpan={9} className='text-center py-4'>No record</td>
+                                <td colSpan={9} className='text-center'>No records found</td>
                             </tr>
                         )
                     }
