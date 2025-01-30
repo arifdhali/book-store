@@ -656,4 +656,117 @@ h2 {
   width: 200px;
   height: 300px;
   box-shadow: -6px 0px 25px 10px rgba(0, 0, 0, 0.2);
+}
+
+.auth-page {
+  color: #a7a6ac;
+}
+.auth-page .container {
+  max-width: 1140px;
+}
+.auth-page .title {
+  font-size: 40px;
+}
+.auth-page .form-control {
+  background-color: #3b364c !important;
+  border: 0;
+  color: #fff;
+}
+.auth-page .form-control::placeholder {
+  color: #a7a6ac;
+}
+.auth-page .form-control:focus {
+  outline: 1px solid #8879de;
+}
+.auth-page input[type=password] {
+  padding-right: 45px;
+}
+.auth-page .show-icon {
+  right: 15px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-page .show-icon svg {
+  color: #a7a6ac;
+}
+.auth-page .already-have a {
+  color: var(--color-3);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.auth-page .logo {
+  max-width: 50px;
+}
+.auth-page .back-to {
+  padding: 8px 15px;
+  background: #5f559a;
+  font-size: 14px;
+  transition: var(--transition);
+  background: var(--color-3);
+}
+.auth-page .back-to:hover {
+  background: #5f559a;
+}
+.auth-page .item-content {
+  max-width: 350px;
+  bottom: 30px;
+}
+.auth-page .item-content h4 {
+  font: 400 30px/1.5 "Lora", serif;
+}
+.auth-page .swiper-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 2;
+}
+.auth-page .swiper-pagination-bullet {
+  width: 40px;
+  height: 6px;
+  border-radius: 4px;
+  background: gray;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+.auth-page .swiper-pagination-bullet-active {
+  background: #fff;
+}
+.auth-page .alternative-login button {
+  border: 1px solid #a7a6ac;
+  width: 160px;
+}
+.auth-page .alternative-login button:hover {
+  background: #fff;
+  color: var(--color-1) !important;
+}
+.auth-page .or-register {
+  position: relative;
+}
+.auth-page .or-register::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 1px;
+  content: "";
+  background: #a7a6ac;
+}
+.auth-page .or-register small {
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+  background: #2b2738;
+  padding: 0 20px;
+}
+
+.error {
+  color: red;
 }/*# sourceMappingURL=index.css.map */

@@ -70,18 +70,15 @@ const AuthorLogout = (req, res) => {
 }
 
 const AuthorRegister = async (req, res) => {
-    const thumbnail = req?.file;
-    if (!thumbnail) {
-        return res.json({
-            status: false,
-            message: "No thumbnail uploaded",
-        });
-    }
-    const profile_img = thumbnail?.filename;
-    const { name, email, bio, dob, address, phone_no, social_link, plain_password } = req.body;
-    const password = await bcrypt.hash(plain_password, 10);
-    const result = await AuthorAuthModels.RegisterModel({ name, email, profile_img, bio, dob, address, phone_no, social_link, password });
+    try {
 
+        const { first_name, last_name, email, password } = req.body;
+        const hasedPassword = await bcrypt.hash(password, 10);
+        const result = await AuthorAuthModels.RegisterModel({ first_name, last_name, email, hasedPassword });
+        return res.json(result)
+    } catch (error) {
+        return res.json(error)
+    }
 
 }
 module.exports = {

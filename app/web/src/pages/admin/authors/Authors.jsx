@@ -52,9 +52,9 @@ const Authors = () => {
     try {
 
       let response = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.VIEW(null)}`, {
-        data: {
-          DeleteItems
-        }
+        // data: {
+        //   DeleteItems
+        // }        
       })
       toast.success(response.data.message)
       getAuthors();

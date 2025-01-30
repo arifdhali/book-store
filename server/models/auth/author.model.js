@@ -30,11 +30,11 @@ class AuthorAuthModels extends BaseModal {
 
             const userinfo = {
                 user_id: user.id,
-                user_name:user.name,
+                user_name: user.name,
                 user_profile: user.profile_img,
                 user_status: user.status,
-                subscription_type: user.subscription_type,                
-            }            
+                subscription_type: user.subscription_type,
+            }
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 return {
@@ -59,27 +59,34 @@ class AuthorAuthModels extends BaseModal {
     }
 
     async RegisterModel(data) {
-        const { email } = data;
+        const { first_name, last_name, email, hasedPassword } = data;
         let sql = "SELECT id, email FROM author WHERE email = ?";
-
         try {
+            let dbColum = {
+                name: first_name,
+                email: email,
+                password: hasedPassword
+            }
+            let columnName = Object.keys(dbColum).join(",");
+            let columnValues = Object.values(dbColum)
+            let placeHolder = columnValues.map(() => '?').join(', ')
             const user = await this.preparingQuery(sql, [email]);
+
             if (user.length > 0) {
                 return {
                     message: "User already exists",
                     status: false
                 };
             } else {
-                const fields = Object.keys(data);
-                const placeholders = fields.map(() => "?").join(", ");
-                const values = Object.values(data);
-                const insertSql = `INSERT INTO author (${fields.join(", ")}) VALUES (${placeholders})`;
-                const result = await this.preparingQuery(insertSql, values);
-                return {
-                    message: "Author registered successfully",
-                    status: true,
-                    result
-                };
+                const insersql = `INSERT INTO author(${columnName}) VALUES(${placeHolder})`
+                let response = await this.preparingQuery(insersql, columnValues)
+                if (response.affectedRows >= 1) {
+                    return {
+                        message: "Your account has been successfully created.",
+                        status: true
+                    }
+                }
+
             }
         } catch (error) {
             console.error("Error in Author Auth Register: " + error);

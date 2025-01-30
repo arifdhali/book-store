@@ -8,7 +8,7 @@ const uploadAuthor = uploadMulter("author");
 
 // auth
 authorRoute.post("/login", AuthorLogin);
-authorRoute.post("/register", uploadAuthor.single('thumbnail'), AuthorRegister);
+authorRoute.post("/register", AuthorRegister);
 authorRoute.post("/logout", AuthorLogout);
 
 /*
