@@ -117,7 +117,7 @@ const Register = () => {
                 <div className='mt-4'>
                     <form onSubmit={formik.handleSubmit} className="form">
                         <div className='d-flex justify-content-between gap-3 mb-3'>
-                            <div>
+                            <div className='w-50'>
                                 <label htmlFor="firstname">First</label>
                                 <input
                                     id="firstname"
@@ -133,7 +133,7 @@ const Register = () => {
                                     <small className="error">{formik.errors.first_name}</small>
                                 )}
                             </div>
-                            <div>
+                            <div className='w-50'>
                                 <label htmlFor="lastname">Last</label>
                                 <input
                                     id="lastname"

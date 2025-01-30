@@ -1,5 +1,6 @@
 const BaseModal = require("../Base.model");
 const bcrypt = require('bcrypt');
+const AuthorModels = require("../admin/author.model")
 
 
 class AuthorAuthModels extends BaseModal {
@@ -70,13 +71,9 @@ class AuthorAuthModels extends BaseModal {
             let columnName = Object.keys(dbColum).join(",");
             let columnValues = Object.values(dbColum)
             let placeHolder = columnValues.map(() => '?').join(', ')
-            const user = await this.preparingQuery(sql, [email]);
-
-            if (user.length > 0) {
-                return {
-                    message: "User already exists",
-                    status: false
-                };
+            let user = await AuthorModels.checkUserExists(email)
+            if (!user.status) {
+                return user;
             } else {
                 const insersql = `INSERT INTO author(${columnName}) VALUES(${placeHolder})`
                 let response = await this.preparingQuery(insersql, columnValues)

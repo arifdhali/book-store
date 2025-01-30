@@ -48,6 +48,8 @@ const Add = () => {
                     resetForm();
                     setPreviewProfileImage(null);
                     startTransition(() => navigate(AppRoutes.ADMIN.AUTHORS.LIST));
+                }else{
+                    toast.error(response.data.result.message)
                 }
             } catch (error) {
                 const { message } = error?.response?.data?.result;

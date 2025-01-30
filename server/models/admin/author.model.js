@@ -4,11 +4,15 @@ class AuthorModels extends BaseModal {
 
     async addAuthor(data, subscription_type) {
         try {
+            const { author_name, email, author_image, bio, hashed_password } = data
+            let exists = await this.checkUserExists(email);
+            if (!exists.status) {
+                return exists;
+            }
             const insertSql = "INSERT INTO author(name, email,profile_img,bio,password) VALUES (?,?,?,?,?)";
-            const authorResult = await this.preparingQuery(insertSql, data);
+            const authorResult = await this.preparingQuery(insertSql, [author_name, email, author_image, bio, hashed_password]);
             const authorID = authorResult.insertId;
             let insertSubscriptionSql = `INSERT INTO subscription (author_id,subscription_type,subscription_price,book_quantity,book_limit,coupons_limit,order_margin) VALUES(?,?,?,?,?,?,?)`;
-
             const subscriptionFeatures = {}
             switch (subscription_type) {
                 case 'free':
@@ -83,9 +87,18 @@ class AuthorModels extends BaseModal {
     async checkUserExists(email) {
         let checkQuery = 'SELECT email FROM author WHERE email = ?';
         try {
-            return await this.preparingQuery(checkQuery, [email]);
-        }
-        catch (error) {
+            let user = await this.preparingQuery(checkQuery, [email]);
+            if (user.length > 0) {
+                return {
+                    status: false,
+                    message: "Email already exists"
+                }
+            } else {
+                return {
+                    status: true
+                }
+            }
+        } catch (error) {
             console.error("Error in when check Author  " + error);
             return { status: false, message: error };
         }
@@ -119,41 +132,44 @@ class AuthorModels extends BaseModal {
 
     async deleteAuthor(id) {
         try {
-            let thumbnailQuery = `SELECT id as User_id,profile_img FROM author WHERE id IN (?)`;
-            let thumbnailResult = await this.preparingQuery(thumbnailQuery, [id])
+            let thumbnailQuery = `SELECT id AS User_id, profile_img FROM author WHERE id IN (?)`;
+            let thumbnailResult = await this.preparingQuery(thumbnailQuery, [id]);
             if (!thumbnailResult.length) {
                 return {
                     status: false,
                     message: "Author thumbnail not found"
                 };
             }
+            const deleteSql = 'DELETE FROM author WHERE id IN(?)';
+            let result = await this.preparingQuery(deleteSql, [id]);
 
-            const delteSql = 'DELETE FROM author WHERE id IN(?)';
-            let result = await this.preparingQuery(delteSql, [id]);
             if (result.affectedRows >= 1) {
                 for (let item of thumbnailResult) {
                     if (item.profile_img) {
                         try {
                             let profileDeleteResult = await FileServices.deleteFile(item.profile_img, "author");
-                            console.log('Error on file delete', profileDeleteResult);
+                            console.log('Profile image deleted:', profileDeleteResult);
                         } catch (fileError) {
                             console.error(`Failed to delete file: ${item.profile_img}`, fileError);
-
                         }
                     }
                 }
                 return {
                     status: true,
-                    message: "Author delete successfully"
-                }
+                    message: "Author deleted successfully"
+                };
+            } else {
+                return {
+                    status: false,
+                    message: "Author deletion failed"
+                };
             }
         } catch (error) {
-            console.error("Error in when  delete Author  " + error);
-            return { status: false, message: error };
+            console.error("Error when deleting Author: ", error);
+            return { status: false, message: error.message };
         }
-
-
     }
+
 
     async insertIdToSubscriptionAuthorRelations(authorID, subsctionID) {
         try {
