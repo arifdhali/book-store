@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -7,8 +7,8 @@ import AppRoutes from "../../../routes/routes";
 import { useNavigate } from 'react-router-dom';
 
 const Add = () => {
+    const [isPending, startTransition] = useTransition();
     const [previewProfileImage, setPreviewProfileImage] = useState(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -29,7 +29,6 @@ const Add = () => {
             subscription_type: Yup.string().required("Premium status is required"),
         }),
         onSubmit: async (values, { resetForm }) => {
-            setIsSubmitting(true);
             const form_data = new FormData();
             Object.entries(values).forEach(([key, data]) => {
                 form_data.append(key, data);
@@ -48,13 +47,11 @@ const Add = () => {
                     toast.success(response.data.result.message);
                     resetForm();
                     setPreviewProfileImage(null);
-                    navigate(AppRoutes.ADMIN.AUTHORS.LIST)
+                    startTransition(() => navigate(AppRoutes.ADMIN.AUTHORS.LIST));
                 }
             } catch (error) {
                 const { message } = error?.response?.data?.result;
                 toast.error(message);
-            } finally {
-                setIsSubmitting(false);
             }
         },
     });
@@ -188,8 +185,8 @@ const Add = () => {
 
                     {/* Submit Button */}
                     <div className="form-group">
-                        <button type="submit" className="btn btn-primary btn-block" disabled={isSubmitting}>
-                            {isSubmitting ? "Submitting..." : "Submit"}
+                        <button type="submit" className="btn btn-primary btn-block" disabled={isPending}>
+                            {isPending ? "Submitting..." : "Submit"}
                         </button>
                     </div>
                 </form>

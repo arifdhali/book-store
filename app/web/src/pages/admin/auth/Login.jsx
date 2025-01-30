@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AppRoutes from "../../../routes/routes";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useDispatch } from 'react-redux';
 import Cookies from "js-cookie";
-import { login } from '../../../store/slices/authSlice';
 import Header_alert from '../../../utils/Header_alert';
 import { toast } from 'react-toastify';
 
 const Login = () => {
+  const [isPending, startTransition] = useTransition();
   const navigate = useNavigate();
   const token = Cookies.get("ADMIN_TOKEN");
 
@@ -31,18 +30,19 @@ const Login = () => {
       sendToDatabase(values)
     }
   });
-  
+
   const sendToDatabase = async (values) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.ADMIN.LOGIN}`, values);
       const { status } = response.data.result;
       if (status) {
-        navigate(AppRoutes.ADMIN.BASE);
+
+        startTransition(() => navigate(AppRoutes.ADMIN.BASE))
         toast.success(response.data.result.message)
-      }else{
+      } else {
         toast.error(response.data.result.message)
-      }      
-    } catch (error) {      
+      }
+    } catch (error) {
       const { message } = error.response.data.result;
       toast.error(message)
     }
@@ -97,7 +97,7 @@ const Login = () => {
               </small>
             </div>
             <div>
-              <button type="submit" className='btn btn-primary w-100 justify-content-center py-3'>Login</button>
+              <button type="submit" className='btn btn-primary w-100 justify-content-center py-3' disabled={isPending}>{isPending ? "Logging..." : "Login"}</button>
             </div>
           </form>
         </div>
