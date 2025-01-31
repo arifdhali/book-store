@@ -1,0 +1,3 @@
+1. Take the name ()
+2. Give them option which part will be used for image so use slice()
+3. Give them option of width and height of that generated image
