@@ -118,7 +118,7 @@ const Register = () => {
                     <form onSubmit={formik.handleSubmit} className="form">
                         <div className='d-flex justify-content-between gap-3 mb-3'>
                             <div className='w-50'>
-                                <label htmlFor="firstname">First</label>
+                                <label htmlFor="firstname">First name</label>
                                 <input
                                     id="firstname"
                                     value={formik.values.first_name}
@@ -127,7 +127,7 @@ const Register = () => {
                                     onBlur={formik.handleBlur}
                                     className={`form-control ${formik.errors.first_name && formik.touched.first_name ? 'input-error' : ''}`}
                                     type="text"
-                                    placeholder='First Name'
+                                    placeholder='joe'
                                 />
                                 {formik.errors.first_name && formik.touched.first_name && (
                                     <small className="error">{formik.errors.first_name}</small>
@@ -143,7 +143,7 @@ const Register = () => {
                                     onBlur={formik.handleBlur}
                                     className={`form-control`}
                                     type="text"
-                                    placeholder='Last Name'
+                                    placeholder='Dei'
                                 />
 
                             </div>

@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from 'react-redux';
-import { AboutAtuhorSlice } from '../store/slices/author/AuthorSlice';
+import { setAuthor } from '@/store/slices/author/AuthorSlice';
 
 const ProtectedRoutes = ({ children, roleOfUser }) => {
     const adminToken = Cookies.get("ADMIN_TOKEN");
@@ -14,7 +14,7 @@ const ProtectedRoutes = ({ children, roleOfUser }) => {
             return <Navigate to={`/${roleOfUser}/login`} />;
         }
         const decode = jwtDecode(authorToken);
-        dispatch(AboutAtuhorSlice(decode.user.data));        
+        dispatch(setAuthor(decode.user.data));        
     }
     if (roleOfUser == 'admin') {
         if (!adminToken) {
