@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 
 const Header = () => {
     const { user_name, user_profile } = useSelector((state) => state?.authors?.user);
-    // const { user_name, user_profile } = user.data;
     const [backUrl, setBackUrl] = useState({
         prev_url: "",
         current_url: "",

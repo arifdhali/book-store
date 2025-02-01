@@ -6,12 +6,12 @@ const AuthorSlice = createSlice({
         user: "",
     },
     reducers: {
-        AboutAtuhorSlice: (state, action) => {
+        setAuthor: (state, action) => {            
             state.user = action?.payload;
         }
     }
 })
 
 
-export const { AboutAtuhorSlice } = AuthorSlice.actions;
+export const { setAuthor } = AuthorSlice.actions;
 export default AuthorSlice.reducer;

@@ -11,7 +11,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo from "@/assets/image/store_logo.png";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
-const Login = () => {
+
+const Login = () => {  
   const [isPending, startTransaction] = useTransition();
   const authorToken = Cookies.get("AUTHOR_TOKEN");
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Login = () => {
       if (response.data.result) {
         const { message } = response.data.result;
         toast.success(message);
-        startTransaction(() => navigate(AppRoutes.AUTHOR.BASE));
+        startTransaction(() => navigate(AppRoutes.AUTHOR.BASE));                 
       } else {
         throw response.data;
       }

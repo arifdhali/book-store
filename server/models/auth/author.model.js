@@ -61,12 +61,16 @@ class AuthorAuthModels extends BaseModal {
     }
 
     async RegisterModel(data) {
-        const { first_name, last_name, email, hasedPassword } = data;
+        const { first_name, last_name, email, profile, hasedPassword } = data;
         try {
             let dbColum = {
                 name: first_name,
+                first_name: first_name,
+                last_name: last_name,
                 email: email,
+                profile_img: profile,
                 password: hasedPassword
+
             }
             let columnName = Object.keys(dbColum).join(",");
             let columnValues = Object.values(dbColum)
