@@ -2,6 +2,8 @@ import React from 'react'
 import store_logo from "@/assets/image/store_logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import  AppRoutes  from "@/routes/routes"
 
 const Header = () => {
     return (
@@ -28,8 +30,11 @@ const Header = () => {
                         </ul>
                     </nav>
                     <div role='button'>
-                        <FontAwesomeIcon icon={faBars} />
+                        {/* <FontAwesomeIcon icon={faBars} />
+                         */}
+                        <Link to={AppRoutes.AUTH.AUTHOR.LOGIN}>Login</Link>
                     </div>
+
                 </div>
             </div>
         </header>

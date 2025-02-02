@@ -60,7 +60,7 @@ const AuthorLogin = async (req, res) => {
 const AuthorLogout = (req, res) => {
     res.clearCookie('AUTHOR_TOKEN', {
         httpOnly: true,
-        // secure: process.env.NODE_ENV === 'production', // Send cookie only over HTTPS in production
+        // secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict', // Prevents CSRF
     });
     return res.status(200).json({
@@ -75,7 +75,7 @@ const AuthorRegister = async (req, res) => {
         const { first_name, last_name, email, password } = req.body;
         let base64Image = generateAvatarImage({ name: first_name, size: 100, positions: [1, 2] })
         let base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
-        let imageName = `${Date.now()}-${first_name}.png`
+        let imageName = `${Date.now()}-${first_name}.png` 
         const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'author');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });
