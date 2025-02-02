@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 30, 2025 at 05:48 PM
+-- Generation Time: Feb 02, 2025 at 06:41 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `email`, `name`, `password`, `image`, `last_active`, `address`) VALUES
-(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2025-01-30 21:40:20', 'kolkata');
+(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2025-02-01 23:59:57', 'kolkata');
 
 -- --------------------------------------------------------
 
@@ -57,8 +57,10 @@ DROP TABLE IF EXISTS `author`;
 CREATE TABLE IF NOT EXISTS `author` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` text,
+  `first_name` varchar(200) DEFAULT NULL,
+  `last_name` varchar(200) DEFAULT NULL,
   `email` text,
-  `profile_img` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `profile_img` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `bio` text,
   `dob` date DEFAULT NULL,
   `address` longtext,
@@ -72,14 +74,14 @@ CREATE TABLE IF NOT EXISTS `author` (
   `password_reset_expires` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone_no` (`phone_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `author`
 --
 
-INSERT INTO `author` (`id`, `name`, `email`, `profile_img`, `bio`, `dob`, `address`, `phone_no`, `social_link`, `password`, `created_at`, `status`, `last_active`, `password_reset_token`, `password_reset_expires`) VALUES
-(80, 'Quentin', 'arifdev@yopmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '$2b$10$d0kiNqKeKX.JnCS0dDW4nO.fCan47SQWkmEotDwe5ESkOQm7AKQCe', '2025-01-30 23:14:23', 'active', '2025-01-30 17:44:29', NULL, NULL);
+INSERT INTO `author` (`id`, `name`, `first_name`, `last_name`, `email`, `profile_img`, `bio`, `dob`, `address`, `phone_no`, `social_link`, `password`, `created_at`, `status`, `last_active`, `password_reset_token`, `password_reset_expires`) VALUES
+(86, 'Arif', 'Arif', 'Dhali', 'arif@yopmail.com', '1738434642849-Arif.png', NULL, NULL, NULL, NULL, NULL, '$2b$10$5aXgzWt2ecqU/MkXoYtLOeTDlqTSRmwlY1o0VnY8IyVg5OFMWdJ/y', '2025-02-02 00:00:42', 'active', '2025-02-01 18:31:53', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -231,14 +233,14 @@ CREATE TABLE IF NOT EXISTS `subscription` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_author` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `subscription`
 --
 
 INSERT INTO `subscription` (`id`, `author_id`, `subscription_type`, `subscription_price`, `book_quantity`, `book_limit`, `coupons_limit`, `order_margin`, `start_date`, `end_date`, `created_at`) VALUES
-(66, 80, 'free', 0, 10, 10, 10, 30, '2025-01-30 23:14:23', '2025-01-30 23:17:46', '2025-01-30 23:14:23');
+(72, 86, 'free', 0, 10, 10, 10, 30, '2025-02-02 00:00:42', '2025-02-02 00:00:42', '2025-02-02 00:00:42');
 
 -- --------------------------------------------------------
 
@@ -255,14 +257,14 @@ CREATE TABLE IF NOT EXISTS `subscription_author_relation` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `author` (`author_id`),
   UNIQUE KEY `subscription` (`subscription_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `subscription_author_relation`
 --
 
 INSERT INTO `subscription_author_relation` (`id`, `author_id`, `subscription_id`, `created-at`) VALUES
-(31, 80, 66, '2025-01-30 17:44:23');
+(37, 86, 72, '2025-02-01 18:30:42');
 
 -- --------------------------------------------------------
 
