@@ -89,7 +89,6 @@ const Header = () => {
                                 Settings
                             </Link>
                         </li>
-
                     </ul>
                 </div>
 
