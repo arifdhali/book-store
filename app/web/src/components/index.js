@@ -8,6 +8,10 @@ import Author_Header from "./author/Author_Header"
 import Author_Footer from "./author/Author_Footer"
 import Author_Sidebar from "./author/Author_Sidebar"
 
+// Notifications
+
+import NotificationList from "@/components/notifications/List";
+import NotificationDetails from "@/components/notifications/Details"
 
 
 // main page
@@ -23,5 +27,9 @@ export {
     Author_Footer,
     Author_Sidebar,
     // main
-    Main_Header
+    Main_Header,
+
+    // notifications
+    NotificationList,
+    NotificationDetails
 }

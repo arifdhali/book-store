@@ -4,8 +4,6 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import CountUp from "react-countup";
 import AppRoutes from "@/routes/routes"
-
-
 const AdminHome = () => {
 
   // FORMATING VALUE 
@@ -15,14 +13,11 @@ const AdminHome = () => {
 
   const getHome = async () => {
     let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.ADMIN.BASE}`);
-    console.log(response);
+    //  console.log(response);
   }
   useEffect(() => {
     getHome();
-
-  }, [
-
-  ])
+  }, [])
 
   return (
     <>

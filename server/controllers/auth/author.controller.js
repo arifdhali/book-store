@@ -7,7 +7,6 @@ dotenv.config();
 const { generateAvatarImage } = require('text-to-avatar')
 const fs = require('fs')
 const path = require('path')
-
 const AuthorLogin = async (req, res) => {
     const status = false;
     const { email, password } = req.body;
@@ -72,10 +71,11 @@ const AuthorLogout = (req, res) => {
 
 const AuthorRegister = async (req, res) => {
     try {
+
         const { first_name, last_name, email, password } = req.body;
         let base64Image = generateAvatarImage({ name: first_name, size: 100, positions: [1, 2] })
         let base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
-        let imageName = `${Date.now()}-${first_name}.png` 
+        let imageName = `${Date.now()}-${first_name}.png`
         const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'author');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });

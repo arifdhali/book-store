@@ -1,15 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faBell, faBackward } from '@fortawesome/free-solid-svg-icons';
 import AppRoute from "@/routes/routes";
+import { NotificationList } from "@/components";
+import { io } from 'socket.io-client';
 const Header = () => {
+    const socket = useRef(null);
+    const [liveUpdate, setLiveUpdate] = useState();
     const [backUrl, setBackUrl] = useState({
         prev_url: "",
         current_url: "",
     });
     const locations = useLocation();
+    useEffect(() => {
+        if (!socket.current) {
+            socket.current = io(import.meta.env.VITE_SERVER_MAIN_URL, {
+                reconnection: true,
+            });
+
+            socket.current.on("connect", () => {
+                console.log("✅ Connected to WebSocket server");
+            });
+
+            socket.current.on("new-author-register", (data) => {
+                console.log("📢 New author registered:", data);
+                setLiveUpdate(data);
+            });
+            return () => {
+                socket.current.disconnect();
+            };
+        }
+    }, [])
+
     useEffect(() => {
         setBackUrl(prev => ({
             prev_url: prev.current_url,
@@ -54,30 +78,7 @@ const Header = () => {
                         <p className='m-0 fw-semibold'>All notifaction</p>
                         <button className='btn btn-clear'>Clear all</button>
                     </div>
-                    <li className="dropdown-item">
-                        <div className='d-flex '>
-                            <div className='pe-2'>
-                                <img src="https://berrydashboard.io/assets/user-round-QwaXuEgi.svg" alt="" />
-                            </div>
-                            <div className='w-100 '>
-                                <div className='d-flex justify-content-between mb-1'>
-                                    <strong style={{ width: "100px" }}>Author</strong>
-                                    <span className='noti-time'>2 minutes</span>
-                                </div>
-                                <p>Purchase premium subscriptions</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li className="dropdown-item">
-                        <div className='d-flex'>
-                            <div className='pe-2'>
-                                <img src="https://berrydashboard.io/assets/user-round-QwaXuEgi.svg" alt="" />
-                            </div>
-                            <div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus minus, iure dolores fugit reiciendis odio?</p>
-                            </div>
-                        </div>
-                    </li>
+                    <NotificationList notifcation={liveUpdate} />
                 </ul>
 
                 <div className="btn-group ">
@@ -91,7 +92,7 @@ const Header = () => {
                                 Settings
                             </Link>
                         </li>
-                      
+
                     </ul>
                 </div>
 

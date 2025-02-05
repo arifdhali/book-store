@@ -2,7 +2,7 @@ const BaseModal = require("../Base.model");
 const bcrypt = require('bcrypt');
 const AuthorModels = require("../admin/author.model");
 const subscriptionModel = require("../subscription.model");
-
+const SocketManager = require("../../utils/socket/Sockets.Manager")
 
 class AuthorAuthModels extends BaseModal {
 
@@ -84,6 +84,19 @@ class AuthorAuthModels extends BaseModal {
                 const authorID = response.insertId;
                 let subscription = await subscriptionModel.setSubsciptionsPack(authorID, 'free');
                 if (subscription.status) {
+                    let insertNoti = `INSERT INTO  notification() VALUES(?)`
+                    let socketSql = `SELECT id, name, profile_img , created_at FROM author WHERE id = ?`;
+                    let socketResult = await this.preparingQuery(socketSql, [authorID])
+                    if (socketResult.length > 0) {
+                        const socketData = socketResult.map(item => (
+                            {
+                                ...item,
+                                message: `${item.name} is registered`
+                            }
+                        ))
+
+                        SocketManager.sendingLiveUpdate('new-author-register', socketData)
+                    }
                     return {
                         message: "Your account has been successfully created.",
                         status: true

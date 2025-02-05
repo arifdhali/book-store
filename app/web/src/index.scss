@@ -442,6 +442,12 @@ table tr th {
 table tr td {
   padding: 1rem 1.2rem !important;
 }
+.small-img{
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  object-fit: cover;
+}
 
 table .user-img {
   width: 55px;
