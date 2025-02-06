@@ -2,7 +2,7 @@ const BaseModal = require("./Base.model");
 class Subscription extends BaseModal {
 
 
-    async setSubsciptionsPack(authorID, subscription_type) {
+    async setSubscriptionsPack(authorID, subscription_type) {
         try {
             const subscriptionFeatures = {}
             switch (subscription_type) {

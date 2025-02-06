@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { formatDistanceToNow } from "date-fns"
-const List = ({ notifcation }) => {
+import { useSelector } from 'react-redux';
+const List = () => {
 
-    let [allUpdates, setAllUpdates] = useState([]);
+    const notifications = useSelector((state) => state?.Notifications?.list);
+    const [allUpdates, setAllUpdates] = useState([]);
     useEffect(() => {
-        if (notifcation) {
-            setAllUpdates((prev) => [
-                ...prev,
-                ...notifcation,
-            ]);
+        if (notifications.length > 0) {
+            setAllUpdates((prev) => [...notifications]);
         }
-    }, [notifcation])
+        console.log(notifications)
+    }, [notifications]); 
 
     return (
         <>
@@ -20,7 +20,7 @@ const List = ({ notifcation }) => {
 
                     <>
                         {allUpdates.map((noti) => (
-                            <li className="dropdown-item">
+                            <li key={noti.id} className="dropdown-item">
                                 <div className='d-flex '>
                                     <div className='pe-2'>
                                         <img className='small-img' src={`${import.meta.env.VITE_SERVER_MAIN_URL}author/${noti?.profile_img}`} alt={noti.name} />

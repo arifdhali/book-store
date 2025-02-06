@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt');
 const AuthorModels = require("../admin/author.model");
 const subscriptionModel = require("../subscription.model");
 const SocketManager = require("../../utils/socket/Sockets.Manager")
-
+const Notification = require("../notification/notification.model")
+const NotificationModel = new Notification('author_notification');
 class AuthorAuthModels extends BaseModal {
 
     async LoginModels(data) {
@@ -82,10 +83,9 @@ class AuthorAuthModels extends BaseModal {
                 const insersql = `INSERT INTO author(${columnName}) VALUES(${placeHolder})`
                 let response = await this.preparingQuery(insersql, columnValues)
                 const authorID = response.insertId;
-                let subscription = await subscriptionModel.setSubsciptionsPack(authorID, 'free');
+                let subscription = await subscriptionModel.setSubscriptionsPack(authorID, 'free');
                 if (subscription.status) {
-                    let insertNoti = `INSERT INTO  notification() VALUES(?)`
-                    let socketSql = `SELECT id, name, profile_img , created_at FROM author WHERE id = ?`;
+                    let socketSql = `SELECT id, name, profile_img, created_at FROM author WHERE id = ?`;
                     let socketResult = await this.preparingQuery(socketSql, [authorID])
                     if (socketResult.length > 0) {
                         const socketData = socketResult.map(item => (
@@ -94,7 +94,7 @@ class AuthorAuthModels extends BaseModal {
                                 message: `${item.name} is registered`
                             }
                         ))
-
+                        NotificationModel.createNotification('new-author-register', `${socketResult[0].name} is registered`, authorID, 'author',);
                         SocketManager.sendingLiveUpdate('new-author-register', socketData)
                     }
                     return {

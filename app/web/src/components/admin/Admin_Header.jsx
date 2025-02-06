@@ -6,9 +6,11 @@ import { faGear, faBell, faBackward } from '@fortawesome/free-solid-svg-icons';
 import AppRoute from "@/routes/routes";
 import { NotificationList } from "@/components";
 import { io } from 'socket.io-client';
+import { useDispatch } from 'react-redux';
+import { setNotifications } from '@/store/slices/Notification';
 const Header = () => {
+    const dispatch = useDispatch();
     const socket = useRef(null);
-    const [liveUpdate, setLiveUpdate] = useState();
     const [backUrl, setBackUrl] = useState({
         prev_url: "",
         current_url: "",
@@ -26,14 +28,16 @@ const Header = () => {
 
             socket.current.on("new-author-register", (data) => {
                 console.log("📢 New author registered:", data);
-                setLiveUpdate(data);
+                dispatch(setNotifications(data))
             });
             return () => {
                 socket.current.disconnect();
             };
         }
-    }, [])
-
+    }, [dispatch])
+    const clearAllNotifications = () => {
+        dispatch(setNotifications([]))
+    }
     useEffect(() => {
         setBackUrl(prev => ({
             prev_url: prev.current_url,
@@ -76,9 +80,9 @@ const Header = () => {
                 <ul className="dropdown-menu notifaction-popup">
                     <div className='p-3 d-flex justify-content-between align-items-center'>
                         <p className='m-0 fw-semibold'>All notifaction</p>
-                        <button className='btn btn-clear'>Clear all</button>
+                        <button className='btn btn-clear' onClick={clearAllNotifications}>Clear all</button>
                     </div>
-                    <NotificationList notifcation={liveUpdate} />
+                    <NotificationList />
                 </ul>
 
                 <div className="btn-group ">
