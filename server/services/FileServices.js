@@ -11,7 +11,8 @@ class FileServices {
                     message: `File does not exists in ${folderName}`,
                 }
             }
-            await unlink(setFileName);
+            console.log('deleted');
+           return await unlink(setFileName);
         } catch (error) {
             console.error(`Error deleting file: ${fileName}`, error);
             throw error;

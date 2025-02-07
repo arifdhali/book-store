@@ -1,5 +1,6 @@
 // const BookModel = require("../../models/author/Book.model");
 const BookModels = require("../../models/author/Book.model");
+const FileServices = require("../../services/FileServices");
 const BookModel = new BookModels("book");
 const AddBookController = async (req, res) => {
     try {
@@ -31,6 +32,7 @@ const AddBookController = async (req, res) => {
                 message: result.message,
             });
         } else {
+            await FileServices.deleteFile(bookThumbnail, 'book')
             return res.json(result);
         }
     } catch (error) {

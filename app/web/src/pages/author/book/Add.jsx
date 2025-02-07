@@ -13,7 +13,7 @@ const Add = () => {
   const author_cookie = jwtDecode(Cookies.get("AUTHOR_TOKEN"));
   const navigate = useNavigate();
 
-  let { user_id, subscription_type, book_quantity } = author_cookie.user;
+  let { user_id, subscription_type, book_quantity } = author_cookie?.user?.data;
   const formik = useFormik({
     initialValues: {
       user_id: user_id,
@@ -48,7 +48,6 @@ const Add = () => {
       handelFormSubmit(values, resetForm);
     }
   });
-
   const handelFileChange = (event) => {
     const file = event.target.files[0];
     formik.setFieldValue("thumbnail", file);
@@ -81,7 +80,6 @@ const Add = () => {
     }
 
   };
-
   const getAllCategory = async () => {
     try {
 

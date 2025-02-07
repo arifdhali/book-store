@@ -10,28 +10,37 @@ class BookModels extends BaseModal {
         try {
             let subscriptionLimit = `
                 SELECT 
-                    B.author_id,
-                    COUNT(B.id) AS book_count,
-                    S.book_limit as max_book_quantity
+                    S.author_id,
+                    COUNT(B.id) AS book_count,                    
+                    S.book_limit as max_book_limit,
+                    S.book_quantity as max_book_quantity
                 FROM 
-                    book B
-                JOIN 
                     subscription S
+                LEFT JOIN 
+                    book B
                 ON 
                     B.author_id = S.author_id
                 WHERE 
-                    B.author_id = ? AND S.subscription_type = ?
+                    S.author_id = ? AND S.subscription_type = ?
                 GROUP BY 
-                    B.author_id, S.book_limit
+                    S.author_id,
+                    S.book_limit,
+                    S.book_quantity
             `;
-            let limitQuery = await this.preparingQuery(subscriptionLimit, [user_id, subscription_types]);
+            let limitQuery = await this.preparingQuery(subscriptionLimit, [user_id, subscription_types]);   
             // Check if limit is exceeded or at the limit
             if (limitQuery[0]) {
-                const { book_count, max_book_quantity } = limitQuery[0];
-                if (max_book_quantity != null && book_count >= max_book_quantity) {
+                const { book_count, max_book_limit, max_book_quantity } = limitQuery[0];
+                if (quantity > max_book_quantity) {
                     return {
                         status: false,
-                        message: "You have reached the maximum limit to add a book"
+                        message: "You cannot add more than the allowed quantity for a single book."
+                    };
+                }
+                if (book_count >= max_book_limit) {
+                    return {
+                        status: false,
+                        message: "You have reached the maximum number of books you can add."
                     };
                 }
             }

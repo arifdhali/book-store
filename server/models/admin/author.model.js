@@ -13,7 +13,7 @@ class AuthorModels extends BaseModal {
             const insertSql = "INSERT INTO author(name, email,profile_img,bio,password) VALUES (?,?,?,?,?)";
             const authorResult = await this.preparingQuery(insertSql, [author_name, email, author_image, bio, hashed_password]);
             const authorID = authorResult.insertId;
-            let subscription = await Subscription.setSubsciptionsPack(authorID, subscription_type);
+            let subscription = await Subscription.setSubscriptionsPack(authorID, subscription_type);
             if (subscription.status) {
                 return {
                     status: true,
