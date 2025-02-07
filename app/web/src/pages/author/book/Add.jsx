@@ -86,8 +86,7 @@ const Add = () => {
     try {
 
       let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.ADMIN.CATEGORY.LIST}`)
-      console.log(response)
-      setBookCategory(value?.data?.result);
+      setBookCategory(response?.data?.result);
     } catch (error) {
       console.log(error);
     }

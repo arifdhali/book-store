@@ -7,14 +7,18 @@ const Notifications = createSlice({
     },
     reducers: {
         setNotifications: (state, action) => {
-            if (Array.isArray(action.payload)) {
-                state.list = [...action.payload, ...state.list];
-            } else {
-                state.list = action?.payload;
+            const { payload } = action;
+            if (Array.isArray(payload)) {
+                state.list = [...payload, ...state.list]
             }
+
+        },
+        setClearNotifications: (state, action) => {
+            const { payload } = action;
+            state.list = [...payload];
         }
     }
 })
 
-export const { setNotifications } = Notifications.actions;
+export const { setNotifications, setClearNotifications } = Notifications.actions;
 export default Notifications.reducer;

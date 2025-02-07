@@ -7,7 +7,7 @@ import AppRoute from "@/routes/routes";
 import { NotificationList } from "@/components";
 import { io } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
-import { setNotifications } from '@/store/slices/Notification';
+import { setClearNotifications, setNotifications } from '@/store/slices/Notification';
 const Header = () => {
     const dispatch = useDispatch();
     const socket = useRef(null);
@@ -28,7 +28,9 @@ const Header = () => {
 
             socket.current.on("new-author-register", (data) => {
                 console.log("📢 New author registered:", data);
-                dispatch(setNotifications(data))
+                dispatch(
+                    setNotifications(data)
+                )
             });
             return () => {
                 socket.current.disconnect();
@@ -36,7 +38,7 @@ const Header = () => {
         }
     }, [dispatch])
     const clearAllNotifications = () => {
-        dispatch(setNotifications([]))
+        dispatch(setClearNotifications([]))
     }
     useEffect(() => {
         setBackUrl(prev => ({

@@ -7,10 +7,10 @@ const List = () => {
     const [allUpdates, setAllUpdates] = useState([]);
     useEffect(() => {
         if (notifications.length > 0) {
-            setAllUpdates((prev) => [...notifications]);
+            setAllUpdates(() => [...notifications]);
         }
-        console.log(notifications)
-    }, [notifications]); 
+        setAllUpdates(notifications);
+    }, [notifications]);
 
     return (
         <>
