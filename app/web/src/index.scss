@@ -442,7 +442,8 @@ table tr th {
 table tr td {
   padding: 1rem 1.2rem !important;
 }
-.small-img{
+
+.small-img {
   width: 40px;
   height: 40px;
   border-radius: 100%;
@@ -868,4 +869,8 @@ h2 {
 
 .error {
   color: red;
+}
+
+[type='password'].form-control.is-invalid {
+  background-image: none;
 }

@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo from "@/assets/image/store_logo.png";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -15,6 +15,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 const AdminLogin = () => {
   const [isPending, startTransaction] = useTransition();
   const adminToken = Cookies.get("ADMIN_TOKEN");
+  const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -125,15 +126,20 @@ const AdminLogin = () => {
               ) : null}
             </div>
             <div className="mb-1">
-              <input
-                type="password"
-                name="password"
-                className={`form-control ${formik.errors.password && formik.touched.password ? 'is-invalid' : ''}`}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder="Enter password"
-                value={formik.values.password}
-              />
+              <div className='position-relative'>
+                <input
+                  type={`${showPass ? 'text' : 'password'}`}
+                  name="password"
+                  className={`form-control ${formik.errors.password && formik.touched.password ? 'is-invalid' : ''}`}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  placeholder="Enter password"
+                  value={formik.values.password}
+                />
+                <div role='button' onClick={() => setShowPass(!showPass)} className='position-absolute top-50 translate-middle-y show-icon'>
+                  <FontAwesomeIcon icon={showPass ? faEye : faEyeSlash} />
+                </div>
+              </div>
               {formik.errors.password && formik.touched.password ? (
                 <div className="invalid-feedback">{formik.errors.password}</div>
               ) : null}

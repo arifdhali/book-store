@@ -16,24 +16,32 @@ class Coupns extends BaseModal {
                 status: couponInfo.status,
                 start_date: couponInfo.start_date,
                 expire_date: couponInfo.expire_date,
+            };
+            let checkDuplicateSql = `SELECT id FROM ${this.tableName} WHERE code = ? LIMIT 1`;
+            let duplicateCheck = await this.preparingQuery(checkDuplicateSql, [couponInfo.code]);
 
+            if (duplicateCheck.length > 0) {
+                return {
+                    status: false,
+                    message: "A coupon with this code already exists. Please use a unique code."
+                };
             }
-            // check the count of code based on the subscription
-            let checkCountSql = `SELECT C.author_id,COUNT(C.author_id) as coupons_count, S.coupons_limit as max_coupons
-                                FROM coupons C            
-                                JOIN subscription S
-                                ON C.author_id = S.author_id
-                                WHERE C.author_id = ? AND S.subscription_type = ?
-                                GROUP BY C.author_id,S.coupons_limit         
-                                `
+            let checkCountSql = `
+                SELECT C.author_id, COUNT(C.author_id) as coupons_count, S.coupons_limit as max_coupons
+                FROM coupons C            
+                JOIN subscription S ON C.author_id = S.author_id
+                WHERE C.author_id = ? AND S.subscription_type = ?
+                GROUP BY C.author_id, S.coupons_limit
+            `;
             let subscriptionType = couponInfo.subscription_type;
             let limitQuery = await this.preparingQuery(checkCountSql, [couponInfo.user_id, subscriptionType]);
+
             if (limitQuery[0]) {
-                const { coupons_count, max_coupons } = limitQuery[0]
+                const { coupons_count, max_coupons } = limitQuery[0];
                 if (max_coupons !== null && coupons_count >= max_coupons) {
                     return {
                         status: false,
-                        message: "You have reached the maximum limit to add a coupons"
+                        message: "You have reached the maximum limit to add a coupon."
                     };
                 }
             }
@@ -42,33 +50,28 @@ class Coupns extends BaseModal {
             const placeholders = Object.keys(dbColumn).map(() => "?").join(", ");
             const values = Object.values(dbColumn);
             const addSql = `INSERT INTO ${this.tableName} (${columns}) VALUES (${placeholders})`;
-            let result = await this.preparingQuery(addSql, values)
+
+            let result = await this.preparingQuery(addSql, values);
             if (result.affectedRows >= 1) {
                 return {
                     status: true,
                     message: "Coupon added successfully",
-                }
+                };
             } else {
                 return {
                     status: false,
-                    message: "No coupons found with the provided ID.",
+                    message: "Failed to add coupon.",
                 };
             }
         } catch (error) {
-            if (error.code === 'ER_DUP_ENTRY') {
-                return {
-                    status: false,
-                    message: "A coupon with this code already exists. Please use a unique code.",
-                    error: error.message
-                };
-            }
             return {
                 status: false,
-                message: "An error occurred while adding the coupons to the database.",
+                message: "An error occurred while adding the coupon.",
                 error: error.message,
-            }
+            };
         }
     }
+
 
     async getCoupons(authorID) {
         try {
