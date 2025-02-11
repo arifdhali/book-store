@@ -152,7 +152,7 @@ const Coupon = () => {
 
                             ) : (
                                 <tr>
-                                    <td colSpan={7} align='center'>No coupons found</td>
+                                    <td colSpan={7} align='center'>No records found</td>
                                 </tr>
                             )
                         }

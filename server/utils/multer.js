@@ -8,7 +8,7 @@ const multerStorgeHandle = (folderName) => {
         fs.mkdirSync(setFolderName, {
             recursive: true,
         })
-    }    
+    }
     const storage = multer.diskStorage({
         destination: function (req, res, cb) {
             return cb(null, setFolderName);
@@ -16,7 +16,7 @@ const multerStorgeHandle = (folderName) => {
         filename: (req, file, cb) => {
             return cb(
                 null,
-                `${new Date().getTime()}-${file.fieldname}-${file.originalname}`                
+                `${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}-${file.fieldname}-${file.originalname}`
             );
         },
     });

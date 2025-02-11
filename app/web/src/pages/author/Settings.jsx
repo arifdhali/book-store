@@ -4,12 +4,12 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import AppRoutes from "@/routes/routes"
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const Settings = () => {
     const { user_id } = useSelector((state) => state.authors?.user)
     const [previewProfileImage, setPreviewProfileImage] = useState(null);
     const [initialValues, setInitialValues] = useState({
-        name: '',
         email: '',
         password: '',
         profileImage: null,
@@ -23,10 +23,7 @@ const Settings = () => {
         initialValues,
         enableReinitialize: true,
         validationSchema: Yup.object({
-            name: Yup.string().required('Name is required'),
-            email: Yup.string().email('Invalid email address').required('Email is required'),
-            password: Yup.string()
-                .min(6, 'Password must be at least 6 characters'),
+            email: Yup.string().email('Invalid email address').required('Email is required'),          
             bio: Yup.string().max(150, 'Bio cannot exceed 150 characters'),
             dob: Yup.date().nullable(),
             address: Yup.string().max(100, 'Address cannot exceed 100 characters'),
@@ -45,15 +42,27 @@ const Settings = () => {
                     formData.append(key, value);
                 }
             });
-
+            let hasChanged = false;
+            for (let key of formData.entries()) {
+                hasChanged = key.length > 1 ? true : false;
+            }
+            if (!hasChanged) {
+                toast.error("Please update atleast one field");
+                return;
+            }
             try {
-                const response = await axios.post(`${import.meta.env}${AppRoutes.AUTHOR.SETTINGS}`, formData, {
+                const response = await axios.patch(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.SETTINGS}`, formData, {
                     params: {
                         userID: user_id
                     },
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
-                console.log(response)
+                if (response.data.status) {
+                    toast.success(response.data.message)
+                    getAuthorDetails();
+                } else {
+                    toast.error(response.data.message)
+                }
             } catch (error) {
                 console.error('Error updating author details:', error);
             }
@@ -74,21 +83,19 @@ const Settings = () => {
                 }
             });
             let author = data?.author[0];
-            
+
             // Format the dob to 'YYYY-MM-DD'
             const formattedDob = author?.dob ? new Date(author?.dob).toISOString().split('T')[0] : '';
-    
+
             setInitialValues({
-                name: author?.name || '',
                 email: author?.email || '',
-                password: '', // Always empty for security
                 bio: author?.bio || '',
                 dob: formattedDob,
                 address: author?.address || '',
                 phone_no: author?.phone_no || '',
                 profileImage: author?.profile_img || null,
             });
-    
+
             if (author?.profile_img) {
                 setPreviewProfileImage(`${import.meta.env.VITE_SERVER_MAIN_URL}author/${author?.profile_img}`);
             }
@@ -96,32 +103,16 @@ const Settings = () => {
             console.error('Error fetching author details:', error);
         }
     };
-    
+
 
     useEffect(() => {
         getAuthorDetails();
     }, []);
 
-    console.log(initialValues)
-
     return (
         <div className="p-4 bg-white rounded-2 w-50">
             <h4 className="section-title mb-4">Settings</h4>
-            <form onSubmit={formik.handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Name</label>
-                    <input
-                        placeholder='Enter name'
-                        type="text"
-                        id="name"
-                        className={`form-control ${formik.touched.name && formik.errors.name ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('name')}
-                    />
-                    {formik.touched.name && formik.errors.name && (
-                        <div className="invalid-feedback">{formik.errors.name}</div>
-                    )}
-                </div>
-
+            <form onSubmit={formik.handleSubmit}>            
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email</label>
                     <input
@@ -133,20 +124,6 @@ const Settings = () => {
                     />
                     {formik.touched.email && formik.errors.email && (
                         <div className="invalid-feedback">{formik.errors.email}</div>
-                    )}
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <input
-                        placeholder='Enter new password'
-                        type="password"
-                        id="password"
-                        className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : ''}`}
-                        {...formik.getFieldProps('password')}
-                    />
-                    {formik.touched.password && formik.errors.password && (
-                        <div className="invalid-feedback">{formik.errors.password}</div>
                     )}
                 </div>
 

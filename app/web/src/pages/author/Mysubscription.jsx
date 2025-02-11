@@ -4,6 +4,7 @@ import { faCrown, faCalendar, faSyncAlt, faCheck, faClose, faRepeat } from '@for
 import { useSelector } from 'react-redux';
 import AppRotues from "@/routes/routes"
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const MySubscription = () => {
     const { user_id, subscription_type } = useSelector((state) => state.authors.user);
@@ -60,7 +61,7 @@ const MySubscription = () => {
                             <div className="rounded-1 d-flex align-items-center  bg-secondary text-white w-100 p-2" >
                                 Current Plan
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -85,9 +86,9 @@ const MySubscription = () => {
                             </ul>
                         </div>
                         <div className="p-3 text-center">
-                            <a href="register?plan=standard" className="btn btn-secondary w-100">
+                            <Link to={'register?plan=standard'} className="btn btn-secondary w-100">
                                 Upgrade to Standard
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

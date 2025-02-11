@@ -6,10 +6,10 @@ const { AddBookController, BookListController, EditBookController, GetSingleBook
 const { AddCouponController, GetAllCoupons, DeleteCouponsController } = require("../controllers/author/Coupon.controller");
 const { GetSubscription } = require("../controllers/author/Subscription.controller");
 const { GetOrderContoller } = require("../controllers/author/Order.controller");
-const { SettingController } = require("../controllers/author/Settings.controller");
+const { GetSettingController, UpdateSettingController } = require("../controllers/author/Settings.controller");
 
 const uploadBook = uploadMulter("book");
-
+const uploadAuthor = uploadMulter("author")
 
 author_protected_routes.get("/", HomepageController)
 author_protected_routes.post("/book/add", uploadBook.single("thumbnail"), AddBookController);
@@ -25,6 +25,7 @@ author_protected_routes.delete("/coupon/:couponID", DeleteCouponsController);
 author_protected_routes.get("/subscription", GetSubscription);
 
 author_protected_routes.get("/order", GetOrderContoller);
-author_protected_routes.get("/settings", SettingController);
+author_protected_routes.get("/settings", GetSettingController);
+author_protected_routes.patch("/settings", uploadAuthor.single('profileImage'), UpdateSettingController)
 
 module.exports = author_protected_routes;

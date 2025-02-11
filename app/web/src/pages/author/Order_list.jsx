@@ -99,7 +99,7 @@ const OrderList = () => {
                             </>
                         ) : (
                             <tr>
-                                <td colSpan={9} align='center'>No Orders found</td>
+                                <td colSpan={9} align='center'>No records found</td>
                             </tr>
                         )
                     }
