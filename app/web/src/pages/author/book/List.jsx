@@ -9,7 +9,7 @@ import ConfirmModal from '@/utils/ConfirmModal';
 
 const BookList = () => {
     const [book, setBook] = useState([]);
-    const { user_id, subscription_type } = useSelector((state) => state.authors.user)
+    const { id, subscription_type } = useSelector((state) => state.authors.user)
     const [ModalInfo, setModalInfo] = useState({
         type: "",
         api_url: "",
@@ -21,7 +21,7 @@ const BookList = () => {
     const GetBooks = async () => {
         try {
             await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTHOR.BOOK.LIST}`, {
-                params: { user_id }
+                params: { user_id:id }
             }).then((value) => setBook(value.data.books))
         } catch (err) {
             console.log(err)
@@ -29,7 +29,7 @@ const BookList = () => {
     }
     useEffect(() => {
         GetBooks();
-    }, [user_id])
+    }, [id])
 
     return (
         <div className='p-4 bg-white rounded-2'>
@@ -86,7 +86,7 @@ const BookList = () => {
                                                 <span onClick={() => setModalInfo({
                                                     type: 'delete',
                                                     api_url: AppRoute.AUTHOR.BOOK.SINGLE(book?.id),
-                                                    user_id: user_id,
+                                                    user_id: id,
                                                 })} role='button' className='act delete' data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                                     <FontAwesomeIcon icon={faTrashCan} /> Delete
                                                 </span>

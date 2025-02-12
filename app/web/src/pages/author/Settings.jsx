@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const Settings = () => {
-    const { user_id } = useSelector((state) => state.authors?.user)
+    const { id } = useSelector((state) => state.authors?.user)
     const [previewProfileImage, setPreviewProfileImage] = useState(null);
     const [initialValues, setInitialValues] = useState({
         email: '',
@@ -53,7 +53,7 @@ const Settings = () => {
             try {
                 const response = await axios.patch(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.SETTINGS}`, formData, {
                     params: {
-                        userID: user_id
+                        userID: id
                     },
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
@@ -79,7 +79,7 @@ const Settings = () => {
         try {
             const { data } = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.SETTINGS}`, {
                 params: {
-                    userID: user_id
+                    userID:id
                 }
             });
             let author = data?.author[0];

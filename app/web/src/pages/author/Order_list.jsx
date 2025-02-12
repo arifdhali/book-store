@@ -11,7 +11,7 @@ import ConfirmModal from '@/utils/ConfirmModal';
 
 const OrderList = () => {
     const [Orders, setOrders] = useState([]);
-    const { user_id } = useSelector((state) => state.authors.user)
+    const { id } = useSelector((state) => state.authors.user)
     const [ModalInfo, setModalInfo] = useState({
         type: "",
         api_url: "",
@@ -25,7 +25,7 @@ const OrderList = () => {
 
             let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.AUTHOR.ORDER}`, {
                 params: {
-                    userID: user_id
+                    userID: id
                 }
             })
             if (response.data.status) {

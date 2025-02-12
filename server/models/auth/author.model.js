@@ -10,7 +10,7 @@ class AuthorAuthModels extends BaseModal {
     async LoginModels(data) {
         const { email, password } = data;
         let sql = `
-        SELECT A.id,A.name, A.profile_img, A.password, A.status, S.subscription_type
+        SELECT A.id,A.name, A.password, A.status, S.subscription_type
         FROM author A
         JOIN subscription S
         ON A.id = S.author_id
@@ -34,7 +34,6 @@ class AuthorAuthModels extends BaseModal {
             const userinfo = {
                 user_id: user.id,
                 user_name: user.name,
-                user_profile: user.profile_img,
                 user_status: user.status,
                 subscription_type: user.subscription_type,
             }

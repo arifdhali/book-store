@@ -3,13 +3,13 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 const ConfirmModal = ({ modal, onSuccess }) => {
-    const { api_url, type, user_id } = modal;
+    const { api_url, type, id } = modal;
     const handelDelete = async () => {
         try {
             if (type === 'delete') {
                 const res = await axios.delete(`${import.meta.env.VITE_SERVER_API_URL}${api_url}`, {
                     params: {
-                        userID: user_id
+                        userID: id
                     }
                 });
                 if (res.data.status) {

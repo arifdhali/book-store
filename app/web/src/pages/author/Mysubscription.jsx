@@ -7,21 +7,20 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const MySubscription = () => {
-    const { user_id, subscription_type } = useSelector((state) => state.authors.user);
+    const { id, subscription_type } = useSelector((state) => state.authors.user);
     console.log(subscription_type)
     const [subscription, setSubscription] = useState();
     const GetSubscription = async () => {
         let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRotues.AUTHOR.MY_SUBSCRIPTION}`, {
             params: {
-                user_id
+                user_id:id
             }
         })
         setSubscription(response.data.subscription_details[0])
     }
     useEffect(() => {
         GetSubscription();
-    }, [user_id])
-    console.log(subscription)
+    }, [id])
     return (
         <section className="subscription p-4 bg-light rounded-2">
             <div className="row mb-5">

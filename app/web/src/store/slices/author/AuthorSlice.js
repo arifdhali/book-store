@@ -6,7 +6,8 @@ const AuthorSlice = createSlice({
         user: "",
     },
     reducers: {
-        setAuthor: (state, action) => {            
+        setAuthor: (state, action) => {
+            console.log(action.payload)            
             state.user = action?.payload;
         }
     }

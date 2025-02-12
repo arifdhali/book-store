@@ -11,14 +11,6 @@ const AuthorHome = () => {
   const handelFormatingCount = (value) => {
     return value >= 1000 ? `${(value / 1000).toFixed(1)}K` : value;
   }
-  const getHome = async () => {
-    let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.BASE}`);
-  }
-  useEffect(() => {
-    getHome();
-  }, [
-
-  ])
 
   return (
     <>

@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import ConfirmModal from '@/utils/ConfirmModal';
 
 const Coupon = () => {
-    const { user_id, subscription_type } = useSelector((state) => state.authors.user);
+    const { id, subscription_type } = useSelector((state) => state.authors.user);
     const [book, setBook] = useState([]);
     const [Coupons, setCoupons] = useState([]);
     const [ModalInfo, setModalInfo] = useState({
@@ -56,7 +56,7 @@ const Coupon = () => {
             };
             let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.ADD}`, formatedValues, {
                 params: {
-                    user_id,
+                    user_id: id,
                     subscription_type,
                 }
             });
@@ -73,7 +73,9 @@ const Coupon = () => {
     const GetBooks = async () => {
         try {
             await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.BOOK.LIST}`, {
-                params: { user_id }
+                params: {
+                    user_id: id,
+                }
             }).then((value) => setBook(value.data.books));
         } catch (err) {
             console.log(err);
@@ -85,7 +87,7 @@ const Coupon = () => {
         try {
             let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.COUPON.BASE}`, {
                 params: {
-                    user_id
+                    user_id: id,
                 }
             });
             if (response.data.status) {
@@ -100,7 +102,7 @@ const Coupon = () => {
     useEffect(() => {
         getCoupons();
         GetBooks();
-    }, [user_id]);
+    }, [id]);
     return (
         <>
             <div className='p-4 bg-white rounded-2'>

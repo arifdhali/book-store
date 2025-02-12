@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { toast } from "react-toastify"
 const EditBook = () => {
   const navigate = useNavigate();
-  const { user_id, book_quantity } = useSelector((state) => state.authors.user);
+  const { id, book_quantity } = useSelector((state) => state.authors.user);
   const { BOOK_ID } = useParams();
   const [previewBookImage, setPreviewBookImage] = useState(null);
   const [initialValues, setInitialValues] = useState({
@@ -96,7 +96,7 @@ const EditBook = () => {
       const response = await axios.get(
         `${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.BOOK.SINGLE(BOOK_ID)}`, {
         params: {
-          author: user_id,
+          author: id,
           bookID: BOOK_ID,
         }
       });

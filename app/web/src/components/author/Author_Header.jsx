@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 
 
 const Header = () => {
-    const { user_name, user_profile } = useSelector((state) => state?.authors?.user);
+    const { name, profile_img } = useSelector((state) => state?.authors?.user);
     const [backUrl, setBackUrl] = useState({
         prev_url: "",
         current_url: "",
@@ -34,7 +34,7 @@ const Header = () => {
                         </div>
                     ) : (
                         <>
-                            <p>Welcome back, <strong>{user_name}</strong> </p>
+                            <p>Welcome back, <strong>{name}</strong> </p>
                         </>
                     )
                 }
@@ -80,7 +80,7 @@ const Header = () => {
 
                 <div className="btn-group ">
                     <span className="dropdown-toggle user-section" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img className='rounded-circle dashboard-owner' src={`${import.meta.env.VITE_SERVER_MAIN_URL}author/${user_profile}`} alt="" />
+                        <img className='rounded-circle dashboard-owner' src={`${import.meta.env.VITE_SERVER_MAIN_URL}author/${profile_img}`} alt="" />
                         <FontAwesomeIcon icon={faGear} />
                     </span>
                     <ul className="dropdown-menu">
