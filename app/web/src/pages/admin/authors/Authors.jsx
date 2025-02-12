@@ -11,6 +11,7 @@ const Authors = () => {
   const [Author, setAuthor] = useState();
   const [MakeSelectAll, setMakeSelectAll] = useState(false);
   const [DeleteItems, setDeleteItems] = useState([]);
+  const [pagination, setPagination] = useState(0);
   const [ModalInfo, setModalInfo] = useState({
     type: "",
     api_url: "",
@@ -21,7 +22,12 @@ const Authors = () => {
   })
   const getAuthors = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.LIST}`);
+      const response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoute.ADMIN.AUTHORS.LIST}`, {
+        params: {
+          end: pagination,
+          limit: 5,
+        }
+      });
       setAuthor(response.data.result);
     } catch (error) {
       console.error("Failed to fetch authors:", error);
@@ -66,6 +72,9 @@ const Authors = () => {
     }
   }
 
+  const makePaginations = () => {
+    setPagination((prev) => prev + 1);
+  }
 
   useEffect(() => {
     if (DeleteItems.length == Author?.length) {
@@ -74,8 +83,7 @@ const Authors = () => {
       setMakeSelectAll(false)
     }
     getAuthors();
-  }, [DeleteItems])
-
+  }, [DeleteItems, pagination])
   return (
     <div className='p-4 bg-white rounded-2'>
       <>
@@ -148,6 +156,18 @@ const Authors = () => {
             }
           </tbody>
         </table>
+        <ul className="pagination m-0 justify-content-end">
+          <li className="page-item " >
+            <Link className="page-link">
+              Previous
+            </Link>
+          </li>
+          <li className="page-item " onClick={makePaginations}>
+            <Link className="page-link">
+              Next
+            </Link>
+          </li>
+        </ul>
       </>
       <ConfirmModal modal={ModalInfo} onSuccess={getAuthors} />
 

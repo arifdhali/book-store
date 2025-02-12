@@ -40,31 +40,27 @@ class Subscription extends BaseModal {
             const { bookQuantity, subscription_price, book_limit, coupons_limit, orderMargin } = subscriptionFeatures;
             let subscriptionResult = await this.preparingQuery(insertSubscriptionSql, [authorID, subscription_type, subscription_price, bookQuantity, book_limit, coupons_limit, orderMargin]);
             if (subscriptionResult.affectedRows) {
-                let subsctionID = subscriptionResult.insertId;
-                let isRelationID = await this.insertIdToSubscriptionAuthorRelations(authorID, subsctionID);
-                if (isRelationID.affectedRows > 0) {
-                    return {
-                        status: true,
-                    }
-                }
+                return {
+                    status: true,
+                }               
             }
         } catch (error) {
             return error;
         }
     }
-    async insertIdToSubscriptionAuthorRelations(authorID, subsctionID) {
-        try {
-            let tableName = `subscription_author_relation`;
-            if (!authorID && !subsctionID) {
-                throw new Error("Insert id not found")
-            }
-            let insertSql = `INSERT INTO ${tableName} (author_id,subscription_id ) VALUES(?,?)`;
-            return await this.preparingQuery(insertSql, [authorID, subsctionID])
-        } catch (error) {
-            console.error("Error in when  inserting into subsctiption realtion  " + error);
-            return { status: false, message: error.message };
-        }
-    }
+    // async insertIdToSubscriptionAuthorRelations(authorID, subsctionID) {
+    //     try {
+    //         let tableName = `subscription_author_relation`;
+    //         if (!authorID && !subsctionID) {
+    //             throw new Error("Insert id not found")
+    //         }
+    //         let insertSql = `INSERT INTO ${tableName} (author_id,subscription_id ) VALUES(?,?)`;
+    //         return await this.preparingQuery(insertSql, [authorID, subsctionID])
+    //     } catch (error) {
+    //         console.error("Error in when  inserting into subsctiption realtion  " + error);
+    //         return { status: false, message: error.message };
+    //     }
+    // }
 
 }
 module.exports = new Subscription();

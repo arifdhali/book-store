@@ -34,7 +34,6 @@ const UpdateSettingController = async (req, res) => {
             filteredValue.profile_img = thumbnail.filename
         }
         let update = await Setting.UpdateInformationOfUsers(userID, filteredValue);
-        //req.user.data.user_profile = thumbnail.filename;
         return res.json(update);
     } catch (error) {
         console.error("Error in UpdateSettingController:", error.message);

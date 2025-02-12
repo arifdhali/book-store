@@ -6,9 +6,10 @@ import { faGear, faBell, faBackward } from '@fortawesome/free-solid-svg-icons';
 import AppRoute from "@/routes/routes";
 import { NotificationList } from "@/components";
 import { io } from 'socket.io-client';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setClearNotifications, setNotifications } from '@/store/slices/Notification';
 const Header = () => {
+    const notifications = useSelector((state) => state?.Notifications?.list);
     const dispatch = useDispatch();
     const socket = useRef(null);
     const [backUrl, setBackUrl] = useState({
@@ -75,8 +76,14 @@ const Header = () => {
             <div className='d-flex align-items-center gap-3'>
 
                 <span className="dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                    <Link className='icon'>
+                    <Link className='icon position-relative'>
                         <FontAwesomeIcon icon={faBell} />
+                        {
+                            notifications.length > 0 &&
+                            <span class="position-absolute start-0 translate-middle badge rounded-pill bg-primary">
+                                {notifications.length}
+                            </span>
+                        }
                     </Link>
                 </span>
                 <ul className="dropdown-menu notifaction-popup">
@@ -102,9 +109,9 @@ const Header = () => {
                     </ul>
                 </div>
 
-            </div>
+            </div >
 
-        </div>
+        </div >
     );
 }
 

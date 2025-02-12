@@ -11,13 +11,10 @@ const List = () => {
         }
         setAllUpdates(notifications);
     }, [notifications]);
-
     return (
         <>
             {
                 allUpdates.length > 0 ? (
-
-
                     <>
                         {allUpdates.map((noti) => (
                             <li key={noti.id} className="dropdown-item">

@@ -1,6 +1,7 @@
 const FileServices = require("../../services/FileServices");
 const Subscription = require("../subscription.model")
 const BaseModal = require("../Base.model");
+const pagination = require("../../utils/pagination");
 class AuthorModels extends BaseModal {
 
     async addAuthor(data, subscription_type) {
@@ -35,10 +36,9 @@ class AuthorModels extends BaseModal {
         }
 
     }
-    async getAuthors() {
+    async getAuthors(end, limit) {
         try {
-            const getSql = `SELECT id, name, email, profile_img, bio, status 
-            FROM author `;
+            const getSql = `SELECT id, name, email, profile_img, bio, status FROM author  ORDER BY created_at DESC LIMIT ${limit} OFFSET ${end} `;
             return await this.preparingQuery(getSql, []);
         } catch (error) {
             console.error("Error in when get all Author  " + error);

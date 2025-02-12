@@ -3,10 +3,11 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import AppRoutes from "@/routes/routes"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-
+import {  updateProfile } from '@/store/slices/author/AuthorSlice';
 const Settings = () => {
+    const dispatch = useDispatch();
     const { id } = useSelector((state) => state.authors?.user)
     const [previewProfileImage, setPreviewProfileImage] = useState(null);
     const [initialValues, setInitialValues] = useState({
@@ -23,7 +24,7 @@ const Settings = () => {
         initialValues,
         enableReinitialize: true,
         validationSchema: Yup.object({
-            email: Yup.string().email('Invalid email address').required('Email is required'),          
+            email: Yup.string().email('Invalid email address').required('Email is required'),
             bio: Yup.string().max(150, 'Bio cannot exceed 150 characters'),
             dob: Yup.date().nullable(),
             address: Yup.string().max(100, 'Address cannot exceed 100 characters'),
@@ -79,11 +80,10 @@ const Settings = () => {
         try {
             const { data } = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.SETTINGS}`, {
                 params: {
-                    userID:id
+                    userID: id
                 }
             });
             let author = data?.author[0];
-
             // Format the dob to 'YYYY-MM-DD'
             const formattedDob = author?.dob ? new Date(author?.dob).toISOString().split('T')[0] : '';
 
@@ -99,6 +99,7 @@ const Settings = () => {
             if (author?.profile_img) {
                 setPreviewProfileImage(`${import.meta.env.VITE_SERVER_MAIN_URL}author/${author?.profile_img}`);
             }
+            dispatch(updateProfile(author?.profile_img));
         } catch (error) {
             console.error('Error fetching author details:', error);
         }
@@ -107,12 +108,12 @@ const Settings = () => {
 
     useEffect(() => {
         getAuthorDetails();
-    }, []);
+    }, [id]);
 
     return (
         <div className="p-4 bg-white rounded-2 w-50">
             <h4 className="section-title mb-4">Settings</h4>
-            <form onSubmit={formik.handleSubmit}>            
+            <form onSubmit={formik.handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email</label>
                     <input
