@@ -5,7 +5,7 @@ import axios from 'axios';
 import AppRoutes from "@/routes/routes"
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import {  updateProfile } from '@/store/slices/author/AuthorSlice';
+import { setAuthor } from '@/store/slices/author/AuthorSlice';
 const Settings = () => {
     const dispatch = useDispatch();
     const { id } = useSelector((state) => state.authors?.user)
@@ -60,7 +60,6 @@ const Settings = () => {
                 });
                 if (response.data.status) {
                     toast.success(response.data.message)
-                    getAuthorDetails();
                 } else {
                     toast.error(response.data.message)
                 }
@@ -99,7 +98,14 @@ const Settings = () => {
             if (author?.profile_img) {
                 setPreviewProfileImage(`${import.meta.env.VITE_SERVER_MAIN_URL}author/${author?.profile_img}`);
             }
-            dispatch(updateProfile(author?.profile_img));
+
+            if (formik.isValid) {
+                dispatch(setAuthor({
+                    type: "update_profile_photo",
+                    data: author?.profile_img
+                }))
+            }
+
         } catch (error) {
             console.error('Error fetching author details:', error);
         }
@@ -108,7 +114,7 @@ const Settings = () => {
 
     useEffect(() => {
         getAuthorDetails();
-    }, [id]);
+    }, [id, formik.isSubmitting]);
 
     return (
         <div className="p-4 bg-white rounded-2 w-50">

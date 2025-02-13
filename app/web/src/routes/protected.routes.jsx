@@ -11,11 +11,18 @@ const ProtectedRoutes = ({ children, roleOfUser }) => {
     const adminToken = Cookies.get("ADMIN_TOKEN");
     const authorToken = Cookies.get("AUTHOR_TOKEN");
     const dispatch = useDispatch();
-    
+
     async function getAuthorInformation() {
         let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.BASE}`)
         if (response.data.status) {
-            dispatch(setAuthor(response.data?.authors))
+            dispatch(
+                setAuthor(
+                    {
+                        type: 'first_login',
+                        data: response.data?.authors
+                    }
+                )
+            )
         }
     }
     if (roleOfUser == 'author') {
