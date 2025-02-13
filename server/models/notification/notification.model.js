@@ -12,7 +12,10 @@ class NotifiationModel extends BaseModal {
             let createNotiSql = `INSERT INTO ${this.tableName}(type,message,related_id,related_type) VALUE(?,?,?,?)`;
             let result = await this.preparingQuery(createNotiSql, [type, message, realatedID, relatedType])
             if (result.affectedRows > 0) {
-                return result;
+                return {
+                    status: true,
+                    messaeg: "Notification inserted successfully into database"
+                };
             } else {
                 throw Error("Couldn't saved to database")
             }

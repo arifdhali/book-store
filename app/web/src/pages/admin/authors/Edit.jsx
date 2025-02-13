@@ -24,7 +24,6 @@ const Edit = () => {
         validationSchema: Yup.object({
             name: Yup.string().required('Author name is required'),
             email: Yup.string().email('Invalid email format').required('Email is required'),
-            bio: Yup.string().required('Description is required'),
             profile_img: Yup.mixed().nullable(),
             status: Yup.string().required('Status is required'),
             inactive_date: Yup.date()

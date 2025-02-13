@@ -36,12 +36,39 @@ class AuthorModels extends BaseModal {
         }
 
     }
-    async getAuthors(end, limit) {
+    async getAuthors(end, limit, sortBy) {
         try {
-            const getSql = `SELECT id, name, email, profile_img, bio, status FROM author  ORDER BY created_at DESC LIMIT ${limit} OFFSET ${end} `;
-            return await this.preparingQuery(getSql, []);
+            const { search, status } = sortBy;
+            let sortingSql = '';
+            let values = [];
+            if (search) {
+                sortingSql += `WHERE name LIKE ? `;
+                values.push(`%${search}%`);
+            }
+            if (status) {
+                sortingSql += `${search ? 'AND' : 'WHERE'} status = ? `;
+                values.push(status);
+            }
+            sortingSql += ` ORDER BY created_at DESC LIMIT ${Number(limit)} OFFSET ${Number(end)}`;
+            if (limit && end) {
+                values.push(limit);
+                values.push(end);
+            }
+            const getSql = `SELECT id, name, email, profile_img, bio, created_at, status FROM author ${sortingSql}`;
+            let author = await this.preparingQuery(getSql, values);
+            if (author.length > 0) {
+                return {
+                    status: true,
+                    author
+                }
+            } else {
+                return {
+                    status: true,
+                    messge: "No search results found"
+                }
+            }
         } catch (error) {
-            console.error("Error in when get all Author  " + error);
+            console.error("Error when getting all Authors: " + error);
             return { status: false, message: error };
         }
     }

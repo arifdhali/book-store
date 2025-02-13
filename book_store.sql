@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 06, 2025 at 07:44 AM
+-- Generation Time: Feb 13, 2025 at 01:28 PM
 -- Server version: 8.0.27
 -- PHP Version: 8.0.13
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `email`, `name`, `password`, `image`, `last_active`, `address`) VALUES
-(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2025-02-05 11:01:55', 'kolkata');
+(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2025-02-13 11:49:51', 'kolkata');
 
 -- --------------------------------------------------------
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `author` (
   `bio` text,
   `dob` date DEFAULT NULL,
   `address` longtext,
-  `phone_no` tinyint DEFAULT NULL,
+  `phone_no` int DEFAULT NULL,
   `social_link` json DEFAULT NULL,
   `password` text,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -74,14 +74,14 @@ CREATE TABLE IF NOT EXISTS `author` (
   `password_reset_expires` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone_no` (`phone_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `author`
 --
 
 INSERT INTO `author` (`id`, `name`, `first_name`, `last_name`, `email`, `profile_img`, `bio`, `dob`, `address`, `phone_no`, `social_link`, `password`, `created_at`, `status`, `last_active`, `password_reset_token`, `password_reset_expires`) VALUES
-(86, 'Arif', 'Arif', 'Dhali', 'arif@yopmail.com', '1738434642849-Arif.png', NULL, NULL, NULL, NULL, NULL, '$2b$10$5aXgzWt2ecqU/MkXoYtLOeTDlqTSRmwlY1o0VnY8IyVg5OFMWdJ/y', '2025-02-02 00:00:42', 'active', '2025-02-05 04:49:08', NULL, NULL);
+(86, 'Arif', 'Arif', 'Dhali', 'arif@yopmail.com', '13-1-2025-profileImage-DALLÂ·E 2024-10-07 16.48.38 - A sleek and modern logo design representing a car. The logo features a stylized silhouette of a car, emphasizing aerodynamic lines and a dynamic feel.webp', 'this is test bio', '2000-07-31', 'Kolkata , 700301', 1232321321, NULL, '$2b$10$5aXgzWt2ecqU/MkXoYtLOeTDlqTSRmwlY1o0VnY8IyVg5OFMWdJ/y', '2025-02-02 00:00:42', 'active', '2025-02-13 13:27:39', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `book` (
   PRIMARY KEY (`id`),
   KEY `fk_author_id` (`author_id`),
   KEY `fk_categgory` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `coupons` (
   UNIQUE KEY `code` (`code`),
   KEY `book_id` (`book_id`),
   KEY `author_id` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -208,14 +208,19 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `is_read` tinyint NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `notification`
 --
 
 INSERT INTO `notification` (`id`, `type`, `message`, `related_id`, `related_type`, `is_read`, `created_at`) VALUES
-(1, 'new-author-register', 'Sam is registered', 86, 'author', 0, '2025-02-05 16:10:48');
+(1, 'new-author-register', 'Sam is registered', 86, 'author', 0, '2025-02-05 16:10:48'),
+(2, 'new-author-register', 'Yoshio is registered', 142, 'author', 0, '2025-02-13 11:59:52'),
+(3, 'new-author-register', 'Shelly is registered', 143, 'author', 0, '2025-02-13 12:01:58'),
+(4, 'new-author-register', 'Jelani is registered', 144, 'author', 0, '2025-02-13 12:03:56'),
+(5, 'new-author-register', 'Reuben is registered', 145, 'author', 0, '2025-02-13 12:04:03'),
+(6, 'new-author-register', 'Alec is registered', 146, 'author', 0, '2025-02-13 12:05:55');
 
 -- --------------------------------------------------------
 
@@ -258,38 +263,14 @@ CREATE TABLE IF NOT EXISTS `subscription` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_author` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `subscription`
 --
 
 INSERT INTO `subscription` (`id`, `author_id`, `subscription_type`, `subscription_price`, `book_quantity`, `book_limit`, `coupons_limit`, `order_margin`, `start_date`, `end_date`, `created_at`) VALUES
-(72, 86, 'free', 0, 10, 10, 10, 30, '2025-02-02 00:00:42', '2025-02-02 00:00:42', '2025-02-02 00:00:42');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `subscription_author_relation`
---
-
-DROP TABLE IF EXISTS `subscription_author_relation`;
-CREATE TABLE IF NOT EXISTS `subscription_author_relation` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `author_id` int DEFAULT NULL,
-  `subscription_id` int DEFAULT NULL,
-  `created-at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `author` (`author_id`),
-  UNIQUE KEY `subscription` (`subscription_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `subscription_author_relation`
---
-
-INSERT INTO `subscription_author_relation` (`id`, `author_id`, `subscription_id`, `created-at`) VALUES
-(37, 86, 72, '2025-02-01 18:30:42');
+(72, 86, 'premium', 0, 10, 10, 10, 30, '2025-02-02 00:00:42', '2025-02-02 00:00:42', '2025-02-02 00:00:42');
 
 -- --------------------------------------------------------
 
@@ -357,13 +338,6 @@ ALTER TABLE `rating`
 --
 ALTER TABLE `subscription`
   ADD CONSTRAINT `fk_author` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `subscription_author_relation`
---
-ALTER TABLE `subscription_author_relation`
-  ADD CONSTRAINT `fk_author_id_subscription` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_subsription_id` FOREIGN KEY (`subscription_id`) REFERENCES `subscription` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

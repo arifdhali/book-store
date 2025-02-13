@@ -47,12 +47,19 @@ const AddAuthorController = async (req, res) => {
 
 // GET ALL AUTHORS
 const GetAllAuthorsController = async (req, res) => {
-    const { start, end, limit } = req.query;
-    let result = await AuthorModel.getAuthors(end, limit);
-    return res.json({
-        result
-    });
-
+    try {
+        const { offset, limit, search, status } = req.query;
+        let sorting = {
+            search,
+            status
+        }
+        let result = await AuthorModel.getAuthors(offset, limit, sorting);
+        return res.json(
+            result
+        );
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 

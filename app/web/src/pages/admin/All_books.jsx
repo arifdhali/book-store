@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faEdit, faChartLine, faEye } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'
 import { ContentLoader } from '@/components/Loader';
+import { format } from 'date-fns';
 const All_Books = () => {
     const [book, setBooks] = useState([]);
     const [isPending, startTransition] = useTransition();
@@ -69,7 +70,7 @@ const All_Books = () => {
                                     <td valign='middle'>{book.author_name}</td>
                                     <td valign='middle'>{book.category}</td>
                                     <td valign='middle' align='center'>
-                                        {new Date(book.publication_date).toISOString().split('T')[0]}
+                                        {format(book.publication_date, 'dd-MM-yyyy')}
                                     </td>
                                     <td valign='middle' align='center'>${book.price}</td>
                                     <td valign='middle' align='center'>{book.quantity}</td>

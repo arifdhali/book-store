@@ -4,7 +4,7 @@ const AuthorModels = require("../admin/author.model");
 const subscriptionModel = require("../subscription.model");
 const SocketManager = require("../../utils/socket/Sockets.Manager")
 const Notification = require("../notification/notification.model")
-const NotificationModel = new Notification('author_notification');
+const NotificationModel = new Notification('notification');
 class AuthorAuthModels extends BaseModal {
 
     async LoginModels(data) {
@@ -93,8 +93,10 @@ class AuthorAuthModels extends BaseModal {
                                 message: `${item.name} is registered`
                             }
                         ))
-                        NotificationModel.createNotification('new-author-register', `${socketResult[0].name} is registered`, authorID, 'author',);
-                        SocketManager.sendingLiveUpdate('new-author-register', socketData)
+                        let notification = await NotificationModel.createNotification('new-author-register', `${socketResult[0].name} is registered`, authorID, 'author',);
+                        if (notification.status) {
+                            SocketManager.sendingLiveUpdate('new-author-register', socketData)
+                        }
                     }
                     return {
                         message: "Your account has been successfully created.",

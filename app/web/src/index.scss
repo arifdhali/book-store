@@ -400,7 +400,7 @@ input {
 }
 
 .btn {
-  height: 45px;
+  height: 48px;
   display: inline-flex !important;
   align-items: center !important;
   border-radius: 4px !important;
@@ -818,14 +818,14 @@ h2 {
       width: 160px;
       background: #fff;
       color: var(--color-1) !important;
-      transition: all .3s ease;
-      -webkit-transition: all .3s ease;
-      -moz-transition: all .3s ease;
-      -ms-transition: all .3s ease;
-      -o-transition: all .3s ease;
+      transition: all 0.3s ease;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
 
       &:hover {
-        opacity: .8;
+        opacity: 0.8;
       }
     }
   }
@@ -871,6 +871,6 @@ h2 {
   color: red;
 }
 
-[type='password'].form-control.is-invalid {
+[type="password"].form-control.is-invalid {
   background-image: none;
 }
