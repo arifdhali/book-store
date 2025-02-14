@@ -28,16 +28,16 @@ const Header = () => {
                                     About
                                 </NavLink>
                             </li>
-                            <li>
-                                <NavLink>
+                            {/* <li>
+                                <NavLink to={'#'}>
                                     Shop
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink>
+                                <NavLink to={'#'}>
                                     How to build
                                 </NavLink>
-                            </li>
+                            </li> */}
                         </ul>
                     </nav>
                     <div role='button'>
