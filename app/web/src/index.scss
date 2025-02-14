@@ -874,3 +874,11 @@ h2 {
 [type="password"].form-control.is-invalid {
   background-image: none;
 }
+
+.mainpage-header {
+  a {
+    &.active {
+      color: #646cff;
+    }
+  }
+}

@@ -2,24 +2,31 @@ import React from 'react'
 import store_logo from "@/assets/image/store_logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
-import  AppRoutes  from "@/routes/routes"
+import { Link, NavLink } from 'react-router-dom';
+import AppRoutes from "@/routes/routes"
 
 const Header = () => {
     return (
-        <header>
+        <header className='mainpage-header'>
             <div className="header-content container">
                 <div className="d-flex align-items-center justify-content-between w-100">
-                    <a href="#" className='logo'>
+                    <Link to={AppRoutes.HOME} className='logo'>
                         <img src={store_logo} alt="Logo" />
-                    </a>
+                    </Link>
                     <nav className='d-flex justify-content-center'>
                         <ul className='nav'>
                             <li className='nav-item'>
-                                <a href="#">Home</a>
+                                <NavLink
+                                    to={AppRoutes.HOME}
+                                    className={({ isActive }) => isActive ? 'active' : ''}
+                                >
+                                    Home
+                                </NavLink>
                             </li>
                             <li>
-                                <a href="#">About</a>
+                                <NavLink to={AppRoutes.ABOUT} className={({ isActive }) => isActive ? 'active' : ''}>
+                                    About
+                                </NavLink>
                             </li>
                             <li>
                                 <a href="#">Shop</a>

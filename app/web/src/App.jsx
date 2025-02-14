@@ -1,12 +1,11 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AdminLayout, AuthLayout, AuthorLayout } from './layouts';
+import { AdminLayout, AuthLayout, AuthorLayout, UserLayout } from './layouts';
 import { AdminHome, Users, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd, Orders, ALL_BOOKS } from './pages/admin';
 import { Author_Login, Author_Forgotpass, BookList, AddBook, Coupon, OrderList, SingleOrderView, MySubscription, ReaderFeedback, BookAnalytics, Author_Register, EditBook, Settings } from './pages/author';
 import AppRoute from "./routes/routes";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-import Home from './pages/Home';
 import ErrorPage from "./404";
 import { Loader } from "@/components/Loader";
 import AuthorHome from './pages/author/AuthorHome';
@@ -14,6 +13,7 @@ import ProtectedRoutes from './routes/protected.routes';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { About, Home } from './pages';
 
 axios.defaults.withCredentials = true;
 const App = () => {
@@ -23,7 +23,10 @@ const App = () => {
       <Suspense fallback={<Loader />}>
         <Routes>
           {/* Main routes */}
-          <Route path={AppRoute.HOME} element={<Home />} />
+          <Route path={AppRoute.HOME} element={<UserLayout />}>
+            <Route path={AppRoute.HOME} element={<Home />} />
+            <Route path={AppRoute.ABOUT} element={<About />} />
+          </Route>
 
           {/* AUTH PAGES FOR ADMIN */}
           <Route path={AppRoute.HOME} element={<AuthLayout />}>
