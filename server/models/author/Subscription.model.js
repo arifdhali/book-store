@@ -1,5 +1,5 @@
 const BaseModal = require("../Base.model");
-
+let MainSubscriptionModel = require("../subscription.model");
 class SubscriptionModel extends BaseModal {
     constructor(tableName) {
         super();
@@ -8,6 +8,10 @@ class SubscriptionModel extends BaseModal {
 
     async getSubscription(id) {
         try {
+            let checkedSubscription = await MainSubscriptionModel.checkSubscriptionActiveOrNot(id);
+            if (!checkedSubscription?.status) {
+                return checkedSubscription;
+            }
             const subscriptionSql = `SELECT * FROM subscription WHERE author_id = ?`;
             const subscription_details = await this.preparingQuery(subscriptionSql, [id]);
 

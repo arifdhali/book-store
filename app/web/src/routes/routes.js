@@ -1,5 +1,6 @@
 const routes = {
     HOME: '/',
+    ABOUT: '/about',
     ADMIN: {
         BASE: "/admin",
         CATEGORY: {

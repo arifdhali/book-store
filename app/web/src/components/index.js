@@ -16,6 +16,7 @@ import NotificationDetails from "@/components/notifications/Details"
 
 // main page
 import Main_Header from "./Header";
+import Main_footer from "./Footer"
 
 export {
     Admin_Header,
@@ -28,6 +29,7 @@ export {
     Author_Sidebar,
     // main
     Main_Header,
+    Main_footer,
 
     // notifications
     NotificationList,

@@ -18,20 +18,19 @@ const Home = () => {
         // })
     }
     useGSAP(() => {
-        // gsap.from(".word", {
-        //     y: 10,
-        //     opacity: 0,
-        //     stagger: {
-        //         each: .2,
-        //         ease: "none",
-        //     },    
-        // })
+        gsap.from(".word", {
+            y: 10,
+            opacity: 0,
+            stagger: {
+                each: .2,
+                ease: "none",
+            },
+        })
     })
 
 
     return (
         <>
-            <Main_Header />
             <section className='banner uni-padding'>
                 <div className="container">
                     <div className="row">
@@ -84,7 +83,7 @@ const Home = () => {
 
                                 >
                                     {
-                                        [0, 0, 0, 0].map((slide,index) => (
+                                        [0, 0, 0, 0].map((slide, index) => (
                                             <SwiperSlide key={index}>
                                                 <div className='slider-items'>
                                                     <img className='img-fluid' src="https://images.pexels.com/photos/30309178/pexels-photo-30309178/free-photo-of-vibrant-parrot-perched-on-a-balcony-railing.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
@@ -118,8 +117,8 @@ const Home = () => {
                         </h2>
                     </div>
                     <div className='row pt-3 mt-5'>
-                        {                            
-                            [0, 0, 0, 0].map((book,index) => (
+                        {
+                            [0, 0, 0, 0].map((book, index) => (
                                 <div className="col-md-3" key={index}>
                                     <div className="card">
                                         <div className='m-1 position-relative card-imgs rounded-1'>
@@ -154,7 +153,7 @@ const Home = () => {
                     <div className="row">
                         <div className="col-md-5">
                             <div className='d-flex flex-wrap gap-5'>
-                                {[0, 0, 0, 0].map((img,index) => (
+                                {[0, 0, 0, 0].map((img, index) => (
                                     <img key={index} className='book-img rounded-1 img-fluid ' src="https://grimoakpress.com/cdn/shop/files/cover-notw-fc.jpg?v=1706902909" alt="" />
                                 ))}
                             </div>
