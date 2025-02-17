@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 13, 2025 at 01:28 PM
+-- Generation Time: Feb 17, 2025 at 01:40 PM
 -- Server version: 8.0.27
 -- PHP Version: 8.0.13
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `email`, `name`, `password`, `image`, `last_active`, `address`) VALUES
-(1, 'arifdhali', 'admin1@gmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2025-02-13 11:49:51', 'kolkata');
+(1, 'arifdhali', 'admin1@yopmail.com', 'Arif Dhali', '$2b$10$/doRIMYx6YFsKOdD0AB6DuKNDcBe.7vsb/r70u7KwetltdL7aissy', 'tsfds', '2025-02-17 19:10:11', 'kolkata');
 
 -- --------------------------------------------------------
 
@@ -74,14 +74,14 @@ CREATE TABLE IF NOT EXISTS `author` (
   `password_reset_expires` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone_no` (`phone_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `author`
 --
 
 INSERT INTO `author` (`id`, `name`, `first_name`, `last_name`, `email`, `profile_img`, `bio`, `dob`, `address`, `phone_no`, `social_link`, `password`, `created_at`, `status`, `last_active`, `password_reset_token`, `password_reset_expires`) VALUES
-(86, 'Arif', 'Arif', 'Dhali', 'arif@yopmail.com', '13-1-2025-profileImage-DALLÂ·E 2024-10-07 16.48.38 - A sleek and modern logo design representing a car. The logo features a stylized silhouette of a car, emphasizing aerodynamic lines and a dynamic feel.webp', 'this is test bio', '2000-07-31', 'Kolkata , 700301', 1232321321, NULL, '$2b$10$5aXgzWt2ecqU/MkXoYtLOeTDlqTSRmwlY1o0VnY8IyVg5OFMWdJ/y', '2025-02-02 00:00:42', 'active', '2025-02-13 13:27:39', NULL, NULL);
+(86, 'Arif', 'Arif', 'Dhali', 'arif@yopmail.com', '17-1-2025-profileImage-sample-3.webp', 'this is test bio', '2000-07-31', 'Kolkata , 700301', 1232321321, NULL, '$2b$10$5aXgzWt2ecqU/MkXoYtLOeTDlqTSRmwlY1o0VnY8IyVg5OFMWdJ/y', '2025-02-02 00:00:42', 'active', '2025-02-17 07:01:28', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -144,7 +144,14 @@ CREATE TABLE IF NOT EXISTS `book` (
   PRIMARY KEY (`id`),
   KEY `fk_author_id` (`author_id`),
   KEY `fk_categgory` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `book`
+--
+
+INSERT INTO `book` (`id`, `author_id`, `category_id`, `name`, `price`, `quantity`, `thumbnail`, `status`, `publication_date`, `created_at`) VALUES
+(138, 86, 1, 'Non vero optio aut ', 218, 4, '14-1-2025-thumbnail-DALLÂ·E 2024-10-07 16.48.38 - A sleek and modern logo design representing a car. The logo features a stylized silhouette of a car, emphasizing aerodynamic lines and a dynamic feel.webp', 'draft', '2025-02-14', '2025-02-14 10:30:54');
 
 -- --------------------------------------------------------
 
@@ -190,7 +197,14 @@ CREATE TABLE IF NOT EXISTS `coupons` (
   UNIQUE KEY `code` (`code`),
   KEY `book_id` (`book_id`),
   KEY `author_id` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `author_id`, `book_id`, `code`, `discount`, `where_to_apply`, `status`, `start_date`, `expire_date`, `created_at`) VALUES
+(81, 86, 138, 'TEST', '10', 'min order 500', 'active', '2025-02-15 05:30:00', '2025-02-19 05:30:00', '2025-02-14 10:31:43');
 
 -- --------------------------------------------------------
 
@@ -208,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `is_read` tinyint NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `notification`
@@ -220,7 +234,29 @@ INSERT INTO `notification` (`id`, `type`, `message`, `related_id`, `related_type
 (3, 'new-author-register', 'Shelly is registered', 143, 'author', 0, '2025-02-13 12:01:58'),
 (4, 'new-author-register', 'Jelani is registered', 144, 'author', 0, '2025-02-13 12:03:56'),
 (5, 'new-author-register', 'Reuben is registered', 145, 'author', 0, '2025-02-13 12:04:03'),
-(6, 'new-author-register', 'Alec is registered', 146, 'author', 0, '2025-02-13 12:05:55');
+(6, 'new-author-register', 'Alec is registered', 146, 'author', 0, '2025-02-13 12:05:55'),
+(7, 'new-author-register', 'Kerry is registered', 152, 'author', 0, '2025-02-14 11:39:05'),
+(8, 'new-author-register', 'Latifah is registered', 153, 'author', 0, '2025-02-14 11:39:28'),
+(9, 'new-author-register', 'Trevor is registered', 154, 'author', 0, '2025-02-14 11:41:42'),
+(10, 'new-author-register', 'Mari is registered', 155, 'author', 0, '2025-02-14 11:42:26'),
+(11, 'new-author-register', 'September is registered', 159, 'author', 0, '2025-02-14 11:52:23'),
+(12, 'new-author-register', 'Dillon is registered', 160, 'author', 0, '2025-02-14 11:54:58'),
+(13, 'new-author-register', 'Zeph is registered', 161, 'author', 0, '2025-02-14 11:55:26'),
+(14, 'new-author-register', 'Cyrus is registered', 162, 'author', 0, '2025-02-14 11:58:43'),
+(15, 'new-author-register', 'Maggie is registered', 163, 'author', 0, '2025-02-14 12:01:19'),
+(16, 'new-author-register', 'Naomi is registered', 164, 'author', 0, '2025-02-14 12:01:44'),
+(17, 'new-author-register', 'Melyssa is registered', 165, 'author', 0, '2025-02-14 12:03:06'),
+(18, 'new-author-register', 'Skyler is registered', 167, 'author', 0, '2025-02-14 14:24:40'),
+(19, 'new-author-register', 'Myles is registered', 168, 'author', 0, '2025-02-14 16:19:36'),
+(20, 'new-author-register', 'Faith is registered', 169, 'author', 0, '2025-02-14 16:19:45'),
+(21, 'new-author-register', 'Kaye is registered', 170, 'author', 0, '2025-02-14 16:19:48'),
+(22, 'new-author-register', 'Yetta is registered', 171, 'author', 0, '2025-02-14 16:20:04'),
+(23, 'new-author-register', 'Melodie is registered', 172, 'author', 0, '2025-02-14 16:20:12'),
+(24, 'new-author-register', 'Miranda is registered', 173, 'author', 0, '2025-02-14 16:20:16'),
+(25, 'new-author-register', 'Joel is registered', 174, 'author', 0, '2025-02-14 16:20:20'),
+(26, 'new-author-register', 'Mechelle is registered', 175, 'author', 0, '2025-02-14 16:20:38'),
+(27, 'new-author-register', 'Ginger is registered', 176, 'author', 0, '2025-02-14 16:24:37'),
+(28, 'new-author-register', 'Stephen is registered', 177, 'author', 0, '2025-02-14 16:24:49');
 
 -- --------------------------------------------------------
 
@@ -245,6 +281,24 @@ CREATE TABLE IF NOT EXISTS `rating` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reset_tokens`
+--
+
+DROP TABLE IF EXISTS `reset_tokens`;
+CREATE TABLE IF NOT EXISTS `reset_tokens` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `token` varchar(200) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `expires_at` datetime DEFAULT NULL,
+  `user_email` varchar(100) DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `user_role` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `subscription`
 --
 
@@ -258,19 +312,20 @@ CREATE TABLE IF NOT EXISTS `subscription` (
   `book_limit` int DEFAULT NULL COMMENT 'Free-10, standard-30',
   `coupons_limit` int DEFAULT NULL,
   `order_margin` mediumint DEFAULT NULL,
-  `start_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `end_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_author` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `subscription`
 --
 
-INSERT INTO `subscription` (`id`, `author_id`, `subscription_type`, `subscription_price`, `book_quantity`, `book_limit`, `coupons_limit`, `order_margin`, `start_date`, `end_date`, `created_at`) VALUES
-(72, 86, 'premium', 0, 10, 10, 10, 30, '2025-02-02 00:00:42', '2025-02-02 00:00:42', '2025-02-02 00:00:42');
+INSERT INTO `subscription` (`id`, `author_id`, `subscription_type`, `subscription_price`, `book_quantity`, `book_limit`, `coupons_limit`, `order_margin`, `start_date`, `end_date`, `status`, `created_at`) VALUES
+(72, 86, 'free', 0, 10, 10, 10, 30, '2025-02-02 00:00:42', '2025-02-03 00:00:42', 'inactive', '2025-02-02 00:00:42');
 
 -- --------------------------------------------------------
 

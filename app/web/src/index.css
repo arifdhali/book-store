@@ -782,6 +782,7 @@ h2 {
 
 .error {
   color: red;
+  font-size: 14px;
 }
 
 [type=password].form-control.is-invalid {

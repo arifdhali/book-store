@@ -55,7 +55,8 @@ const routes = {
         ADMIN: {
             LOGIN: "/admin/login",
             LOGOUT: "/admin/logout",
-            FORGOTPASS: "/admin/forgot-password"
+            FORGOTPASS: "/admin/forgot-password",
+            RESET_PASSWORD:"/admin/reset-password",
         },
         USER: {
             LOGIN: "/login",
@@ -67,7 +68,7 @@ const routes = {
             LOGOUT: "/author/logout",
             REGISTER: "/author/register",
             FORGOTPASS: "/author/forgot-password"
-        }
+        },
     }
 };
 

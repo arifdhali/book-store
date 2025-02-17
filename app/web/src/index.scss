@@ -869,6 +869,7 @@ h2 {
 
 .error {
   color: red;
+  font-size: 14px;
 }
 
 [type="password"].form-control.is-invalid {
@@ -881,4 +882,8 @@ h2 {
       color: #646cff;
     }
   }
+}
+
+.reset-container{
+
 }

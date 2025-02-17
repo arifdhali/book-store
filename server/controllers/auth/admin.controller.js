@@ -3,8 +3,11 @@ const AdminAuthModels = require("../../models/auth/admin.model");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
-
-
+const crypto = require("crypto")
+const EmailController = require("../../email/Email.controller");
+const sendAdminEmail = new EmailController();
+const { ForgotPasswordTemplate } = require("../../email/Template")
+const { format, add } = require("date-fns")
 
 const AdminLogin = async (req, res) => {
     const status = false;
@@ -31,7 +34,7 @@ const AdminLogin = async (req, res) => {
             {
                 user: {
                     role: "admin"
-                }                
+                }
             },
             process.env.SECRET_KEY || 'secret',
             { expiresIn: '2d' }
@@ -70,7 +73,60 @@ const AdminLogout = (req, res) => {
     });
 
 }
+
+const AdminForgotPassword = async (req, res) => {
+    let time = format(add(new Date(), { minutes: 10 }), 'yyyy-MM-dd HH:mm:ss');
+    const { email } = req.body;
+    try {
+        // Generate token and hash it
+        const token = crypto.randomBytes(20).toString('hex');
+        const hashedResetToken = crypto
+            .createHash("sha256")
+            .update(token)
+            .digest("hex");
+        let token_insertion = await AdminAuthModels.insertForgotTokens(hashedResetToken, email, 'admin', time);
+        if (token_insertion?.status) {
+            const mailData = {
+                to_user: email,
+                subject: 'Forgot Password',
+                html: ForgotPasswordTemplate(token, email, time),
+            };
+
+            // Send email
+            let emailStatus = await sendAdminEmail.sendingMailData(mailData);
+            return res.json({
+                status: 'success',
+                message: 'Email sent successfully',
+                email_sended: emailStatus?.status,
+                token_insertion,
+            });
+        } else {
+            return res.json(token_insertion);
+        }
+    } catch (error) {
+        console.error("Error during forgot password process:", error);
+        return res.json({
+            status: 'error',
+            message: 'An error occurred while processing your request',
+            error: error.message || error,
+        });
+    }
+};
+
+const AdminResetPasswordController = async (req, res) => {
+    try {
+        const { password, token } = req.body;
+        let reset_password = await AdminAuthModels.ResettingPassword(token, password)
+
+    } catch (error) {
+
+    }
+}
+
+
 module.exports = {
     AdminLogin,
-    AdminLogout
+    AdminLogout,
+    AdminForgotPassword,
+    AdminResetPasswordController
 }
