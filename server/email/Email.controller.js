@@ -4,37 +4,40 @@ class EmailController {
     // Sending mail
     async #preparingMail(content) {
         const { to_user, subject, html } = content;
-        try {
+        return new Promise((resolve, reject) => {
             let mailOptions = {
                 from: `Book-Store-${process.env.ADMIN_GMAIL}`,
                 to: to_user,
                 subject: subject,
-                html: html                
+                html: html
             };
+
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
-                    return {
+                    reject({
                         error,
                         status: false,
-                    }
+                    });
                 } else {
-                    return {
+                    resolve({
                         info,
                         status: true,
-                    };
+                    });
                 }
             });
-        } catch (error) {
+        });
+    }
 
+    // Global function for sending email
+    async sendingMailData(content) {
+        try {
+            const result = await this.#preparingMail(content);
+            return result;
+        } catch (error) {
+            console.error("Error sending email:", error);
+            return error;
         }
     }
-
-    // global for sending email
-    async sendingMailData(content) {
-        return this.#preparingMail(content);
-    }
-
-
 }
 
 module.exports = EmailController;

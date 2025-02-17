@@ -31,5 +31,4 @@ route.use("/admin", AdminRouters);
  */
 route.use("/author", authorRoute);
 
-
 module.exports = route;

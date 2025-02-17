@@ -5,6 +5,7 @@ const Authors = lazy(() => import("./authors/Authors"));
 // const Subscription = lazy(() => import("./authors/Subscription"));
 const Login = lazy(() => import("./auth/Login"));
 const ForgotPass = lazy(() => import("./auth/Forgot-pass"));
+const ResetPassword = lazy(() => import("./auth/ResetPassword"))
 const AddAuthor = lazy(() => import("./authors/Add"));
 const EditAuthor = lazy(() => import("./authors/Edit"));
 const Category = lazy(() => import("./category/Category"));
@@ -19,6 +20,7 @@ export {
     // Subscription,
     Login,
     ForgotPass,
+    ResetPassword,
     AddAuthor,
     EditAuthor,
     Category,

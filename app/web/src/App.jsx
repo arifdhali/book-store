@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AdminLayout, AuthLayout, AuthorLayout, UserLayout } from './layouts';
-import { AdminHome, Users, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd, Orders, ALL_BOOKS } from './pages/admin';
+import { AdminHome, Users, Authors, Login, ForgotPass, AddAuthor, Category, EditAuthor, CategoryAdd, Orders, ALL_BOOKS, ResetPassword } from './pages/admin';
 import { Author_Login, Author_Forgotpass, BookList, AddBook, Coupon, OrderList, SingleOrderView, MySubscription, ReaderFeedback, BookAnalytics, Author_Register, EditBook, Settings } from './pages/author';
 import AppRoute from "./routes/routes";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { About, Home } from './pages';
 
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 const App = () => {
   return (
     <Router>
@@ -32,6 +32,7 @@ const App = () => {
           <Route path={AppRoute.HOME} element={<AuthLayout />}>
             <Route path={AppRoute.AUTH.ADMIN.LOGIN} element={<Login />} />
             <Route path={AppRoute.AUTH.ADMIN.FORGOTPASS} element={<ForgotPass />} />
+            <Route path={AppRoute.AUTH.ADMIN.RESET_PASSWORD} element={<ResetPassword />} />
           </Route>
           {/* AUTH PAGES FOR AUTHOR */}
           <Route path={AppRoute.HOME} element={<AuthLayout />}>
