@@ -2,12 +2,15 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useTransition } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from "yup";
 import AppRoutes from "@/routes/routes"
+import { toast } from 'react-toastify';
 
 const ResetPassword = () => {
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     let location = useLocation();
     let queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
@@ -19,22 +22,44 @@ const ResetPassword = () => {
             confirmPassword: "",
         },
         validationSchema: Yup.object({
-            newPassword: Yup.string().required("Enter new password"),
+            newPassword: Yup.string()
+                .required("Enter new password")
+                .min(6, "Password must be at least 6 characters"),
             confirmPassword: Yup.string()
-                .required("Enter confirm password")
+                .required("Enter confirm password").min(6, "Password must be at least 6 characters")
                 .oneOf([Yup.ref('newPassword'), null], 'Passwords must be same'),
         }),
         onSubmit: async (values, { resetForm }) => {
-            let sendingData = {
-                password: values.confirmPassword,
-                token:token,
+            try {
+                setLoading(true);
+
+                let sendingData = {
+                    token: token,
+                    password: values.confirmPassword,
+                }
+                let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.ADMIN.RESET_PASSWORD}`, sendingData);
+                if (response.data?.status) {
+                    toast.success(response.data?.message);
+                    resetForm();
+                    navigate(AppRoutes.AUTH.ADMIN.LOGIN)
+                } else {
+                    toast.error(response.data?.message);
+                }
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setLoading(false);
             }
-            let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.ADMIN.RESET_PASSWORD}`, sendingData);
-            console.log(response)
         },
         enableReinitialize: true,
     });
-
+    const validToken = async () => {
+        let validateToken = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.ADMIN.RESET_PASSWORD}?token=${token}`);
+        if (!validateToken.data?.status) {
+            toast.error(validateToken.data?.message);
+            navigate(AppRoutes.AUTH.ADMIN.FORGOTPASS)
+        }
+    }
     useEffect(() => {
         const { errors } = formik;
         let errorKeys = Object.keys(errors);
@@ -42,7 +67,10 @@ const ResetPassword = () => {
         if (firstElement) {
             firstElement.focus();
         }
-        console.log(token);
+        if (!token) {
+            navigate(AppRoutes.AUTH.ADMIN.FORGOTPASS)
+        }
+        validToken();
     }, [token, formik.isSubmitting]);
 
     return (
@@ -83,8 +111,8 @@ const ResetPassword = () => {
                         <div className="error">{formik.errors.confirmPassword}</div>
                     )}
                 </div>
-                <button className='btn btn-primary w-100 py-3 d-flex justify-content-center' type="submit">Reset Password</button>
-                
+                <button className='btn btn-primary w-100 py-3 d-flex justify-content-center' type="submit" disabled={loading}>{`${loading ? 'Resetting,' : 'Reset Password'}`}</button>
+
             </form>
         </div>
     );

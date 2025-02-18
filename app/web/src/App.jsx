@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { About, Home } from './pages';
 
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 const App = () => {
   return (
     <Router>
