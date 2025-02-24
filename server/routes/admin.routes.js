@@ -1,6 +1,6 @@
 const express = require("express");
 const adminRoute = express.Router();
-const { AdminLogin, AdminLogout, AdminForgotPassword, AdminResetPasswordController } = require("../controllers/auth/admin.controller");
+const { AdminLogin, AdminLogout, AdminForgotPassword, AdminResetPasswordController, CheckingResetToken } = require("../controllers/auth/admin.controller");
 const admin_protected_routes = require("./admin.protected.routes");
 const AdminAuthenticateJWTtoken = require("../middleware/admin.auth");
 
@@ -31,7 +31,16 @@ adminRoute.post("/logout", AdminLogout);
  * @access Admin
  */
 adminRoute.post("/forgot-password", AdminForgotPassword);
+
+
+/**
+ * @route POST/reset-password
+ * @description Reset password will be validating the token with expired or not
+ * @protected This will validdate the token and reset the password 
+ * @access Admin
+ */
 adminRoute.post("/reset-password", AdminResetPasswordController);
+adminRoute.get("/reset-password", CheckingResetToken);
 
 /**
  * @section Protected Routes

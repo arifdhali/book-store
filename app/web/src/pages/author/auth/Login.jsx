@@ -142,7 +142,7 @@ const Login = () => {
                 </div>
               </div>
               {formik.errors.password && formik.touched.password ? (
-                <div className="invalid-feedback">{formik.errors.password}</div>
+                <div className="invalid-feedback d-block">{formik.errors.password}</div>
               ) : null}
             </div>
             <div className="mb-4">

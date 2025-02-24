@@ -116,10 +116,31 @@ const AdminForgotPassword = async (req, res) => {
 const AdminResetPasswordController = async (req, res) => {
     try {
         const { password, token } = req.body;
-        let reset_password = await AdminAuthModels.ResettingPassword(token, password)
-
+        let makingHasedToken = crypto.createHash("sha256").update(token).digest("hex");
+        let reset_password = await AdminAuthModels.ResettingPassword(makingHasedToken, password);
+        if (reset_password?.getToken) {
+            return res.json(reset_password?.getToken)
+        }
+        if (reset_password.status) {
+            return res.json(reset_password);
+        }
     } catch (error) {
+        console.log(error);
+        return res.json(error)
+    }
+}
 
+const CheckingResetToken = async (req, res) => {
+    const { token } = req.query;
+    let makingHasedToken = crypto.createHash("sha256").update(token).digest("hex");
+    let valid_token = await AdminAuthModels.checkingTheTokensAreValid(makingHasedToken);
+    if (valid_token?.status) {
+        return res.json({
+            status: true,
+            message: "Token is valid"
+        });
+    } else {
+        return res.json(valid_token)
     }
 }
 
@@ -128,5 +149,6 @@ module.exports = {
     AdminLogin,
     AdminLogout,
     AdminForgotPassword,
-    AdminResetPasswordController
+    AdminResetPasswordController,
+    CheckingResetToken
 }

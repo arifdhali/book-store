@@ -70,7 +70,51 @@ class AdminAuthModels extends BaseModal {
     }
 
     async ResettingPassword(token, password) {
-        // let hasedPasswordSql = `SELECT token,expires_at FROM reset_tokens WHERE `
+        let { getToken, status } = await this.checkingTheTokensAreValid(token);
+        if (!status) {
+            return {
+                getToken
+            }
+        }        
+        const { user_email, user_role } = getToken[0];
+        let hashingPassword = await bcrypt.hash(password, 10);
+        let UpdatePassword = `UPDATE ${user_role} SET password = ? WHERE email = ?`;
+        let restingPassword = await this.preparingQuery(UpdatePassword, [hashingPassword, user_email])
+        if (!restingPassword.affectedRows >= 1) {
+            return {
+                status: false,
+                message: 'Password reset failed! Please try again.'
+            }
+        } else {
+
+            setTimeout(async () => {
+                 await this.preparingQuery(`DELETE FROM reset_tokens WHERE user_email = ? AND token = ?`, [user_email, token]);
+                console.log('Delete token from reset_token after successfully reset password');
+            }, 2000);
+            return {
+                status: true,
+                message: "Password has been reset successfully."
+            }
+        }
+
+
+
+    }
+
+    async checkingTheTokensAreValid(token) {
+        let hasedToken = `SELECT token,user_email,user_role FROM reset_tokens WHERE expires_at > NOW() AND token = ?`;
+        let getToken = await this.preparingQuery(hasedToken, [token]);
+        if (getToken.length < 1) {
+            return {
+                status: false,
+                message: "Invalid token. Please request a new password reset."
+            }
+        } else {
+            return {
+                status: true,
+                getToken
+            };
+        }
 
     }
 }

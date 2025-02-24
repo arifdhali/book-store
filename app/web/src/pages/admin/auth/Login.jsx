@@ -38,14 +38,15 @@ const AdminLogin = () => {
 
   const sendToDatabase = async (values) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.ADMIN.LOGIN}`, values);
-      console.log(response)
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.ADMIN.LOGIN}`, values);      
+      toast.error(response.data.message);
       if (response.data.result.status) {
         const { message } = response.data.result;
         toast.success(message);
         startTransaction(() => navigate(AppRoutes.ADMIN.BASE));
       } else {
         toast.error(response.data.result.message);
+
       }
     } catch (error) {
       console.log(error)
@@ -55,7 +56,7 @@ const AdminLogin = () => {
   useEffect(() => {
     const { errors } = formik;
     let errorKeys = Object.keys(errors);
-    let firstElement = document.querySelector(`[name=${errorKeys[0]}`);
+    let firstElement = document.querySelector(`[name=${errorKeys[0]}]`);
     if (firstElement) {
       firstElement.focus();
     }
@@ -141,7 +142,7 @@ const AdminLogin = () => {
                 </div>
               </div>
               {formik.errors.password && formik.touched.password ? (
-                <div className="invalid-feedback">{formik.errors.password}</div>
+                <div className="invalid-feedback d-block">{formik.errors.password}</div>
               ) : null}
             </div>
             <div className="mb-4">

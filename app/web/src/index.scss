@@ -872,6 +872,11 @@ h2 {
   font-size: 14px;
 }
 
+.form-control.is-invalid {
+
+  border-color: red !important;
+}
+
 [type="password"].form-control.is-invalid {
   background-image: none;
 }
@@ -884,6 +889,4 @@ h2 {
   }
 }
 
-.reset-container{
-
-}
+.reset-container {}
