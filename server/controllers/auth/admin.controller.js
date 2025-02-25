@@ -89,7 +89,7 @@ const AdminForgotPassword = async (req, res) => {
             const mailData = {
                 to_user: email,
                 subject: 'Forgot Password',
-                html: ForgotPasswordTemplate(token, email, time),
+                html: ForgotPasswordTemplate(token, email, time,'admin'),
             };
 
             // Send email

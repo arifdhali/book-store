@@ -32,8 +32,10 @@ const routes = {
             BASE: '/author/book',
             LIST: "/author/book/list",
             ADD: "/author/book/add",
+            CATEGORY: "/author/book/categories",
             SINGLE: (BOOK_ID) => `/author/book/${BOOK_ID}`,
             ANALYTICS: (id) => `/author/book/${id}/analytics`,
+            
         },
 
         ORDER: "/author/order",
@@ -56,7 +58,7 @@ const routes = {
             LOGIN: "/admin/login",
             LOGOUT: "/admin/logout",
             FORGOTPASS: "/admin/forgot-password",
-            RESET_PASSWORD:"/admin/reset-password",
+            RESET_PASSWORD: "/admin/reset-password",
         },
         USER: {
             LOGIN: "/login",
@@ -67,7 +69,8 @@ const routes = {
             LOGIN: "/author/login",
             LOGOUT: "/author/logout",
             REGISTER: "/author/register",
-            FORGOTPASS: "/author/forgot-password"
+            FORGOTPASS: "/author/forgot-password",
+            RESET_PASSWORD: "/author/reset-password",
         },
     }
 };

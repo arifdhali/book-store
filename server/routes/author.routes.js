@@ -1,6 +1,6 @@
 const express = require("express");
 const authorRoute = express.Router();
-const { AuthorLogin, AuthorLogout, AuthorRegister } = require("../controllers/auth/author.controller");
+const { AuthorLogin, AuthorLogout, AuthorRegister, AuthorForgotPassword, CheckingResetToken, AuthorResetPasswordController } = require("../controllers/auth/author.controller");
 const uploadMulter = require("../utils/multer");
 const author_protected_routes = require("./author.protected.routes");
 const AuthorAuthenticateJWTtoken = require("../middleware/author.auth");
@@ -33,6 +33,23 @@ authorRoute.post("/register", AuthorRegister);
  */
 
 authorRoute.post("/logout", AuthorLogout);
+
+/**
+ * @route POST/forgot-password
+ * @description Forgot password or password reset through the email 
+ * @protected This will generate a token and that will be valid for 10 minutes 
+ * @access Author
+ */
+authorRoute.post("/forgot-password", AuthorForgotPassword);
+/**
+ * @route POST/reset-password
+ * @description Reset password will be validating the token with expired or not
+ * @protected This will validdate the token and reset the password 
+ * @access Admin
+ */
+authorRoute.post("/reset-password", AuthorResetPasswordController);
+authorRoute.get("/reset-password", CheckingResetToken);
+
 
 /**
  * @section Protected Routes

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faEnvelope, faUnlockKeyhole } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -6,8 +6,11 @@ import AppRoutes from "@/routes/routes";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Logo from "@/assets/image/store_logo.png";
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const ForgotPass = () => {
+    let [isLoading, setIsLoading] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -18,8 +21,25 @@ const ForgotPass = () => {
                 .required("Email is required")
                 .email("Enter valid email address")
         }),
-        onSubmit: (values) => {
-            console.log(values)
+        onSubmit: async (values) => {
+            setIsLoading(true);
+            try {
+                const sendingData = {
+                    email: values.email
+                }
+                let response = await axios.post(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTH.AUTHOR.FORGOTPASS}`, sendingData);
+                console.log(response)
+                if (response.data?.status) {
+                    toast.success("Please check your email");
+                    resetForm();
+                } else {
+                    toast.error(response.data.message)
+                }
+            } catch (error) {
+                toast.error(error);
+            } finally {
+                setIsLoading(false);
+            }
         }
 
     })
@@ -27,7 +47,6 @@ const ForgotPass = () => {
         const { errors } = formik;
         let errorskey = Object.keys(errors);
         let element = document.querySelector(`[name=${errorskey[0]}]`);
-        console.log(element);
         if (element) {
             element.focus();
         }
@@ -82,7 +101,7 @@ const ForgotPass = () => {
                         <div className="form-group mb-3">
                             <div className='d-flex justify-content-between align-items-center'>
                                 <Link to={AppRoutes.AUTH.AUTHOR.LOGIN}>Go back</Link>
-                                <button type='submit' className='btn btn-primary'>Reset Password</button>
+                                <button type='submit' className='btn btn-primary' disabled={isLoading}>  {`${isLoading ? 'Resetting...' : 'Reset'}`}</button>
                             </div>
                         </div>
                     </form>

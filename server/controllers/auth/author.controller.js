@@ -6,7 +6,13 @@ const bcrypt = require('bcrypt');
 dotenv.config();
 const { generateAvatarImage } = require('text-to-avatar')
 const fs = require('fs')
-const path = require('path')
+const path = require('path');
+const { format } = require("date-fns/format");
+const { add } = require("date-fns/add");
+const crypto = require("crypto");
+const { ForgotPasswordTemplate } = require("../../email/Template");
+const EmailController = require("../../email/Email.controller");
+let sendAuthorEmail = new EmailController();
 const AuthorLogin = async (req, res) => {
     const status = false;
     const { email, password } = req.body;
@@ -90,8 +96,78 @@ const AuthorRegister = async (req, res) => {
     }
 
 }
+
+const AuthorForgotPassword = async (req, res) => {
+    let time = format(add(new Date(), { minutes: 10 }), 'yyyy-MM-dd HH:mm:ss');
+    const { email } = req.body;
+    try {
+        const token = crypto.randomBytes(20).toString("hex");
+        const hashedResetToken = crypto
+            .createHash("sha256")
+            .update(token)
+            .digest("hex");
+        let token_insertion = await AuthorAuthModels.insertForgotTokens(hashedResetToken, email, 'author', time);
+        if (token_insertion.status) {
+            let mailData = {
+                to_user: email,
+                subject: 'Forgot Password',
+                html: ForgotPasswordTemplate(token, email, time, 'author')
+            }
+            let emailStatus = await sendAuthorEmail.sendingMailData(mailData);
+            return res.json({
+                status: 'success',
+                message: 'Email sent successfully',
+                email_sended: emailStatus?.status,
+                token_insertion,
+            });
+        } else {
+            return res.json(token_insertion);
+        }
+    } catch (error) {
+        console.error("Error during forgot password process:", error);
+        return res.json({
+            status: 'error',
+            message: 'An error occurred while processing your request',
+            error: error.message || error,
+        });
+    }
+
+}
+const AuthorResetPasswordController = async (req, res) => {
+    try {
+        const { password, token } = req.body;
+        let makingHasedToken = crypto.createHash("sha256").update(token).digest("hex");
+        let reset_password = await AuthorAuthModels.ResettingPassword(makingHasedToken, password);
+        if (reset_password?.getToken) {
+            return res.json(reset_password?.getToken)
+        }
+        if (reset_password.status) {
+            return res.json(reset_password);
+        }
+    } catch (error) {
+        console.log(error);
+        return res.json(error)
+    }
+}
+
+const CheckingResetToken = async (req, res) => {
+    const { token } = req.query;
+    let makingHasedToken = crypto.createHash("sha256").update(token).digest("hex");
+    let valid_token = await AuthorAuthModels.checkingTheTokensAreValid(makingHasedToken);
+    if (valid_token?.status) {
+        return res.json({
+            status: true,
+            message: "Token is valid"
+        });
+    } else {
+        return res.json(valid_token)
+    }
+}
 module.exports = {
     AuthorLogin,
     AuthorLogout,
-    AuthorRegister
+    AuthorRegister,
+    AuthorForgotPassword,
+    AuthorResetPasswordController,
+    CheckingResetToken
 }

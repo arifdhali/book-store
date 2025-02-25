@@ -1,4 +1,4 @@
-import { faBookSkull } from '@fortawesome/free-solid-svg-icons'
+import { faFacebookF, faInstagram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
@@ -15,29 +15,30 @@ const Footer = () => {
                         className="btn btn-primary btn-lg btn-floating mx-2"
                         style={{ backgroundColor: "#54456b" }}
                     >
-                        <i className="fab fa-facebook-f" />
-                        <FontAwesomeIcon  />
+                        <FontAwesomeIcon icon={faFacebookF} />
                     </button>
                     <button
                         type="button"
                         className="btn btn-primary btn-lg btn-floating mx-2"
                         style={{ backgroundColor: "#54456b" }}
                     >
-                        <i className="fab fa-youtube" />
+                        <FontAwesomeIcon icon={faYoutube} />
                     </button>
                     <button
                         type="button"
                         className="btn btn-primary btn-lg btn-floating mx-2"
                         style={{ backgroundColor: "#54456b" }}
                     >
-                        <i className="fab fa-instagram" />
+                        <FontAwesomeIcon icon={faInstagram} />
+
                     </button>
                     <button
                         type="button"
                         className="btn btn-primary btn-lg btn-floating mx-2"
                         style={{ backgroundColor: "#54456b" }}
                     >
-                        <i className="fab fa-twitter" />
+                        <FontAwesomeIcon icon={faTwitter} />
+
                     </button>
                 </div>
                 {/* Copyright */}

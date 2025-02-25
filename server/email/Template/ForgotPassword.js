@@ -1,4 +1,4 @@
-const ForgotPassword = (token, email, time) => {
+const ForgotPassword = (token, email, time,userRole) => {
     return `
     
 <!DOCTYPE html>
@@ -51,7 +51,7 @@ const ForgotPassword = (token, email, time) => {
     <div class="reset-container">
         <h2>Reset Your Password</h2>
         <p>Open your email: <strong>${email}</strong> and check your inbox. This link will expire in 10 minutes.</p>        
-        <a class="btn" href="${process.env.CLIENT_URL}/admin/reset-password?token=${token}">Click to Reset Password</a>
+        <a class="btn" href="${process.env.CLIENT_URL}/${userRole}/reset-password?token=${token}">Click to Reset Password</a>
     </div>    
 </body>
 </html>

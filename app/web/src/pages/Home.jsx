@@ -187,6 +187,13 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+            <section className='upcoming-books'>
+                <div className="container">
+                    <div className='text-center'>
+                        <h2 className='heading'>Upcoming Sales</h2>
+                    </div>
+                </div>
+            </section>
         </>
     )
 }
