@@ -136,10 +136,17 @@ const DeleteBookController = async (req, res) => {
     return res.json(result)
 
 }
+
+const CategoriesController = async (req, res) => {
+    let categories = await BookModel.getAllCategories();
+    return res.json(categories)
+}
+
 module.exports = {
     AddBookController,
     GetSingleBookController,
     BookListController,
     EditBookController,
-    DeleteBookController
+    DeleteBookController,
+    CategoriesController
 };

@@ -27,7 +27,7 @@ class BookModels extends BaseModal {
                     S.book_limit,
                     S.book_quantity
             `;
-            let limitQuery = await this.preparingQuery(subscriptionLimit, [user_id, subscription_types]);   
+            let limitQuery = await this.preparingQuery(subscriptionLimit, [user_id, subscription_types]);
             // Check if limit is exceeded or at the limit
             if (limitQuery[0]) {
                 const { book_count, max_book_limit, max_book_quantity } = limitQuery[0];
@@ -245,6 +245,22 @@ class BookModels extends BaseModal {
         }
     }
 
+    async getAllCategories() {
+        let result = await this.preparingQuery(`SELECT id,name FROM book_category`, []);
+        if (result.length > 0) {
+            return {
+                status: true,
+                category: result
+            }
+        } else {
+            console.error("Error in getAllCategories:", error);
+            return {
+                status: false,
+                message: "An error occurred while geting categories book information.",
+                error: error.message,
+            };
+        }
+    }
 
 }
 module.exports = BookModels;
