@@ -9,17 +9,31 @@ class HomeModelsAuthor extends BaseModal {
     async Dashboard(userID) {
         try {
             if (!userID) throw new Error("Author id is required");
-            let authorSql = `SELECT A.id,A.name,A.email,A.profile_img,A.status,S.subscription_type FROM ${this.tableName} A
-                             LEFT JOIN subscription S
-                             ON A.id = S.author_id
-                             WHERE A.id = ?`;
+            let authorSql = ` SELECT 
+                A.id, A.name, A.email, A.profile_img, A.status, S.subscription_type,
+                COUNT(DISTINCT B.id) AS book_count,
+                COUNT(DISTINCT C.id) AS coupons_count,
+                COUNT(DISTINCT O.id) AS order_count
+            FROM author A
+            LEFT JOIN subscription S ON A.id = S.author_id
+            LEFT JOIN book B ON A.id = B.author_id
+            LEFT JOIN coupons C ON A.id = C.author_id
+            LEFT JOIN author_orders_relations O ON A.id = O.author_id
+            WHERE A.id = ?`;
             let author = await this.preparingQuery(authorSql, [userID]);
             if (author[0]) {
-                let authors = author[0];
+                const { book_count, coupons_count, order_count, ...authors } = author[0];
                 return {
                     status: true,
                     message: "Dashboard data retrieved successfully",
-                    authors
+                    authors: {
+                        ...authors,
+                        count: {
+                            book_count,
+                            coupons_count,
+                            order_count
+                        }
+                    }
                 }
             } else {
                 throw new Error(`Provided id=${userID} is not correct`);

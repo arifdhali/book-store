@@ -6,11 +6,20 @@ import CountUp from "react-countup";
 import AppRoutes from "@/routes/routes"
 
 const AuthorHome = () => {
-
+  const [dashboard, setDashboard] = useState();
   // FORMATING VALUE 
   const handelFormatingCount = (value) => {
     return value >= 1000 ? `${(value / 1000).toFixed(1)}K` : value;
   }
+  const getAuthorInformation = async () => {
+    let response = await axios.get(`${import.meta.env.VITE_SERVER_API_URL}${AppRoutes.AUTHOR.BASE}`)
+    if (response.data.status) {
+      setDashboard(response.data?.authors);
+    }
+  }
+  useEffect(() => {
+    getAuthorInformation();
+  }, [])
 
   return (
     <>
@@ -23,7 +32,7 @@ const AuthorHome = () => {
                   <FontAwesomeIcon icon={faUser} />
                 </div>
                 <div className='item-data'>
-                  <CountUp end={400} formattingFn={handelFormatingCount} />
+                  <CountUp end={dashboard?.count?.coupons_count} formattingFn={handelFormatingCount} />
                   <p className='title'>Active Coupons</p>
                 </div>
               </div>
@@ -38,7 +47,7 @@ const AuthorHome = () => {
                   <FontAwesomeIcon icon={faBook} />
                 </div>
                 <div className='item-data'>
-                  <CountUp end={1400} formattingFn={handelFormatingCount} />
+                  <CountUp end={dashboard?.count?.book_count} formattingFn={handelFormatingCount} />
                   <p className='title'>Books</p>
                 </div>
               </div>
@@ -68,7 +77,7 @@ const AuthorHome = () => {
                   <FontAwesomeIcon icon={faTowerCell} />
                 </div>
                 <div className='item-data'>
-                  <CountUp end={1100} formattingFn={handelFormatingCount} />
+                  <CountUp end={dashboard?.count?.orders_count} formattingFn={handelFormatingCount} />
                   <p className='title'>Order</p>
                 </div>
               </div>

@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 const Add = () => {
   const [previewBookImage, setPreviewBookImage] = useState(null);
   const [BookCategory, setBookCategory] = useState([]);
@@ -30,7 +31,7 @@ const Add = () => {
       category_id: Yup.string().required("Please select a category"),
       date: Yup.date()
         .required("Date is required")
-        .min(new Date(new Date().setHours(0, 0, 0, 0)), "Date should be present or in the future"),
+        .min(format(new Date(), 'yyyy-MM-dd'), "Start Date cannot be in the past"),
       quantity: Yup.number()
         .required("Quantity is required")
         .min(1, "Quantity must be at least 1")
@@ -143,7 +144,7 @@ const Add = () => {
             name="date"
             onChange={formik.handleChange}
             value={formik.values.date}
-            min={new Date().toISOString().split("T")[0]}
+            min={format(new Date(), 'yyyy-MM-dd')}
           />
           {formik.errors?.date && formik.touched?.date ? (
             <div className="invalid-feedback">{formik.errors?.date}</div>

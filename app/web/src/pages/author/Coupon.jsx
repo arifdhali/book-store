@@ -9,6 +9,7 @@ import { formattedDateTime } from "@/utils/FormattedDateTime";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import ConfirmModal from '@/utils/ConfirmModal';
+import { addDays, format} from 'date-fns';
 
 const Coupon = () => {
     const { id, subscription_type } = useSelector((state) => state.authors.user);
@@ -40,10 +41,10 @@ const Coupon = () => {
             code: Yup.string().required("Code is required"),
             discount: Yup.number().required("Discount is required"),
             start_date: Yup.date()
-                .min(new Date(), "Expiration Date cannot be in the past")
-                .required("Expiration Date is required"),
+                .min(format(new Date(), 'yyyy-MM-dd'), "Start Date cannot be in the past")
+                .required("Start Date is required"),
             expire_date: Yup.date()
-                .min(new Date(), "Expiration Date cannot be in the past")
+                .min(format(addDays(new Date(), 1), 'yyyy-MM-dd'), "Expiration Date must be at least 1 day from today")
                 .required("Expiration Date is required"),
             where_to_apply: Yup.string().required("Where to apply is required"),
             status: Yup.string().required("Status is required")
@@ -101,7 +102,7 @@ const Coupon = () => {
 
     useEffect(() => {
         getCoupons();
-        GetBooks();
+        GetBooks();  
     }, [id]);
     return (
         <>
@@ -244,6 +245,7 @@ const Coupon = () => {
                                             name="start_date"
                                             onChange={formik.handleChange}
                                             value={formik.values.start_date}
+                                            min={format(new Date(), 'yyyy-MM-dd')}
                                         />
                                         {formik.touched.start_date && formik.errors.start_date && <div className="invalid-feedback">{formik.errors.start_date}</div>}
                                     </div>
@@ -256,6 +258,7 @@ const Coupon = () => {
                                             name="expire_date"
                                             onChange={formik.handleChange}
                                             value={formik.values.expire_date}
+                                            min={format(addDays(new Date(), 1), 'yyyy-MM-dd')}
                                         />
                                         {formik.touched.expire_date && formik.errors.expire_date && <div className="invalid-feedback">{formik.errors.expire_date}</div>}
                                     </div>
